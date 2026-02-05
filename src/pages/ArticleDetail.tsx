@@ -7,6 +7,7 @@ import { NewsCard } from '@/components/news/NewsCard';
 import { NewsCardSkeleton } from '@/components/news/NewsCardSkeleton';
 import { formatDate } from '@/lib/types';
 import { Button } from '@/components/ui/button';
+import { Helmet } from 'react-helmet-async';
 
 export default function ArticleDetail() {
   const { id } = useParams<{ id: string }>();
@@ -52,6 +53,28 @@ export default function ArticleDetail() {
 
   return (
     <Layout>
+       {/*  SEO — Helmet HEAD tags only */}
+      <Helmet>
+        <title>{article.title}</title>
+
+        <meta
+          name="description"
+          content={article.description}
+        />
+
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={article.description} />
+        <meta property="og:image" content={article.imageUrl} />
+        <meta property="og:type" content="article" />
+
+        <link
+          rel="canonical"
+          href={`https://yourdomain.com/article/${article._id}`}
+        />
+      </Helmet>
+
+
+
       <article className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Back button */}
