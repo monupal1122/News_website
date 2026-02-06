@@ -28,6 +28,7 @@ export interface Article {
   viewCount: number;
   isFeatured: boolean;
   createdAt: string;
+  slug: string;
 }
 
 export function formatDate(dateString: string): string {

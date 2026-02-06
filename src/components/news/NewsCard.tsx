@@ -12,7 +12,7 @@ interface NewsCardProps {
 export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
   if (variant === 'featured') {
     return (
-      <Link to={`/article/${article._id}`} className="group block news-card-featured">
+      <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block news-card-featured">
         <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
           <img
             src={article.imageUrl}
@@ -43,7 +43,7 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
 
   if (variant === 'horizontal') {
     return (
-      <Link to={`/article/${article._id}`} className="group block">
+      <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block">
         <div className="flex gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors">
           <div className="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden">
             <img
@@ -53,7 +53,7 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
             />
           </div>
           <div className="flex-1 min-w-0">
-            <CategoryBadge category={article.category} size="sm" />
+            <CategoryBadge category={article.category} linked={false} size="sm" />
             <h3 className="mt-1.5 font-semibold text-sm leading-snug line-clamp-2 group-hover:text-primary transition-colors font-sans">
               {article.title}
             </h3>
@@ -69,7 +69,7 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
 
   if (variant === 'compact') {
     return (
-      <Link to={`/article/${article._id}`} className="group block py-4 border-b border-border last:border-0">
+      <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block py-4 border-b border-border last:border-0">
         <div className="flex items-start gap-3">
           <span className="text-3xl font-bold text-muted-foreground/30 font-serif leading-none">
             {String(article.viewCount).slice(-2).padStart(2, '0')}
@@ -79,7 +79,7 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
               {article.title}
             </h3>
             <div className="mt-1.5 flex items-center gap-2 text-muted-foreground text-xs">
-              <CategoryBadge category={article.category} size="sm" />
+              <CategoryBadge category={article.category} linked={false} size="sm" />
               <span className="flex items-center gap-1">
                 <Eye className="w-3 h-3" />
                 {article.viewCount.toLocaleString()}
@@ -93,7 +93,7 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
 
   // Default variant
   return (
-    <Link to={`/article/${article._id}`} className="group block news-card">
+    <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block news-card">
       <div className="relative aspect-[16/10] overflow-hidden">
         <img
           src={article.imageUrl}
@@ -102,7 +102,7 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
         />
       </div>
       <div className="p-4">
-        <CategoryBadge category={article.category} />
+        <CategoryBadge category={article.category} linked={false} />
         <h3 className="mt-2 font-bold text-lg leading-snug line-clamp-2 group-hover:text-primary transition-colors">
           {article.title}
         </h3>

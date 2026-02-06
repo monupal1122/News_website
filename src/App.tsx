@@ -20,9 +20,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/article/:id" element={<ArticleDetail />} />
+          <Route path="/:category/:subcategory/:slugId" element={<ArticleDetail />} />
           <Route path="/category/:category" element={<CategoryPage />} />
-          <Route path="/subcategory/:subcategory" element={<SubcategoryPage />} />
+          <Route path="/subcategory/:category/:subcategory" element={<SubcategoryPage />} />
           <Route path="/search" element={<SearchPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

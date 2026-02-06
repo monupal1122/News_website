@@ -41,22 +41,22 @@ export function useArticlesByCategory(category: string, limit = 20) {
   });
 }
 
-export function useArticlesBySubcategory(subcategory: string, limit = 20) {
+export function useArticlesBySubcategory(categorySlug: string, subcategorySlug: string, limit = 20) {
   return useQuery({
-    queryKey: ['articles', 'subcategory', subcategory, limit],
+    queryKey: ['articles', 'subcategory', categorySlug, subcategorySlug, limit],
     queryFn: async () => {
-      return fetchApi(`/articles/subcategory/${subcategory}?limit=${limit}`) as Promise<Article[]>;
+      return fetchApi(`/articles/subcategory/${categorySlug}/${subcategorySlug}?limit=${limit}`) as Promise<Article[]>;
     },
   });
 }
 
-export function useArticle(id: string) {
+export function useArticle(seoPath: string) {
   return useQuery({
-    queryKey: ['articles', 'single', id],
+    queryKey: ['articles', 'single', seoPath],
     queryFn: async () => {
-      return fetchApi(`/articles/${id}`) as Promise<Article>;
+      return fetchApi(`/articles/${seoPath}`) as Promise<Article>;
     },
-    enabled: !!id,
+    enabled: !!seoPath,
   });
 }
 

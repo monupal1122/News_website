@@ -143,7 +143,7 @@ export function Navbar({ isDark, onToggleTheme }: NavbarProps) {
                         {cat.subcategories?.map(sub => (
                           <Link
                             key={sub._id}
-                            to={`/subcategory/${sub.slug}`}
+                            to={`/subcategory/${cat.slug}/${sub.slug}`}
                             className="px-8 py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
@@ -208,7 +208,7 @@ export function Navbar({ isDark, onToggleTheme }: NavbarProps) {
                 <div className="h-px bg-border/50 my-1 mx-1" />
                 {cat.subcategories?.map(sub => (
                   <DropdownMenuItem key={sub._id} asChild className="rounded-xl focus:bg-muted cursor-pointer">
-                    <Link to={`/subcategory/${sub.slug}`}>{sub.name}</Link>
+                    <Link to={`/subcategory/${cat.slug}/${sub.slug}`}>{sub.name}</Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

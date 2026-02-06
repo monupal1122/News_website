@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Helmet } from 'react-helmet-async';
 
 export default function ArticleDetail() {
-  const { id } = useParams<{ id: string }>();
-  const { data: article, isLoading } = useArticle(id || '');
+  const { category, subcategory, slugId } = useParams<{ category: string; subcategory: string; slugId: string }>();
+  const { data: article, isLoading } = useArticle(`${category}/${subcategory}/${slugId}` || '');
   const { data: relatedArticles, isLoading: relatedLoading } = useRelatedArticles(article);
 
   if (isLoading) {
@@ -69,7 +69,7 @@ export default function ArticleDetail() {
 
         <link
           rel="canonical"
-          href={`https://yourdomain.com/article/${article._id}`}
+          href={`https://korsimnaturals.com/${(article.category as any)?.slug || ''}/${(article.subcategory as any)?.slug || ''}/${article.slug}-${article._id}`}
         />
       </Helmet>
 

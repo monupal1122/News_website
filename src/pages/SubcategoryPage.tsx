@@ -7,8 +7,8 @@ import { NewsCardSkeleton } from '@/components/news/NewsCardSkeleton';
 import { TrendingSidebar } from '@/components/news/TrendingSidebar';
 
 export default function SubcategoryPage() {
-    const { subcategory } = useParams<{ subcategory: string }>();
-    const { data: articles, isLoading } = useArticlesBySubcategory(subcategory || '', 20);
+    const { category, subcategory } = useParams<{ category: string; subcategory: string }>();
+    const { data: articles, isLoading } = useArticlesBySubcategory(category || '', subcategory || '', 20);
 
     // Capitalize subcategory name for display
     const displayName = subcategory ? subcategory.charAt(0).toUpperCase() + subcategory.slice(1).replace(/-/g, ' ') : '';
