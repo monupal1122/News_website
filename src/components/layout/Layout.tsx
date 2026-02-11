@@ -7,13 +7,17 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+
+    // If user explicitly chose light mode
+    if (savedTheme === 'light') {
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+    } else {
+      // Otherwise default to dark mode
       setIsDark(true);
       document.documentElement.classList.add('dark');
     }

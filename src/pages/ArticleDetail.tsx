@@ -8,6 +8,8 @@ import { NewsCardSkeleton } from '@/components/news/NewsCardSkeleton';
 import { formatDate } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Helmet } from 'react-helmet-async';
+import { AdSlot } from '@/components/ads/AdSlot';
+import { Author } from '@/lib/types';
 
 export default function ArticleDetail() {
   const { category, subcategory, slugId } = useParams<{ category: string; subcategory: string; slugId: string }>();
@@ -53,7 +55,7 @@ export default function ArticleDetail() {
 
   return (
     <Layout>
-       {/*  SEO — Helmet HEAD tags only */}
+      {/*  SEO — Helmet HEAD tags only */}
       <Helmet>
         <title>{article.title}</title>
 
@@ -69,7 +71,7 @@ export default function ArticleDetail() {
 
         <link
           rel="canonical"
-          href={`https://korsimnaturals.com/${(article.category as any)?.slug || ''}/${(article.subcategory as any)?.slug || ''}/${article.slug}-${article._id}`}
+          href={`https://korsimnaturals.com/${(article.category as any)?.slug || ''}/${(article.subcategories?.[0] as any)?.slug || 'general'}/${article.slug}-${article.publicId}`}
         />
       </Helmet>
 
@@ -86,12 +88,15 @@ export default function ArticleDetail() {
             Back to Home
           </Link>
 
+          {/* Ad Slot: Header */}
+          <AdSlot slot="1234567890" format="rectangle" />
+
           {/* Category & Meta */}
           <div className="flex items-center gap-4 mb-4">
             <CategoryBadge category={article.category} size="md" />
             <span className="flex items-center gap-1 text-muted-foreground text-sm">
               <Clock className="w-4 h-4" />
-              {formatDate(article.publishedAt)}
+              {formatDate(article.publishedAt || article.createdAt)}
             </span>
             <span className="flex items-center gap-1 text-muted-foreground text-sm">
               <Eye className="w-4 h-4" />
@@ -104,23 +109,33 @@ export default function ArticleDetail() {
             {article.title}
           </h1>
 
-          {/* Description */}
+          {/* Summary */}
           <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
-            {article.description}
+            {article.summary || article.description}
           </p>
 
           {/* Author & Actions */}
           <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <span className="text-primary font-semibold">
-                  {article.author.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <p className="font-medium">{article.author}</p>
-                <p className="text-sm text-muted-foreground">{article.sourceName}</p>
-              </div>
+              <Link to={`/author/${typeof article.author === 'object' && article.author ? article.author._id : article.author || ''}`} className="flex items-center gap-3 group">
+                {typeof article.author === 'object' && article.author?.profileImage ? (
+                  <img src={article.author.profileImage} className="w-10 h-10 rounded-full object-cover" alt={article.author.name} />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <span className="text-primary font-semibold">
+                      {typeof article.author === 'object' && article.author ? article.author.name?.charAt(0) : (article.author as string)?.charAt(0) || 'U'}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <p className="font-medium group-hover:text-primary transition-colors">
+                    {typeof article.author === 'object' && article.author
+                      ? article.author.name
+                      : (typeof article.author === 'string' ? article.author : 'Unknown')}
+                  </p>
+                  <p className="text-sm text-muted-foreground">{article.sourceName}</p>
+                </div>
+              </Link>
             </div>
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon">
@@ -135,7 +150,7 @@ export default function ArticleDetail() {
           {/* Featured Image */}
           <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5">
             <img
-              src={article.imageUrl}
+              src={article.featuredImage || article.imageUrl}
               alt={article.title}
               className="w-full h-full object-cover"
             />
@@ -143,9 +158,51 @@ export default function ArticleDetail() {
 
           {/* Content */}
           <div
-            className="prose prose-lg max-w-none dark:prose-invert"
+            className="prose prose-lg max-w-none dark:prose-invert mb-12"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
+
+          {/* Ad Slot: Inside Content */}
+          <AdSlot slot="0987654321" />
+
+          {/* Tags */}
+          {article.tags && article.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-8 mb-12">
+              {article.tags.map(tag => (
+                <Link
+                  key={tag}
+                  to={`/tags/${tag}`}
+                  className="px-3 py-1 bg-muted hover:bg-primary hover:text-white rounded-full text-sm transition-colors"
+                >
+                  #{tag}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* Author Info Box */}
+          {typeof article.author === 'object' && (
+            <div className="p-8 bg-muted/30 rounded-2xl border border-border mb-12">
+              <div className="flex items-start gap-4">
+                <img
+                  src={article.author.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(article.author.name)}&background=random`}
+                  className="w-16 h-16 rounded-full object-cover"
+                  alt={article.author.name}
+                />
+                <div>
+                  <h4 className="text-xl font-bold mb-2">{article.author.name}</h4>
+                  <p className="text-muted-foreground mb-4">{article.author.bio || 'Professional journalist and content creator.'}</p>
+                  <div className="flex gap-3">
+                    {article.author.socialLinks?.twitter && (
+                      <a href={article.author.socialLinks.twitter} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                        <Share2 className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Source Link */}
           {article.sourceUrl && (

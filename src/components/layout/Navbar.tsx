@@ -37,6 +37,27 @@ export function Navbar({ isDark, onToggleTheme }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50 transition-all duration-300">
+      {/* Breaking News Ticker */}
+      <div className="bg-primary/5 border-b border-primary/10 py-1.5 hidden sm:block overflow-hidden">
+        <div className="container mx-auto px-4 flex items-center h-5">
+          <div className="flex-shrink-0 z-20 bg-primary text-[10px] font-black text-white px-2 py-0.5 rounded mr-4 uppercase tracking-tighter shadow-sm shadow-primary/20">
+            Breaking
+          </div>
+          <div className="relative flex-1 overflow-hidden mask-fade-edges">
+            <div className="flex gap-12 animate-infinite-scroll whitespace-nowrap text-[11px] font-bold text-primary/80">
+              <span className="flex items-center gap-2">• Global Markets Rally as Inflation Data Beats Expectations</span>
+              <span className="flex items-center gap-2">• Space Exploration: New Insights into Martian Atmosphere</span>
+              <span className="flex items-center gap-2">• Tech Giant Unveils Revolutionary Quantum Computing Processor</span>
+              <span className="flex items-center gap-2">• Sustainable Energy: Solar Breakthrough Achieved in Lab</span>
+              {/* Duplicate for seamless loop */}
+              <span className="flex items-center gap-2">• Global Markets Rally as Inflation Data Beats Expectations</span>
+              <span className="flex items-center gap-2">• Space Exploration: New Insights into Martian Atmosphere</span>
+              <span className="flex items-center gap-2">• Tech Giant Unveils Revolutionary Quantum Computing Processor</span>
+              <span className="flex items-center gap-2">• Sustainable Energy: Solar Breakthrough Achieved in Lab</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="container mx-auto">
         {/* Top Bar */}
         <div className="flex items-center justify-between h-20 px-4">

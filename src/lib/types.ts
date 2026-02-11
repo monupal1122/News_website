@@ -13,22 +13,42 @@ export interface Subcategory {
   category: string;
 }
 
+export interface Author {
+  _id: string;
+  name: string;
+  email: string;
+  bio?: string;
+  profileImage?: string;
+  socialLinks?: {
+    twitter?: string;
+    linkedin?: string;
+    facebook?: string;
+    instagram?: string;
+  };
+  articleCount?: number;
+}
+
 export interface Article {
   _id: string;
+  publicId: number;
   title: string;
-  description: string;
+  slug: string;
+  summary: string;
+  description?: string; // Fallback for old data
   content: string;
   category: Category | string;
-  subcategory: Subcategory | string;
-  imageUrl: string;
-  author: string;
+  subcategories: Subcategory[];
+  featuredImage: string;
+  imageUrl?: string; // Fallback for old data
+  author: Author | string;
+  tags: string[];
   publishedAt: string;
   sourceName: string;
   sourceUrl: string | null;
   viewCount: number;
   isFeatured: boolean;
   createdAt: string;
-  slug: string;
+  publishStatus: 'draft' | 'pending' | 'published';
 }
 
 export function formatDate(dateString: string): string {

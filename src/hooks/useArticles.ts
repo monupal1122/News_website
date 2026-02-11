@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchApi } from '@/lib/api';
-import type { Article } from '@/lib/types';
+import type { Article, Author } from '@/lib/types';
 
 export function useTopHeadlines(limit = 10) {
   return useQuery({
@@ -90,5 +90,35 @@ export function useCategories() {
     queryFn: async () => {
       return fetchApi('/categories/full');
     },
+  });
+}
+
+export function useAuthorInfo(id: string) {
+  return useQuery({
+    queryKey: ['authors', id],
+    queryFn: async () => {
+      return fetchApi(`/authors/${id}`) as Promise<Author>;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useAuthorArticles(id: string, limit = 20) {
+  return useQuery({
+    queryKey: ['articles', 'author', id, limit],
+    queryFn: async () => {
+      return fetchApi(`/articles/author/${id}?limit=${limit}`) as Promise<Article[]>;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useArticlesByTag(tag: string, limit = 20) {
+  return useQuery({
+    queryKey: ['articles', 'tag', tag, limit],
+    queryFn: async () => {
+      return fetchApi(`/articles/tag/${tag}?limit=${limit}`) as Promise<Article[]>;
+    },
+    enabled: !!tag,
   });
 }

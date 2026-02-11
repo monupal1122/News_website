@@ -5,6 +5,7 @@ import { useArticlesByCategory } from '@/hooks/useArticles';
 import { NewsCard } from '@/components/news/NewsCard';
 import { NewsCardSkeleton } from '@/components/news/NewsCardSkeleton';
 import { TrendingSidebar } from '@/components/news/TrendingSidebar';
+import { AdSlot } from '@/components/ads/AdSlot';
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
@@ -53,6 +54,7 @@ export default function CategoryPage() {
 
           {/* Sidebar */}
           <div className="space-y-8">
+            <AdSlot slot="sidebar-ad" format="rectangle" />
             <TrendingSidebar />
           </div>
         </div>

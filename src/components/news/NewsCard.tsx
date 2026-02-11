@@ -10,12 +10,20 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
+  const categorySlug = typeof article.category === 'object' ? article.category.slug : 'uncategorized';
+  const subcategorySlug = article.subcategories && article.subcategories.length > 0 && typeof article.subcategories[0] === 'object' ? article.subcategories[0].slug : 'general';
+  const articleLink = `/${categorySlug}/${subcategorySlug}/${article.slug}-${article.publicId}`;
+
+  const authorName = typeof article.author === 'object' ? article.author.name : article.author;
+  const imageSrc = article.featuredImage || article.imageUrl;
+  const excerpt = article.summary || article.description;
+
   if (variant === 'featured') {
     return (
-      <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block news-card-featured">
+      <Link to={articleLink} className="group block news-card-featured">
         <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
           <img
-            src={article.imageUrl}
+            src={imageSrc}
             alt={article.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
@@ -26,15 +34,27 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
               {article.title}
             </h2>
             <p className="mt-2 text-white/80 line-clamp-2 text-sm md:text-base">
-              {article.description}
+              {excerpt}
             </p>
             <div className="mt-3 flex items-center gap-4 text-white/70 text-sm">
-              <span className="font-medium">{article.author}</span>
+              <span className="font-medium">{authorName}</span>
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
-                {formatDate(article.publishedAt)}
+                {formatDate(article.publishedAt || article.createdAt)}
               </span>
             </div>
+            {article.tags && article.tags.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {article.tags.slice(0, 3).map(tag => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-full bg-white/20 text-white text-[10px] font-medium backdrop-blur-sm"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </Link>
@@ -43,11 +63,11 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
 
   if (variant === 'horizontal') {
     return (
-      <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block">
+      <Link to={articleLink} className="group block">
         <div className="flex gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors">
           <div className="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden">
             <img
-              src={article.imageUrl}
+              src={imageSrc}
               alt={article.title}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -59,8 +79,20 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
             </h3>
             <div className="mt-2 flex items-center gap-2 text-muted-foreground text-xs">
               <Clock className="w-3 h-3" />
-              {formatDate(article.publishedAt)}
+              {formatDate(article.publishedAt || article.createdAt)}
             </div>
+            {article.tags && article.tags.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {article.tags.slice(0, 2).map(tag => (
+                  <span
+                    key={tag}
+                    className="text-[10px] font-bold text-muted-foreground/70 bg-muted px-1.5 py-0.5 rounded"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </Link>
@@ -69,7 +101,7 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
 
   if (variant === 'compact') {
     return (
-      <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block py-4 border-b border-border last:border-0">
+      <Link to={articleLink} className="group block py-4 border-b border-border last:border-0">
         <div className="flex items-start gap-3">
           <span className="text-3xl font-bold text-muted-foreground/30 font-serif leading-none">
             {String(article.viewCount).slice(-2).padStart(2, '0')}
@@ -93,10 +125,10 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
 
   // Default variant
   return (
-    <Link to={`/${(article.category as any)?.slug}/${(article.subcategory as any)?.slug}/${article.slug}-${article._id}`} className="group block news-card">
+    <Link to={articleLink} className="group block news-card">
       <div className="relative aspect-[16/10] overflow-hidden">
         <img
-          src={article.imageUrl}
+          src={imageSrc}
           alt={article.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
@@ -107,15 +139,28 @@ export function NewsCard({ article, variant = 'default' }: NewsCardProps) {
           {article.title}
         </h3>
         <p className="mt-2 text-muted-foreground text-sm line-clamp-2">
-          {article.description}
+          {excerpt}
         </p>
         <div className="mt-3 flex items-center justify-between text-muted-foreground text-xs">
-          <span className="font-medium">{article.author}</span>
+          <span className="font-medium">{authorName}</span>
           <span className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            {formatDate(article.publishedAt)}
+            {formatDate(article.publishedAt || article.createdAt)}
           </span>
         </div>
+        {article.tags && article.tags.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2 pt-3 border-t border-border/50">
+            {article.tags.slice(0, 3).map(tag => (
+              <Link
+                key={tag}
+                to={`/tags/${tag}`}
+                className="text-[10px] font-bold text-primary hover:underline"
+              >
+                #{tag}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </Link>
   );

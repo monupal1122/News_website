@@ -108,13 +108,19 @@
     font-family: 'Inter', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Playfair Display', serif;
     @apply font-bold tracking-tight;
   }
 }
 
 @layer components {
+
   /* News Card Styles */
   .news-card {
     @apply bg-card rounded-xl overflow-hidden transition-all duration-300 ease-out;
@@ -132,48 +138,44 @@
   }
 
   .category-technology {
-    @apply bg-[hsl(210,100%,50%)] text-white;
+    @apply bg-[hsl(210, 100%, 50%)] text-white;
   }
 
   .category-business {
-    @apply bg-[hsl(145,63%,42%)] text-white;
+    @apply bg-[hsl(145, 63%, 42%)] text-white;
   }
 
   .category-sports {
-    @apply bg-[hsl(280,100%,65%)] text-white;
+    @apply bg-[hsl(280, 100%, 65%)] text-white;
   }
 
   .category-entertainment {
-    @apply bg-[hsl(330,100%,60%)] text-white;
+    @apply bg-[hsl(330, 100%, 60%)] text-white;
   }
 
   .category-health {
-    @apply bg-[hsl(160,84%,39%)] text-white;
+    @apply bg-[hsl(160, 84%, 39%)] text-white;
   }
 
   .category-science {
-    @apply bg-[hsl(200,100%,50%)] text-white;
+    @apply bg-[hsl(200, 100%, 50%)] text-white;
   }
 
   /* Hero section */
   .hero-gradient {
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      hsl(var(--background) / 0.3) 40%,
-      hsl(var(--background) / 0.9) 80%,
-      hsl(var(--background)) 100%
-    );
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        hsl(var(--background) / 0.3) 40%,
+        hsl(var(--background) / 0.9) 80%,
+        hsl(var(--background)) 100%);
   }
 
   .hero-gradient-dark {
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      hsl(222 47% 6% / 0.5) 40%,
-      hsl(222 47% 6% / 0.95) 80%,
-      hsl(222 47% 6%) 100%
-    );
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        hsl(222 47% 6% / 0.5) 40%,
+        hsl(222 47% 6% / 0.95) 80%,
+        hsl(222 47% 6%) 100%);
   }
 
   /* Skeleton loader */
@@ -184,12 +186,10 @@
   .skeleton-shimmer::after {
     content: '';
     @apply absolute inset-0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--background) / 0.4),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        hsl(var(--background) / 0.4),
+        transparent);
     animation: shimmer 1.5s infinite;
   }
 
@@ -232,6 +232,7 @@
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -242,6 +243,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -265,4 +267,28 @@
 .animate-fade-in-up-delay-3 {
   animation: fade-in-up 0.5s ease-out 0.3s forwards;
   opacity: 0;
+}
+
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 60s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.mask-fade-edges {
+  mask-image: linear-gradient(to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent);
 }

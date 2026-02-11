@@ -8,6 +8,8 @@ import ArticleDetail from "./pages/ArticleDetail";
 import CategoryPage from "./pages/CategoryPage";
 import SubcategoryPage from "./pages/SubcategoryPage";
 import SearchPage from "./pages/SearchPage";
+import AuthorProfile from "./pages/AuthorProfile";
+import TagPage from "./pages/TagPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +25,8 @@ const App = () => (
           <Route path="/:category/:subcategory/:slugId" element={<ArticleDetail />} />
           <Route path="/category/:category" element={<CategoryPage />} />
           <Route path="/subcategory/:category/:subcategory" element={<SubcategoryPage />} />
+          <Route path="/author/:id" element={<AuthorProfile />} />
+          <Route path="/tags/:tag" element={<TagPage />} />
           <Route path="/search" element={<SearchPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
