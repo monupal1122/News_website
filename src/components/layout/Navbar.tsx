@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Menu, X, Moon, Sun, ChevronDown, Rocket, Newspaper } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, Rocket, Newspaper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -13,12 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Category } from '@/lib/types';
 
-interface NavbarProps {
-  isDark: boolean;
-  onToggleTheme: () => void;
-}
-
-export function Navbar({ isDark, onToggleTheme }: NavbarProps) {
+export function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -108,15 +103,6 @@ export function Navbar({ isDark, onToggleTheme }: NavbarProps) {
               <Search className="w-5 h-5" />
             </Button>
 
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onToggleTheme}
-              className="hover:bg-muted/50 rounded-xl transition-colors"
-            >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
 
             {/* Subscribe Button (Visual Only) */}
             <Button className="hidden sm:flex rounded-xl font-bold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">

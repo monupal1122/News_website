@@ -158,7 +158,7 @@ export default function ArticleDetail() {
 
           {/* Content */}
           <div
-            className="prose prose-lg max-w-none dark:prose-invert mb-12"
+            className="prose prose-lg max-w-none mb-12"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
 
