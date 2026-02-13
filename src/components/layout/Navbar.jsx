@@ -98,7 +98,7 @@ export function Navbar() {
             </div>
 
             {/* Main Branding Bar - Logo Left, Ad Right */}
-            <div className="border-b border-zinc-100 py-3 md:py-6">
+            <div className="border-b border-zinc-100 p-18 md:py-6" >
                 <div className="container mx-auto  px-0 flex flex-col lg:flex-row items-center justify-between gap-10 ">
                     {/* Logo Area */}
                     <div >
