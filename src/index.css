@@ -1,186 +1,209 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Teko:wght@400;600;700&display=swap');
 
+@import "tailwindcss";
 
+@theme {
+  /* Font families */
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
 
-@layer base {
-  :root {
-    /* Core colors - Clean slate with coral accent */
-    --background: 0 0% 98%;
-    --foreground: 222 47% 11%;
+  /* Core colors - Premium News Palette */
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(222 47% 11%);
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
 
-    /* Vibrant coral accent */
-    --primary: 12 76% 61%;
-    --primary-foreground: 0 0% 100%;
+  /* Crimson Red - Industry Standard */
+  --color-primary: hsl(354 70% 45%);
+  --color-primary-foreground: hsl(0 0% 100%);
 
-    /* Slate secondary */
-    --secondary: 215 25% 27%;
-    --secondary-foreground: 0 0% 100%;
+  /* Deep Navy secondary */
+  --color-secondary: hsl(222 47% 11%);
+  --color-secondary-foreground: hsl(0 0% 100%);
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
+  --color-muted: hsl(210 40% 96.1%);
+  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
 
-    --accent: 12 76% 61%;
-    --accent-foreground: 0 0% 100%;
+  --color-accent: hsl(354 70% 45%);
+  --color-accent-foreground: hsl(0 0% 100%);
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(210 40% 98%);
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 12 76% 61%;
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --color-input: hsl(214.3 31.8% 91.4%);
+  --color-ring: hsl(354 70% 45%);
 
-    --radius: 0.75rem;
-
-    /* Category colors */
-    --category-technology: 210 100% 50%;
-    --category-business: 145 63% 42%;
-    --category-sports: 280 100% 65%;
-    --category-entertainment: 330 100% 60%;
-    --category-health: 160 84% 39%;
-    --category-science: 200 100% 50%;
-
-    /* Sidebar tokens */
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 12 76% 61%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 12 76% 61%;
-  }
-
+  --radius: 0.5rem;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', sans-serif;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: 'Playfair Display', serif;
-    @apply font-bold tracking-tight;
-  }
+* {
+  border-color: var(--color-border);
 }
 
-@layer components {
-
-  /* News Card Styles */
-  .news-card {
-    @apply bg-card rounded-xl overflow-hidden transition-all duration-300 ease-out;
-    @apply hover:shadow-xl hover:-translate-y-1;
-  }
-
-  .news-card-featured {
-    @apply news-card relative;
-    @apply hover:shadow-2xl hover:-translate-y-2;
-  }
-
-  /* Category badges */
-  .category-badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide;
-  }
-
-  .category-technology {
-    @apply bg-[hsl(210, 100%, 50%)] text-white;
-  }
-
-  .category-business {
-    @apply bg-[hsl(145, 63%, 42%)] text-white;
-  }
-
-  .category-sports {
-    @apply bg-[hsl(280, 100%, 65%)] text-white;
-  }
-
-  .category-entertainment {
-    @apply bg-[hsl(330, 100%, 60%)] text-white;
-  }
-
-  .category-health {
-    @apply bg-[hsl(160, 84%, 39%)] text-white;
-  }
-
-  .category-science {
-    @apply bg-[hsl(200, 100%, 50%)] text-white;
-  }
-
-  /* Hero section */
-  .hero-gradient {
-    background: linear-gradient(to bottom,
-        transparent 0%,
-        hsl(var(--background) / 0.3) 40%,
-        hsl(var(--background) / 0.9) 80%,
-        hsl(var(--background)) 100%);
-  }
-
-
-  /* Skeleton loader */
-  .skeleton-shimmer {
-    @apply relative overflow-hidden bg-muted;
-  }
-
-  .skeleton-shimmer::after {
-    content: '';
-    @apply absolute inset-0;
-    background: linear-gradient(90deg,
-        transparent,
-        hsl(var(--background) / 0.4),
-        transparent);
-    animation: shimmer 1.5s infinite;
-  }
-
-  /* Underline link animation */
-  .link-underline {
-    @apply relative inline-block;
-  }
-
-  .link-underline::after {
-    content: '';
-    @apply absolute bottom-0 left-0 w-full h-0.5 bg-primary origin-bottom-right transition-transform duration-300 scale-x-0;
-  }
-
-  .link-underline:hover::after {
-    @apply origin-bottom-left scale-x-100;
-  }
+body {
+  background-color: rgb(250 250 250);
+  color: rgb(24 24 27);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Teko', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+}
 
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+.font-serif {
+  font-family: var(--font-serif);
+}
 
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+/* News Card Styles */
+.news-card {
+  background-color: var(--color-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all 300ms ease-out;
+}
+
+.news-card:hover {
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  transform: translateY(-0.25rem);
+}
+
+.news-card-featured {
+  position: relative;
+  background-color: var(--color-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all 300ms ease-out;
+}
+
+.news-card-featured:hover {
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  transform: translateY(-0.5rem);
+}
+
+/* Category badges */
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.category-technology {
+  background-color: hsl(210, 100%, 50%);
+  color: white;
+}
+
+.category-business {
+  background-color: hsl(145, 63%, 42%);
+  color: white;
+}
+
+.category-sports {
+  background-color: hsl(280, 100%, 65%);
+  color: white;
+}
+
+.category-entertainment {
+  background-color: hsl(330, 100%, 60%);
+  color: white;
+}
+
+.category-health {
+  background-color: hsl(160, 84%, 39%);
+  color: white;
+}
+
+.category-science {
+  background-color: hsl(200, 100%, 50%);
+  color: white;
+}
+
+/* Hero section */
+.hero-gradient {
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      color-mix(in srgb, var(--color-background) 30%, transparent) 40%,
+      color-mix(in srgb, var(--color-background) 90%, transparent) 80%,
+      var(--color-background) 100%);
+}
+
+/* Skeleton loader */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-muted);
+}
+
+.skeleton-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      transparent,
+      color-mix(in srgb, var(--color-background) 40%, transparent),
+      transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+/* Underline link animation */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.125rem;
+  background-color: var(--color-primary);
+  transform-origin: bottom right;
+  transition: transform 300ms;
+  transform: scaleX(0);
+}
+
+.link-underline:hover::after {
+  transform-origin: bottom left;
+  transform: scaleX(1);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @keyframes shimmer {
@@ -235,7 +258,7 @@
 }
 
 .animate-infinite-scroll {
-  animation: infinite-scroll 60s linear infinite;
+  animation: infinite-scroll 40s linear infinite;
   display: flex;
   width: max-content;
 }
