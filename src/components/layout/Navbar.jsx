@@ -98,7 +98,7 @@ export function Navbar() {
             </div>
 
             {/* Main Branding Bar - Logo Left, Ad Right */}
-            <div className="border-b border-zinc-100 p-18 md:py-6" >
+            <div className="border-b border-zinc-100 p-9 md:py-6" >
                 <div className="container mx-auto  px-0 flex flex-col lg:flex-row items-center justify-between gap-10 ">
                     {/* Logo Area */}
                     <div >
@@ -143,7 +143,7 @@ export function Navbar() {
                                 <Link
                                     key={`${article._id}-${idx}`}
                                     to={getArticleLink(article)}
-                                    className="flex items-center gap-3 text-[19px] font-bold uppercase tracking-wider hover:text-red-500 transition-colors group"
+                                    className="flex items-center gap-3 text-[14px] font-bold uppercase tracking-wider hover:text-red-500 transition-colors group"
                                     onMouseEnter={() => setIsTickerPaused(true)}
                                     onMouseLeave={() => setIsTickerPaused(false)}
                                 >
