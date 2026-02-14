@@ -17,7 +17,7 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-50 transition-colors">
+            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
                 <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
                     <div className="lg:w-7/12 relative aspect-[4/3] lg:aspect-auto overflow-hidden bg-zinc-200">
@@ -29,7 +29,7 @@ export function NewsCard({ article, variant = 'default' }) {
                     </div>
 
                     {/* Content Side */}
-                    <div className="lg:w-5/12 p-6 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-100">
+                    <div className="lg:w-5/12 p-8 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-100">
                         <div className="flex items-center gap-3 mb-4">
                             <CategoryBadge category={article.category} />
                             <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
@@ -44,7 +44,9 @@ export function NewsCard({ article, variant = 'default' }) {
                         <p className="text-zinc-600 text-lg leading-relaxed line-clamp-4 lg:line-clamp-6 font-sans mb-8">
                             {excerpt}
                         </p>
-
+                             <p className="text-zinc-500 text-md mb-6 font-medium">
+                                    Published on: {new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
+                        </p>
                         <div className="mt-auto flex items-center gap-3 text-sm font-bold text-zinc-900 uppercase tracking-widest group-hover:gap-4 transition-all">
                             Read Full Story <ArrowRight className="w-4 h-4 text-red-600" />
                         </div>
@@ -56,7 +58,7 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'horizontal') {
         return (
-            <Link to={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-50 transition-all border-b border-zinc-100 last:border-0 relative bg-white">
+            <Link to={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-100 hover:shadow-md transition-all duration-300 border-b border-zinc-100 last:border-0 relative bg-white">
                 <div className="flex-shrink-0 w-32 h-24 md:w-52 md:h-32 overflow-hidden relative">
                     <img
                         src={imageSrc}
@@ -72,7 +74,7 @@ export function NewsCard({ article, variant = 'default' }) {
                             {typeof article.category === 'object' ? article.category.name : categorySlug}
                         </span>
                     </div>
-                    <h4 className="font-black text-base md:text-xl text-zinc-900 leading-[1.5] line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight py-1">
+                    <h4 className="font-black text-base md:text-xl text-zinc-900 leading-[1.5] line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight py-1 p-1">
                         {article.title}
                     </h4>
                     <div className="flex items-center gap-4 mt-3 text-[10px] font-black text-zinc-400 uppercase tracking-widest">
@@ -84,7 +86,7 @@ export function NewsCard({ article, variant = 'default' }) {
     }
 
     return (
-        <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-50 transition-colors">
+        <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl">
             <Link to={articleLink} className="relative aspect-[16/9] overflow-hidden bg-zinc-200 block mb-4">
                 <img
                     src={imageSrc}
@@ -92,7 +94,7 @@ export function NewsCard({ article, variant = 'default' }) {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
             </Link>
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 p-4">
                 <Link to={articleLink} className="block">
                     <h3 className="font-serif font-bold text-xl md:text-2xl leading-tight text-zinc-900 group-hover:text-red-700 transition-colors mb-3">
                         {article.title}
@@ -104,7 +106,10 @@ export function NewsCard({ article, variant = 'default' }) {
                 <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium">
                     <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                     <span className="mx-2">•</span>
-                    <span>{article.readTime || '2 min'} read</span>
+                    <span className="flex items-center gap-1 text-muted-foreground text-sm">
+                                    <Eye className="w-4 h-4" />
+                                    {article.viewCount.toLocaleString()} views
+                                </span>
                 </div>
             </div>
         </div>

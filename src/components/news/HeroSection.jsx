@@ -57,6 +57,8 @@ export function HeroSection() {
                             <NewsCardSkeleton key={i} variant="horizontal" />
                         ))}
                     </div>
+
+                    
                 </div>
             </section>
         );
@@ -77,9 +79,14 @@ export function HeroSection() {
                             {sliderArticles.map((article) => (
                                 <div className="flex-[0_0_100%] min-w-0 relative h-full" key={article._id}>
                                     <NewsCard article={article} variant="featured" />
+                                    
+                                
                                 </div>
+
+                                
                             ))}
                         </div>
+                        
                     </div>
 
                     {/* Slider Controls */}

@@ -84,7 +84,7 @@ export function Navbar() {
                         </div>
                         <div className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer group">
                             <Mail className="w-3.5 h-3.5 text-red-600" />
-                            <span className="font-medium lowercase">admin@gmail.com</span>
+                            <span className="text-2xl lowercase">admin@gmail.com</span>
                         </div>
                     </div>
 
@@ -193,15 +193,15 @@ export function Navbar() {
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-15">
                         <form onSubmit={handleSearch} className="hidden sm:flex items-center relative group">
-                            <Search className="absolute left-0 w-4 h-4 text-zinc-400 group-focus-within:text-red-600" />
+                            <Search className="absolute left-4 w-6 h-6 text-zinc-400 group-focus-within:text-red-600 " />
                             <input
                                 type="text"
                                 placeholder="Quick Search..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-8 py-2 bg-transparent text-xs font-bold uppercase tracking-widest border-b border-transparent focus:border-red-600 focus:outline-none w-32 focus:w-64 transition-all"
+                                className="pl-12 py-2 bg-transparent text-xs font-bold uppercase tracking-widest border-b border-transparent focus:border-red-600 focus:outline-none w-45 focus:w-84 transition-all"
                             />
                         </form>
                         <Button size="icon" variant="ghost" className="hover:text-red-600" onClick={() => setIsSearchOpen(!isSearchOpen)}>
