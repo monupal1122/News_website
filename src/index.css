@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Teko:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Teko:wght@400;600;700&display=swap');
 
 @import "tailwindcss";
 
 @theme {
   /* Font families */
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: 'Outfit', sans-serif;
   --font-serif: 'Playfair Display', serif;
+  --font-article: 'Inter', sans-serif;
 
   /* Core colors - Premium News Palette */
   --color-background: hsl(0 0% 100%);
@@ -59,10 +60,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Teko', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: -0.025em;
+}
+
+/* Preserve Inter for Article Content */
+.prose {
+  font-family: var(--font-article);
 }
 
 .font-serif {
@@ -258,7 +263,7 @@ h6 {
 }
 
 .animate-infinite-scroll {
-  animation: infinite-scroll 40s linear infinite;
+  animation: infinite-scroll 120s linear infinite;
   display: flex;
   width: max-content;
 }
