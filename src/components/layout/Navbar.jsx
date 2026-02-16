@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Menu, X, ChevronDown, Rocket, Newspaper, Facebook, Twitter, Instagram, Globe, ArrowRight, Youtube, Mail } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, Rocket, Newspaper, Facebook, Twitter, Instagram, Globe, ArrowRight, Youtube, Mail, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -83,7 +83,7 @@ export function Navbar() {
                             <Twitter className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
                         </div>
                         <div className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer group">
-                            <Mail className="w-3.5 h-3.5 text-red-600" />
+                            <Mail className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
                             <span className="text-[15px] lowercase">admin@gmail.com</span>
                         </div>
                     </div>
@@ -103,13 +103,11 @@ export function Navbar() {
                     {/* Logo Area */}
                     <div >
                         <Link to="/" className="flex flex-col items-start group">
-                            <h1 className="text-2xl  md:text-5xl lg:text-3xl font-black tracking-tighter text-zinc-900 leading-none transform transition-transform group-hover:scale-[1.02] font-serif uppercase">
-                                CHRONICLE
-                            </h1>
-                            <div className="flex items-center gap-2 mt-1 w-full">
+                            <img src="/logo.webp" alt="logo" className="h-21 md:h-12 lg:h-25 w-25 transform transition-transform group-hover:scale-[1.02]" />
+                            {/* <div className="flex items-center gap-2 mt-1 w-full">
                                 <span className="text-[9px] font-black uppercase tracking-[0.4em] text-red-600 whitespace-nowrap">Daily News Review</span>
                                 <div className="flex-1 h-px bg-zinc-200" />
-                            </div>
+                            </div> */}
                         </Link>
                     </div>
 
@@ -123,6 +121,19 @@ export function Navbar() {
                         />
                         {/* Animated subtle shimmer */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover/ad:animate-[shimmer_2s_infinite]" />
+                        {/* Navigation Arrows */}
+                        <button
+                            onClick={() => setCurrentAdIndex((prev) => (prev - 1 + ads.length) % ads.length)}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100"
+                        >
+                            <ChevronLeft className="w-4 h-4 text-zinc-700" />
+                        </button>
+                        <button
+                            onClick={() => setCurrentAdIndex((prev) => (prev + 1) % ads.length)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100"
+                        >
+                            <ChevronRight className="w-4 h-4 text-zinc-700" />
+                        </button>
                     </div>
 
 
