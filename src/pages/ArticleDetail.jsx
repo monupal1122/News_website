@@ -179,9 +179,9 @@ export default function ArticleDetail() {
                                 dangerouslySetInnerHTML={{ __html: article.content }}
                             />
 
-                            <div className="flex justify-center my-12 border-y border-zinc-100 py-10">
+                            {/* <div className="flex justify-center my-12 border-y border-zinc-100 py-10">
                                 <DummyAd variant="rectangle" label="The Future of Finance" sublabel="Get the Chronicle Business Report" />
-                            </div>
+                            </div> */}
 
                             {article.tags && article.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-8 mb-12">

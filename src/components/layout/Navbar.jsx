@@ -77,20 +77,20 @@ export function Navbar() {
                 <div className="container mx-auto flex justify-between items-center text-[11px] font-bold tracking-tight">
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-4 py-1 border-r border-white/10 pr-6">
-                            <Facebook className="w-3.5 h-3.5 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Instagram className="w-3.5 h-3.5 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Youtube className="w-3.5 h-3.5 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Twitter className="w-3.5 h-3.5 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Facebook className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Instagram className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Youtube className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Twitter className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
                         </div>
                         <div className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer group">
                             <Mail className="w-3.5 h-3.5 text-red-600" />
-                            <span className="text-2xl lowercase">admin@gmail.com</span>
+                            <span className="text-[15px] lowercase">admin@gmail.com</span>
                         </div>
                     </div>
 
                     <div className="hidden md:flex items-center gap-4">
-                        <span className="text-white/90 font-medium">{formattedDate}</span>
-                        <div className="bg-red-600 px-3 py-1 font-mono text-[12px] font-black shadow-lg">
+                        <span className="text-white/90 text-[15px]">{formattedDate}</span>
+                        <div className="bg-red-600 px-3 py-1 font-mono text-[15px] font-black shadow-lg">
                             {formattedTime}
                         </div>
                     </div>
