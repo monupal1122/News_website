@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { Clock, Eye, User, ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/types';
 import { CategoryBadge } from './CategoryBadge';
@@ -17,7 +16,7 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
+            <a href={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
                 <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
                     <div className="lg:w-7/12 relative aspect-[4/3] lg:aspect-auto overflow-hidden bg-zinc-200">
@@ -52,13 +51,13 @@ export function NewsCard({ article, variant = 'default' }) {
                         </div>
                     </div>
                 </div>
-            </Link>
+            </a>
         );
     }
 
     if (variant === 'horizontal') {
         return (
-            <Link to={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-100 hover:shadow-md transition-all duration-300 border-b border-zinc-100 last:border-0 relative bg-white">
+            <a href={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-100 hover:shadow-md transition-all duration-300 border-b border-zinc-100 last:border-0 relative bg-white">
                 <div className="flex-shrink-0 w-32 h-24 md:w-52 md:h-32 overflow-hidden relative">
                     <img
                         src={imageSrc}
@@ -81,25 +80,25 @@ export function NewsCard({ article, variant = 'default' }) {
                         <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-red-600" /> {formatDate(article.publishedAt || article.createdAt)}</span>
                     </div>
                 </div>
-            </Link>
+            </a>
         );
     }
 
     return (
         <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl">
-            <Link to={articleLink} className="relative aspect-[16/9] overflow-hidden bg-zinc-200 block mb-4">
+            <a href={articleLink} className="relative aspect-[16/9] overflow-hidden bg-zinc-200 block mb-4">
                 <img
                     src={imageSrc}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-            </Link>
+            </a>
             <div className="flex flex-col flex-1 p-4">
-                <Link to={articleLink} className="block">
+                <a href={articleLink} className="block">
                     <h3 className="font-serif font-bold text-xl md:text-2xl leading-tight text-zinc-900 group-hover:text-red-700 transition-colors mb-3">
                         {article.title}
                     </h3>
-                </Link>
+                </a>
                 <p className="text-zinc-600 text-[15px] leading-relaxed line-clamp-2 mb-4 font-sans">
                     {excerpt}
                 </p>

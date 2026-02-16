@@ -86,9 +86,9 @@ export default function ArticleDetail() {
                             Back to Home
                         </Link>
 
-                        <div className="flex justify-center mb-8">
+                        {/* <div className="flex justify-center mb-8">
                             <DummyAd variant="leaderboard" label="Discover World-Class Journalism" sublabel="Subscribe to our Premium Edition" />
-                        </div>
+                        </div> */}
 
                         <article>
                             <div className="flex items-center gap-4 mb-4">
@@ -111,9 +111,9 @@ export default function ArticleDetail() {
                                 {article.summary || article.description}
                             </p>
 
-                            <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
+                            {/* <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
                                 <div className="flex items-center gap-3">
-                                    {/* Author info removed from here */}
+                                   
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Button variant="ghost" size="icon">
@@ -123,7 +123,7 @@ export default function ArticleDetail() {
                                         <Bookmark className="w-4 h-4" />
                                     </Button>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5">
                                 <img
@@ -163,7 +163,7 @@ export default function ArticleDetail() {
 
                                     <div className="flex items-center gap-3">
                                         <span className="font-bold text-zinc-900">Join our community</span>
-                                        <a href="#" className="w-13 h-13 flex items-center justify-center hover:bg-green-600 text-white rounded-full transition-colors shadow-sm hover:shadow-md">
+                                        <a href="#" className="w-13 h-13 flex items-center justify-center bg-green-600 text-white rounded-full transition-colors shadow-sm hover:shadow-md">
                                             <img src="/whatsapp1.png" alt="WhatsApp" className="w-15 h-15" />
                                         </a>
                                     </div>

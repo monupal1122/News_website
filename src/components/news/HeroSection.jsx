@@ -118,8 +118,8 @@ export function HeroSection() {
 
                 {/* Side Articles */}
                 <div className="lg:col-span-4 flex flex-col divide-y divide-zinc-100 bg-white border border-zinc-100 shadow-sm rounded-xl overflow-hidden">
-                    <div className="bg-zinc-50 p-4 border-b border-zinc-100">
-                        <h3 className="font-black text-sm uppercase tracking-widest text-zinc-900">Latest Headlines</h3>
+                    <div className="bg-black p-4 border-b border-zinc-100">
+                        <h3 className="font-white text-lg uppercase tracking-widest text-white">Latest Headlines</h3>
                     </div>
                     <div className="flex-1 overflow-y-auto">
                         {sideArticles.map((article) => (
