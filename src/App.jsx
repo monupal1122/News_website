@@ -18,28 +18,26 @@ import ScrollToTop from "./components/utils/ScrollToTop";
 const queryClient = new QueryClient();
 
 const App = () => (
-    <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-            <TooltipProvider>
-                <Toaster />
-                <Sonner />
-                <BrowserRouter>
-                    <ScrollToTop />
-                    <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="/:category/:subcategory/:slugId" element={<ArticleDetail />} />
-                        <Route path="/category/:category" element={<CategoryPage />} />
-                        <Route path="/subcategory/:category/:subcategory" element={<SubcategoryPage />} />
-                        <Route path="/author/:id" element={<AuthorProfile />} />
-                        <Route path="/tags/:tag" element={<TagPage />} />
-                        <Route path="/search" element={<SearchPage />} />
-                        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </BrowserRouter>
-            </TooltipProvider>
-        </QueryClientProvider>
-    </HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+                <ScrollToTop />
+                <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/:category/:subcategory/:slugId" element={<ArticleDetail />} />
+                    <Route path="/category/:category" element={<CategoryPage />} />
+                    <Route path="/subcategory/:category/:subcategory" element={<SubcategoryPage />} />
+                    <Route path="/author/:id" element={<AuthorProfile />} />
+                    <Route path="/tags/:tag" element={<TagPage />} />
+                    <Route path="/search" element={<SearchPage />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </BrowserRouter>
+        </TooltipProvider>
+    </QueryClientProvider>
 );
 
 export default App;

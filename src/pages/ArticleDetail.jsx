@@ -13,7 +13,10 @@ import { DummyAd } from '@/components/ads/DummyAd';
 
 export default function ArticleDetail() {
     const { category, subcategory, slugId } = useParams();
-    const { data: article, isLoading, error } = useArticle(`${category}/${subcategory}/${slugId}` || '');
+
+    // Safety: Encode parameters to ensure the API call handles non-ASCII characters correctly
+    const seoPath = `${encodeURIComponent(category || '')}/${encodeURIComponent(subcategory || '')}/${encodeURIComponent(slugId || '')}`;
+    const { data: article, isLoading, error } = useArticle(seoPath);
     const { data: relatedArticles, isLoading: relatedLoading } = useRelatedArticles(article);
 
     if (error) {
