@@ -98,55 +98,8 @@ export function Navbar() {
                 </div>
             </div>
 
-            
-            <div className="border-b border-zinc-100 p-5 md:py-6" >
-                <div className="container mx-auto  px-0 flex flex-col lg:flex-row items-center justify-between gap-10 ">
-                    
-                    <div className="flex-shrink-0">
-                        <Link to="/" className="flex flex-col items-start group">
-                            <img src="/logo.webp" alt="logo" className="h-12 md:h-14 lg:h-20 w-auto object-contain transform transition-transform group-hover:scale-[1.05]" />
-                        </Link>
-                    </div>
-
-                    
-                    <div className="hidden lg:flex flex-1 max-w-[728px] h-[90px] bg-zinc-50 border border-zinc-100 items-center justify-center relative overflow-hidden group/ad shadow-inner ml-auto">
-                        <div className="absolute top-0 right-0 px-2 py-0.5 bg-zinc-200 text-[8px] font-bold uppercase tracking-widest text-zinc-400">Advertisement</div>
-
-                        {ads && ads.length > 0 ? (
-                            <>
-                                <img
-                                    src={ads[currentAdIndex]?.imageUrl || ads[currentAdIndex]?.image}
-                                    alt={ads[currentAdIndex]?.title || ads[currentAdIndex]?.alt}
-                                    className="w-full h-full object-cover"
-                                />
-                                {/* Animated subtle shimmer */}
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover/ad:animate-[shimmer_2s_infinite]" />
-
-                                {ads.length > 1 && (
-                                    <>
-                                        <button
-                                            onClick={() => setCurrentAdIndex((prev) => (prev - 1 + ads.length) % ads.length)}
-                                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100 z-10"
-                                        >
-                                            <ChevronLeft className="w-4 h-4 text-zinc-700" />
-                                        </button>
-                                        <button
-                                            onClick={() => setCurrentAdIndex((prev) => (prev + 1) % ads.length)}
-                                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100 z-10"
-                                        >
-                                            <ChevronRight className="w-4 h-4 text-zinc-700" />
-                                        </button>
-                                    </>
-                                )}
-                            </>
-                        ) : (
-                            <div className="text-zinc-300 font-bold text-xs">Premium Ad Space Available</div>
-                        )}
-                    </div>
 
 
-                </div>
-            </div>
 
             {/* Breaking News Ticker */}
             <div className="bg-zinc-900 text-white border-y border-zinc-800 py-1.5 overflow-hidden hidden md:block">
@@ -184,14 +137,21 @@ export function Navbar() {
             <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-zinc-950 shadow-xl overflow-x-auto relative">
 
                 <div className="container mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
-                    <div className="flex items-center h-full gap-4">
-                        <div className="flex-shrink-0">
-                            <Link to="/">
-                                <img src="/logo.webp" alt="logo" className="h-8 md:h-10 w-auto object-contain min-w-[32px]" />
+                    {/* Mobile: Hamburger on Left */}
+                    <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-2">
+                        <Menu className="w-6 h-6" />
+                    </button>
+
+                    {/* Mobile: Centered Logo, Desktop: Left Logo + Nav */}
+                    <div className="flex items-center h-full gap-4 lg:flex-1">
+                        <div className="flex-shrink-0 lg:mr-8">
+                            <Link to="/" className="flex items-center">
+                                <img src="/logo.webp" alt="logo" className="h-12 lg:h-16 w-auto object-contain" />
                             </Link>
                         </div>
-                        <nav className="hidden lg:flex items-center h-full">
 
+                        {/* Desktop Navigation */}
+                        <nav className="hidden lg:flex items-center h-full">
                             <Link to="/" className="px-6 h-full flex items-center text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all">HOME</Link>
                             {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
                                 <DropdownMenu key={cat._id}>
@@ -214,14 +174,12 @@ export function Navbar() {
                                 </DropdownMenu>
                             ))}
                         </nav>
-                        <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-4">
-                            <Menu className="w-6 h-6" />
-                        </button>
                     </div>
 
-                    <div className="flex items-center gap-15">
+                    {/* Right Side: Search */}
+                    <div className="flex items-center gap-4">
                         <form onSubmit={handleSearch} className="hidden sm:flex items-center relative group">
-                            <Search className="absolute left-4 w-6 h-6 text-zinc-400 group-focus-within:text-red-600 " />
+                            <Search className="absolute left-4 w-6 h-6 text-zinc-400 group-focus-within:text-red-600" />
                             <input
                                 type="text"
                                 placeholder="Quick Search..."
@@ -230,8 +188,9 @@ export function Navbar() {
                                 className="pl-12 py-2 bg-transparent text-xs font-bold uppercase tracking-widest border-b border-transparent focus:border-red-600 focus:outline-none w-45 focus:w-84 transition-all"
                             />
                         </form>
-                        <Button size="icon" variant="ghost" className="hover:text-red-600" onClick={() => setIsSearchOpen(!isSearchOpen)}>
-                            <Search className="w-5 h-5 sm:hidden" />
+                        {/* Mobile Search Icon */}
+                        <Button size="icon" variant="ghost" className="lg:hidden hover:text-red-600" onClick={() => setIsSearchOpen(!isSearchOpen)}>
+                            <Search className="w-5 h-5" />
                         </Button>
                     </div>
                 </div>
