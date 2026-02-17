@@ -16,7 +16,6 @@ export function Navbar() {
     const [currentAdIndex, setCurrentAdIndex] = useState(0);
     const navigate = useNavigate();
 
-    // Cleanly access all global data from one place
     const {
         categories, isCategoriesLoading,
         headlines: latestArticles,
@@ -30,7 +29,6 @@ export function Navbar() {
         return () => clearInterval(timer);
     }, []);
 
-    // Rotate through ads if they exist
     useEffect(() => {
         if (ads && ads.length > 1) {
             const adInterval = setInterval(() => {
@@ -39,6 +37,7 @@ export function Navbar() {
             return () => clearInterval(adInterval);
         }
     }, [ads]);
+
     const formattedDate = currentTime.toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
@@ -65,7 +64,6 @@ export function Navbar() {
     const getArticleLink = (article) => {
         const categorySlug = typeof article.category === 'object' ? article.category.slug : 'uncategorized';
         const subcategorySlug = article.subcategories && article.subcategories.length > 0 && typeof article.subcategories[0] === 'object' ? article.subcategories[0].slug : 'general';
-
         return (article.slug && article.publicId)
             ? `/${categorySlug}/${subcategorySlug}/${article.slug}-${article.publicId}`
             : `/articles/${article._id}`;
@@ -73,33 +71,30 @@ export function Navbar() {
 
     return (
         <header className="z-50 bg-white group/header">
+
             {/* Top Utility Bar */}
             <div className="bg-[#2a2e35] text-white py-1.5 px-4 border-b border-zinc-800">
                 <div className="container mx-auto flex justify-between items-center text-[11px] font-bold tracking-tight">
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-4 py-1 border-r border-white/10 pr-6">
-                            <Facebook className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Instagram className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Youtube className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Twitter className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Facebook className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Instagram className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Youtube className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
+                            <Twitter className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
                         </div>
-                        <div className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer group">
-                            <Mail className="w-4.5 h-4.5 hover:text-red-600 cursor-pointer transition-colors" />
-                            <span className="text-[15px] lowercase">admin@gmail.com</span>
+                        <div className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer">
+                            <Mail className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
+                            <span className="text-[13px] lowercase">admin@gmail.com</span>
                         </div>
                     </div>
-
                     <div className="hidden md:flex items-center gap-4">
-                        <span className="text-white/90 text-[15px]">{formattedDate}</span>
-                        <div className="bg-red-600 px-3 py-1 font-mono text-[15px] font-black shadow-lg">
+                        <span className="text-white/90 text-[13px]">{formattedDate}</span>
+                        <div className="bg-red-600 px-3 py-1 font-mono text-[13px] font-black shadow-lg">
                             {formattedTime}
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
 
             {/* Breaking News Ticker */}
             <div className="bg-zinc-900 text-white border-y border-zinc-800 py-1.5 overflow-hidden hidden md:block">
@@ -108,14 +103,16 @@ export function Navbar() {
                         <Rocket className="w-3.5 h-3.5 fill-current" />
                         Breaking News
                     </div>
-
-                    <div className="flex-1 relative overflow-hidden mask-fade-edges h-6">
-                        <div className="animate-infinite-scroll flex gap-12 whitespace-nowrap py-1" style={{ animationPlayState: isTickerPaused ? 'paused' : 'running' }}>
+                    <div className="flex-1 relative overflow-hidden h-6">
+                        <div
+                            className="animate-infinite-scroll flex gap-12 whitespace-nowrap py-1"
+                            style={{ animationPlayState: isTickerPaused ? 'paused' : 'running' }}
+                        >
                             {latestArticles && [...latestArticles, ...latestArticles].map((article, idx) => (
                                 <Link
                                     key={`${article._id}-${idx}`}
                                     to={getArticleLink(article)}
-                                    className="flex items-center gap-3 text-[14px] font-bold uppercase tracking-wider hover:text-red-500 transition-colors group"
+                                    className="flex items-center gap-3 text-[13px] font-bold uppercase tracking-wider hover:text-red-500 transition-colors group"
                                     onMouseEnter={() => setIsTickerPaused(true)}
                                     onMouseLeave={() => setIsTickerPaused(false)}
                                 >
@@ -124,74 +121,103 @@ export function Navbar() {
                                 </Link>
                             ))}
                             {!latestArticles && (
-                                <div className="flex gap-12 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                                    <span>Loading the latest intelligence from around the globe...</span>
-                                </div>
+                                <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                                    Loading the latest intelligence from around the globe...
+                                </span>
                             )}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Navigation & Search Bar */}
-            <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-zinc-950 shadow-xl overflow-x-auto relative">
+            {/* ── Main Nav Bar ── */}
+            <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-zinc-950 shadow-xl">
+                <div className="container mx-auto max-w-7xl p-4 h-22 flex items-center gap-4">
 
-                <div className="container mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
-                    {/* Mobile: Hamburger on Left */}
-                    <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-2">
-                        <Menu className="w-6 h-6" />
-                    </button>
+                    {/* LEFT: Hamburger (mobile only) + Logo */}
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                        {/* Hamburger — visible only on mobile */}
+                        <button
+                            onClick={() => setIsMobileMenuOpen(true)}
+                            className="lg:hidden p-2 -ml-2"
+                            aria-label="Open menu"
+                        >
+                            <Menu className="w-6 h-6" />
+                        </button>
 
-                    {/* Mobile: Centered Logo, Desktop: Left Logo + Nav */}
-                    <div className="flex items-center h-full gap-4 lg:flex-1">
-                        <div className="flex-shrink-0 lg:mr-8">
-                            <Link to="/" className="flex items-center">
-                                <img src="/logo.webp" alt="logo" className="h-12 lg:h-16 w-auto object-contain" />
-                            </Link>
-                        </div>
-
-                        {/* Desktop Navigation */}
-                        <nav className="hidden lg:flex items-center h-full">
-                            <Link to="/" className="px-6 h-full flex items-center text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all">HOME</Link>
-                            {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
-                                <DropdownMenu key={cat._id}>
-                                    <DropdownMenuTrigger asChild>
-                                        <button className="px-6 h-full flex items-center text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none">
-                                            {cat.name}
-                                            <ChevronDown className="ml-1 w-3 h-3" />
-                                        </button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="rounded-none border-4 border-zinc-950 p-4 w-64 shadow-2xl">
-                                        <DropdownMenuItem asChild>
-                                            <Link to={`/category/${cat.slug}`} className="font-black text-red-600 mb-2 block p-2">SEE ALL {cat.name}</Link>
-                                        </DropdownMenuItem>
-                                        {cat.subcategories?.map(sub => (
-                                            <DropdownMenuItem key={sub._id} asChild>
-                                                <Link to={`/subcategory/${cat.slug}/${sub.slug}`} className="p-2 font-bold hover:text-red-600">{sub.name}</Link>
-                                            </DropdownMenuItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            ))}
-                        </nav>
+                        {/* Logo — always on the left */}
+                        <Link to="/" className="flex items-center">
+                            <img
+                                src="/logo.webp"
+                                alt="logo"
+                                className="h-10 lg:h-14 w-auto object-contain"
+                            />
+                        </Link>
                     </div>
 
-                    {/* Right Side: Search */}
-                    <div className="flex items-center gap-4">
+                    {/* CENTER / FILL: Desktop Nav links */}
+                    <nav className="hidden lg:flex items-center h-16 flex-1 ml-6">
+                        <Link
+                            to="/"
+                            className="px-5 h-full flex items-center text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all whitespace-nowrap"
+                        >
+                            HOME
+                        </Link>
+
+                        {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
+                            <DropdownMenu key={cat._id}>
+                                <DropdownMenuTrigger asChild>
+                                    <button className="px-5 h-full flex items-center gap-1 text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
+                                        {cat.name}
+                                        <ChevronDown className="w-3 h-3" />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="rounded-none border-4 border-zinc-950 p-4 w-64 shadow-2xl">
+                                    <DropdownMenuItem asChild>
+                                        <Link
+                                            to={`/category/${cat.slug}`}
+                                            className="font-black text-red-600 mb-2 block p-2"
+                                        >
+                                            SEE ALL {cat.name}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    {cat.subcategories?.map(sub => (
+                                        <DropdownMenuItem key={sub._id} asChild>
+                                            <Link
+                                                to={`/subcategory/${cat.slug}/${sub.slug}`}
+                                                className="p-2 font-bold hover:text-red-600"
+                                            >
+                                                {sub.name}
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ))}
+                    </nav>
+
+                    {/* RIGHT: Search */}
+                    <div className="flex items-center gap-3 ml-auto">
+                        {/* Desktop search */}
                         <form onSubmit={handleSearch} className="hidden sm:flex items-center relative group">
-                            <Search className="absolute left-4 w-6 h-6 text-zinc-400 group-focus-within:text-red-600" />
+                            <Search className="absolute left-3 w-4 h-4 text-zinc-400 group-focus-within:text-red-600 transition-colors" />
                             <input
                                 type="text"
                                 placeholder="Quick Search..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-12 py-2 bg-transparent text-xs font-bold uppercase tracking-widest border-b border-transparent focus:border-red-600 focus:outline-none w-45 focus:w-84 transition-all"
+                                className="pl-9 pr-3 py-2 bg-transparent text-xs font-bold uppercase tracking-widest border-b border-transparent focus:border-red-600 focus:outline-none w-40 focus:w-64 transition-all duration-300"
                             />
                         </form>
-                        {/* Mobile Search Icon */}
-                        <Button size="icon" variant="ghost" className="lg:hidden hover:text-red-600" onClick={() => setIsSearchOpen(!isSearchOpen)}>
+
+                        {/* Mobile search icon */}
+                        <button
+                            className="lg:hidden p-2 hover:text-red-600 transition-colors"
+                            onClick={() => setIsSearchOpen(!isSearchOpen)}
+                            aria-label="Search"
+                        >
                             <Search className="w-5 h-5" />
-                        </Button>
+                        </button>
                     </div>
                 </div>
 
@@ -199,7 +225,7 @@ export function Navbar() {
                 {isSearchOpen && (
                     <div className="absolute top-full left-0 w-full bg-white p-4 border-b-4 border-red-600 shadow-xl z-40 animate-in slide-in-from-top-2 sm:hidden">
                         <form onSubmit={handleSearch} className="flex items-center gap-4">
-                            <Search className="w-5 h-5 text-red-600" />
+                            <Search className="w-5 h-5 text-red-600 flex-shrink-0" />
                             <input
                                 autoFocus
                                 type="text"
@@ -208,7 +234,7 @@ export function Navbar() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="flex-1 text-lg font-bold uppercase tracking-tight outline-none placeholder:text-zinc-300"
                             />
-                            <button type="button" onClick={() => setIsSearchOpen(false)}>
+                            <button type="button" onClick={() => setIsSearchOpen(false)} aria-label="Close search">
                                 <X className="w-6 h-6 text-zinc-900" />
                             </button>
                         </form>
@@ -224,10 +250,20 @@ export function Navbar() {
                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-red-600">Daily Intelligence</p>
                     </div>
                     <nav className="p-6 flex flex-col gap-2">
-                        <Link to="/" className="text-2xl font-black p-4 border-b border-zinc-100 italic" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+                        <Link
+                            to="/"
+                            className="text-2xl font-black p-4 border-b border-zinc-100 italic"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Home
+                        </Link>
                         {!isCategoriesLoading && categories?.map(cat => (
                             <div key={cat._id} className="flex flex-col">
-                                <Link to={`/category/${cat.slug}`} className="text-xl font-black p-4 uppercase tracking-tight flex items-center justify-between" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Link
+                                    to={`/category/${cat.slug}`}
+                                    className="text-xl font-black p-4 uppercase tracking-tight flex items-center justify-between"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
                                     {cat.name}
                                     <ArrowRight className="w-4 h-4" />
                                 </Link>
