@@ -96,19 +96,19 @@ export default function ArticleDetail() {
 
                         <article>
                             <div className="flex items-center gap-4 mb-4">
-                                <CategoryBadge category={article.category} size="md" />
+                                {article?.category && <CategoryBadge category={article.category} size="md" />}
                                 <span className="flex items-center gap-1 text-muted-foreground text-sm">
                                     <Clock className="w-4 h-4" />
-                                    {formatDate(article.publishedAt || article.createdAt)}
+                                    {formatDate(article?.publishedAt || article?.createdAt)}
                                 </span>
                                 <span className="flex items-center gap-1 text-muted-foreground text-sm">
                                     <Eye className="w-4 h-4" />
-                                    {article.viewCount.toLocaleString()} views
+                                    {article?.viewCount?.toLocaleString() || 0} views
                                 </span>
                             </div>
 
                             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
-                                {article.title}
+                                {article?.title || 'Loading...'}
                             </h1>
 
                             <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
@@ -131,20 +131,22 @@ export default function ArticleDetail() {
 
                             <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5">
                                 <img
-                                    src={article.featuredImage || article.imageUrl}
-                                    alt={article.title}
+                                    src={article?.featuredImage || article?.imageUrl}
+                                    alt={article?.title}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
 
                             <div className="mb-10">
-                                {article.imageCaption && (
+                                {article?.imageCaption && (
                                     <p className="text-sm text-zinc-500 italic mb-4">{article.imageCaption}</p>
                                 )}
 
-                                <p className="text-zinc-500 text-sm mb-6 font-medium">
-                                    Published on: {new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
-                                </p>
+                                {article && (article.publishedAt || article.createdAt) && (
+                                    <p className="text-zinc-500 text-sm mb-6 font-medium">
+                                        Published on: {new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
+                                    </p>
+                                )}
 
                                 <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-6 border-y border-zinc-100">
                                     <div className="flex items-center gap-2">
@@ -176,7 +178,7 @@ export default function ArticleDetail() {
 
                             <div
                                 className="prose prose-lg max-w-none mb-12"
-                                dangerouslySetInnerHTML={{ __html: article.content }}
+                                dangerouslySetInnerHTML={{ __html: article?.content || '' }}
                             />
 
                             {/* <div className="flex justify-center my-12 border-y border-zinc-100 py-10">
