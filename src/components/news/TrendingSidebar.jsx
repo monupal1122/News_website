@@ -11,7 +11,7 @@ export function TrendingSidebar() {
             <div className="bg-zinc-900 text-white p-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <div className="w-1 h-4 bg-red-600" />
-                    <h2 className="text-sm font-black uppercase tracking-widest text-white">Trending Now</h2>
+                    <h2 className="text-md font-black uppercase tracking-widest text-white text-Georgia">Trending Now</h2>
                 </div>
                 <TrendingUp className="w-4 h-4 text-red-500 animate-pulse" />
             </div>

@@ -97,8 +97,8 @@ export function Navbar() {
             </div> */}
 
             {/* Breaking News Ticker */}
-            <div className="bg-zinc-900 text-white border-y border-zinc-800 py-1.5 overflow-hidden hidden md:block">
-                <div className="container mx-auto px-4 flex items-center gap-6">
+            <div className="bg-zinc-900 text-white border-y border-zinc-800 p-1.5 overflow-hidden hidden md:block">
+                <div className="px-4 flex items-center gap-8 ml-16">
                     <div className="flex-shrink-0 flex items-center gap-2 px-4 py-1 bg-red-600 text-[10px] font-black uppercase tracking-[0.3em] italic animate-pulse">
                         <Rocket className="w-3.5 h-3.5 fill-current" />
                         Breaking News
@@ -132,7 +132,7 @@ export function Navbar() {
 
             {/* ── Main Nav Bar ── */}
             <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-zinc-950 shadow-xl">
-                <div className="container mx-auto max-w-7xl p-4 h-22 flex items-center gap-4">
+                <div className="max-w-3xl p-4 h-22 flex items-center gap-4 ml-3 lg:ml-17">
 
                     {/* LEFT: Hamburger (mobile only) + Logo */}
                     <div className="flex items-center gap-3 flex-shrink-0">
@@ -148,7 +148,7 @@ export function Navbar() {
                         {/* Logo — always on the left */}
                         <Link to="/" className="flex items-center">
                             <img
-                                src="/logo.webp"
+                                src="/logo1.webp"
                                 alt="logo"
                                 className="h-10 lg:h-14 w-auto object-contain"
                             />
@@ -159,15 +159,14 @@ export function Navbar() {
                     <nav className="hidden lg:flex items-center h-16 flex-1 ml-6">
                         <Link
                             to="/"
-                            className="px-5 h-full flex items-center text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all whitespace-nowrap"
-                        >
+                            className="px-5 h-full flex items-center gap-1 text-[19px] font-semibold font-Georgia text-[#1f2937] tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
                             HOME
                         </Link>
 
                         {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
                             <DropdownMenu key={cat._id}>
                                 <DropdownMenuTrigger asChild>
-                                    <button className="px-5 h-full flex items-center gap-1 text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
+                                    <button className="px-5 h-full flex items-center gap-1 text-[19px] font-semibold font-Georgia text-[#1f2937] tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
                                         {cat.name}
                                         <ChevronDown className="w-3 h-3" />
                                     </button>
@@ -185,7 +184,7 @@ export function Navbar() {
                                         <DropdownMenuItem key={sub._id} asChild>
                                             <Link
                                                 to={`/subcategory/${cat.slug}/${sub.slug}`}
-                                                className="p-2 font-bold hover:text-red-600"
+                                                className="p-2 font-bold hover:text-red-600 text-[14px] font-Georgia"
                                             >
                                                 {sub.name}
                                             </Link>
@@ -261,7 +260,7 @@ export function Navbar() {
                             <div key={cat._id} className="flex flex-col">
                                 <Link
                                     to={`/category/${cat.slug}`}
-                                    className="text-xl font-black p-4 uppercase tracking-tight flex items-center justify-between"
+                                    className="text-[19px] font-semibold font-serif text-[#1f2937] p-4 tracking-tight flex items-center justify-between"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     {cat.name}
