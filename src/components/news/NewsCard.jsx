@@ -17,7 +17,7 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
+            <a to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
                 <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
                     <div className="lg:w-7/12 relative aspect-[4/3] lg:aspect-auto overflow-hidden bg-zinc-200">
@@ -52,7 +52,7 @@ export function NewsCard({ article, variant = 'default' }) {
                         </div>
                     </div>
                 </div>
-            </Link>
+            </a>
         );
     }
 

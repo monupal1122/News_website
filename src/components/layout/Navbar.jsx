@@ -98,22 +98,18 @@ export function Navbar() {
                 </div>
             </div>
 
-            {/* Main Branding Bar - Logo Left, Ad Right */}
+            
             <div className="border-b border-zinc-100 p-5 md:py-6" >
                 <div className="container mx-auto  px-0 flex flex-col lg:flex-row items-center justify-between gap-10 ">
-                    {/* Logo Area */}
-                    <div >
+                    
+                    <div className="flex-shrink-0">
                         <Link to="/" className="flex flex-col items-start group">
-                            <img src="/logo.webp" alt="logo" className="h-21 md:h-12 lg:h-25 w-25 transform transition-transform group-hover:scale-[1.02]" />
-                            {/* <div className="flex items-center gap-2 mt-1 w-full">
-                                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-red-600 whitespace-nowrap">Daily News Review</span>
-                                <div className="flex-1 h-px bg-zinc-200" />
-                            </div> */}
+                            <img src="/logo.webp" alt="logo" className="h-12 md:h-14 lg:h-20 w-auto object-contain transform transition-transform group-hover:scale-[1.05]" />
                         </Link>
                     </div>
 
-                    {/* Dynamic Header Ad Slot */}
-                    <div className="hidden lg:flex flex-1 ml-95px max-w-[700px] h-[90px] bg-zinc-50 border border-zinc-100 items-center justify-center relative overflow-hidden group/ad shadow-inner ml-88 ">
+                    
+                    <div className="hidden lg:flex flex-1 max-w-[728px] h-[90px] bg-zinc-50 border border-zinc-100 items-center justify-center relative overflow-hidden group/ad shadow-inner ml-auto">
                         <div className="absolute top-0 right-0 px-2 py-0.5 bg-zinc-200 text-[8px] font-bold uppercase tracking-widest text-zinc-400">Advertisement</div>
 
                         {ads && ads.length > 0 ? (
@@ -186,9 +182,16 @@ export function Navbar() {
 
             {/* Navigation & Search Bar */}
             <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-zinc-950 shadow-xl overflow-x-auto relative">
+
                 <div className="container mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
-                    <div className="flex items-center h-full">
+                    <div className="flex items-center h-full gap-4">
+                        <div className="flex-shrink-0">
+                            <Link to="/">
+                                <img src="/logo.webp" alt="logo" className="h-8 md:h-10 w-auto object-contain min-w-[32px]" />
+                            </Link>
+                        </div>
                         <nav className="hidden lg:flex items-center h-full">
+
                             <Link to="/" className="px-6 h-full flex items-center text-xs font-black uppercase tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all">HOME</Link>
                             {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
                                 <DropdownMenu key={cat._id}>
