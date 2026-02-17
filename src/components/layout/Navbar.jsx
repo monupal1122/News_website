@@ -73,7 +73,7 @@ export function Navbar() {
         <header className="z-50 bg-white group/header">
 
             {/* Top Utility Bar */}
-            <div className="bg-[#2a2e35] text-white py-1.5 px-4 border-b border-zinc-800">
+            {/* <div className="bg-[#2a2e35] text-white py-1.5 px-4 border-b border-zinc-800">
                 <div className="container mx-auto flex justify-between items-center text-[11px] font-bold tracking-tight">
                     <div className="flex items-center gap-6">
                         <div className="flex items-center gap-4 py-1 border-r border-white/10 pr-6">
@@ -94,7 +94,7 @@ export function Navbar() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Breaking News Ticker */}
             <div className="bg-zinc-900 text-white border-y border-zinc-800 py-1.5 overflow-hidden hidden md:block">
