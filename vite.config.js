@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   base: '/',
+  publicDir: 'public',
   server: {
     host: "::",
     port: 8081,
