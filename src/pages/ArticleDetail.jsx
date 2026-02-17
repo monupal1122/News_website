@@ -13,8 +13,12 @@ import { DummyAd } from '@/components/ads/DummyAd';
 
 export default function ArticleDetail() {
     const { category, subcategory, slugId } = useParams();
-    const { data: article, isLoading } = useArticle(`${category}/${subcategory}/${slugId}` || '');
+    const { data: article, isLoading, error } = useArticle(`${category}/${subcategory}/${slugId}` || '');
     const { data: relatedArticles, isLoading: relatedLoading } = useRelatedArticles(article);
+
+    if (error) {
+        console.error("Article Fetch Error:", error);
+    }
 
     if (isLoading) {
         return (
