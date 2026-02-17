@@ -3,12 +3,12 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
-import { ArticleProvider } from "./context/ArticleContext";
+import { AppProvider } from "./context/AppContext";
 
 createRoot(document.getElementById("root")).render(
     <HelmetProvider>
-        <ArticleProvider>
+        <AppProvider>
             <App />
-        </ArticleProvider>
+        </AppProvider>
     </HelmetProvider>
 );

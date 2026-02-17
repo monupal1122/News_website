@@ -4,14 +4,8 @@ import { Search, Menu, X, ChevronDown, Rocket, Newspaper, Facebook, Twitter, Ins
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useArticleContext } from '@/context/ArticleContext';
-import ads from '@/ads.json';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useApp } from '@/context/AppContext';
 
 export function Navbar() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -22,7 +16,12 @@ export function Navbar() {
     const [currentAdIndex, setCurrentAdIndex] = useState(0);
     const navigate = useNavigate();
 
-    const { categories, isCategoriesLoading, topHeadlines: latestArticles } = useArticleContext();
+    // Cleanly access all global data from one place
+    const {
+        categories, isCategoriesLoading,
+        headlines: latestArticles,
+        ads, isAdsLoading
+    } = useApp();
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -31,13 +30,15 @@ export function Navbar() {
         return () => clearInterval(timer);
     }, []);
 
+    // Rotate through ads if they exist
     useEffect(() => {
-        const adInterval = setInterval(() => {
-            setCurrentAdIndex((prev) => (prev + 1) % ads.length);
-        }, 5000);
-        return () => clearInterval(adInterval);
-    }, []);
-
+        if (ads && ads.length > 1) {
+            const adInterval = setInterval(() => {
+                setCurrentAdIndex((prev) => (prev + 1) % ads.length);
+            }, 6000);
+            return () => clearInterval(adInterval);
+        }
+    }, [ads]);
     const formattedDate = currentTime.toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
@@ -111,29 +112,40 @@ export function Navbar() {
                         </Link>
                     </div>
 
-                    {/* Dummy Header Ad Slot */}
+                    {/* Dynamic Header Ad Slot */}
                     <div className="hidden lg:flex flex-1 ml-95px max-w-[700px] h-[90px] bg-zinc-50 border border-zinc-100 items-center justify-center relative overflow-hidden group/ad shadow-inner ml-88 ">
                         <div className="absolute top-0 right-0 px-2 py-0.5 bg-zinc-200 text-[8px] font-bold uppercase tracking-widest text-zinc-400">Advertisement</div>
-                        <img
-                            src={ads[currentAdIndex].image}
-                            alt={ads[currentAdIndex].alt}
-                            className="w-full h-full object-cover"
-                        />
-                        {/* Animated subtle shimmer */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover/ad:animate-[shimmer_2s_infinite]" />
-                        {/* Navigation Arrows */}
-                        <button
-                            onClick={() => setCurrentAdIndex((prev) => (prev - 1 + ads.length) % ads.length)}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100"
-                        >
-                            <ChevronLeft className="w-4 h-4 text-zinc-700" />
-                        </button>
-                        <button
-                            onClick={() => setCurrentAdIndex((prev) => (prev + 1) % ads.length)}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100"
-                        >
-                            <ChevronRight className="w-4 h-4 text-zinc-700" />
-                        </button>
+
+                        {ads && ads.length > 0 ? (
+                            <>
+                                <img
+                                    src={ads[currentAdIndex]?.imageUrl || ads[currentAdIndex]?.image}
+                                    alt={ads[currentAdIndex]?.title || ads[currentAdIndex]?.alt}
+                                    className="w-full h-full object-cover"
+                                />
+                                {/* Animated subtle shimmer */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover/ad:animate-[shimmer_2s_infinite]" />
+
+                                {ads.length > 1 && (
+                                    <>
+                                        <button
+                                            onClick={() => setCurrentAdIndex((prev) => (prev - 1 + ads.length) % ads.length)}
+                                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100 z-10"
+                                        >
+                                            <ChevronLeft className="w-4 h-4 text-zinc-700" />
+                                        </button>
+                                        <button
+                                            onClick={() => setCurrentAdIndex((prev) => (prev + 1) % ads.length)}
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-1 shadow-md transition-all opacity-0 group-hover/ad:opacity-100 z-10"
+                                        >
+                                            <ChevronRight className="w-4 h-4 text-zinc-700" />
+                                        </button>
+                                    </>
+                                )}
+                            </>
+                        ) : (
+                            <div className="text-zinc-300 font-bold text-xs">Premium Ad Space Available</div>
+                        )}
                     </div>
 
 
