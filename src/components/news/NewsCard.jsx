@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Clock, Eye, User, ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/types';
 import { CategoryBadge } from './CategoryBadge';
@@ -16,7 +17,7 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <a href={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
+            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
                 <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
                     <div className="lg:w-7/12 relative aspect-[4/3] lg:aspect-auto overflow-hidden bg-zinc-200">
@@ -43,21 +44,21 @@ export function NewsCard({ article, variant = 'default' }) {
                         <p className="text-zinc-600 text-lg leading-relaxed line-clamp-4 lg:line-clamp-6 font-sans mb-8">
                             {excerpt}
                         </p>
-                             <p className="text-zinc-500 text-md mb-6 font-medium">
-                                    Published on: {new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
+                        <p className="text-zinc-500 text-md mb-6 font-medium">
+                            Published on: {new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
                         </p>
                         <div className="mt-auto flex items-center gap-3 text-sm font-bold text-zinc-900 uppercase tracking-widest group-hover:gap-4 transition-all">
                             Read Full Story <ArrowRight className="w-4 h-4 text-red-600" />
                         </div>
                     </div>
                 </div>
-            </a>
+            </Link>
         );
     }
 
     if (variant === 'horizontal') {
         return (
-            <a href={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-100 hover:shadow-md transition-all duration-300 border-b border-zinc-100 last:border-0 relative bg-white">
+            <Link to={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-100 hover:shadow-md transition-all duration-300 border-b border-zinc-100 last:border-0 relative bg-white">
                 <div className="flex-shrink-0 w-32 h-24 md:w-52 md:h-32 overflow-hidden relative">
                     <img
                         src={imageSrc}
@@ -80,25 +81,25 @@ export function NewsCard({ article, variant = 'default' }) {
                         <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-red-600" /> {formatDate(article.publishedAt || article.createdAt)}</span>
                     </div>
                 </div>
-            </a>
+            </Link>
         );
     }
 
     return (
         <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl">
-            <a href={articleLink} className="relative aspect-[16/9] overflow-hidden bg-zinc-200 block mb-4">
+            <Link to={articleLink} className="relative aspect-[16/9] overflow-hidden bg-zinc-200 block mb-4">
                 <img
                     src={imageSrc}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-            </a>
+            </Link>
             <div className="flex flex-col flex-1 p-4">
-                <a href={articleLink} className="block">
+                <Link to={articleLink} className="block">
                     <h3 className="font-serif font-bold text-xl md:text-2xl leading-tight text-zinc-900 group-hover:text-red-700 transition-colors mb-3">
                         {article.title}
                     </h3>
-                </a>
+                </Link>
                 <p className="text-zinc-600 text-[15px] leading-relaxed line-clamp-2 mb-4 font-sans">
                     {excerpt}
                 </p>
@@ -106,9 +107,9 @@ export function NewsCard({ article, variant = 'default' }) {
                     <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                     <span className="mx-2">•</span>
                     <span className="flex items-center gap-1 text-muted-foreground text-sm">
-                                    <Eye className="w-4 h-4" />
-                                    {article.viewCount.toLocaleString()} views
-                                </span>
+                        <Eye className="w-4 h-4" />
+                        {article.viewCount.toLocaleString()} views
+                    </span>
                 </div>
             </div>
         </div>
