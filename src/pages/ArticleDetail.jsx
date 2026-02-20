@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Eye, Share2, Bookmark, ExternalLink, Twitter, Linkedin, Facebook, Instagram, Mail } from 'lucide-react';
+import { ArrowLeft, Clock, Eye, Share2, Bookmark, ExternalLink, Twitter, Linkedin, Facebook, Instagram, Mail, Newspaper } from 'lucide-react';
+import { toast } from 'sonner';
 import { Layout } from '@/components/layout/Layout';
 import { useArticle, useRelatedArticles } from '@/hooks/useArticles';
 import { CategoryBadge } from '@/components/news/CategoryBadge';
@@ -51,21 +52,77 @@ export default function ArticleDetail() {
     if (!article) {
         return (
             <Layout>
-                <div className="container mx-auto px-4 py-16 text-center">
-                    <h1 className="text-3xl font-bold mb-4">Article not found</h1>
-                    <p className="text-muted-foreground mb-8">The article you're looking for doesn't exist.</p>
-                    <Link to="/">
-                        <Button>
-                            <ArrowLeft className="w-4 h-4 mr-2" />
-                            Back to Home
-                        </Button>
-                    </Link>
+                <Helmet>
+                    <title>Article Not Found | Daily News Views</title>
+                    <meta name="description" content="The news story you are looking for could not be found." />
+                </Helmet>
+                <div className="container mx-auto px-4 py-32 text-center">
+                    <div className="max-w-md mx-auto">
+                        <div className="w-20 h-20 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                            <Newspaper className="w-10 h-10" />
+                        </div>
+                        <h1 className="text-4xl font-black mb-4 uppercase tracking-tighter">Story Not Found</h1>
+                        <p className="text-muted-foreground mb-10 text-lg leading-relaxed">
+                            The article you're looking for doesn't exist or may have been moved. Explore our latest headlines or try searching.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link to="/">
+                                <Button className="w-full sm:w-auto px-8 py-6 rounded-xl font-bold uppercase tracking-widest text-xs">
+                                    <ArrowLeft className="w-4 h-4 mr-2" />
+                                    Back to Home
+                                </Button>
+                            </Link>
+                            <Link to="/search">
+                                <Button variant="outline" className="w-full sm:w-auto px-8 py-6 rounded-xl font-bold uppercase tracking-widest text-xs">
+                                    Browse News
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </Layout>
         );
     }
 
     const author = typeof article.author === 'object' ? article.author : null;
+
+    const handleShare = async (platform) => {
+        if (!article) {
+            toast.error("Nothing to share at the moment.");
+            return;
+        }
+
+        const title = article.title || 'Check out this news article';
+        const url = window.location.href;
+
+        // Decode the URL so that Hindi characters appear as text instead of % symbols
+        const readableUrl = decodeURIComponent(url);
+
+        // Construct the shared text for messaging platforms
+        const shareText = `${title}\n\nRead more at: ${readableUrl}`;
+
+        const platforms = {
+            whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`,
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+            twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
+            linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+            email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(shareText)}`
+        };
+
+        if (platform === 'copy') {
+            try {
+                await navigator.clipboard.writeText(readableUrl);
+                toast.success("Link copied to clipboard!");
+            } catch (err) {
+                toast.error("Failed to copy link");
+            }
+            return;
+        }
+
+        if (platforms[platform]) {
+            window.open(platforms[platform], '_blank', 'noopener,noreferrer');
+        }
+    };
 
     return (
         <Layout>
@@ -110,7 +167,7 @@ export default function ArticleDetail() {
                                 </span>
                             </div>
 
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 cursor-pointer">
                                 {article?.title || 'Loading...'}
                             </h1>
 
@@ -153,26 +210,71 @@ export default function ArticleDetail() {
 
                                 <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-6 border-y border-zinc-100">
                                     <div className="flex items-center gap-2">
-                                        <Button variant="outline" size="icon" className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all">
-                                            <Facebook className="w-5 h-5" />
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all"
+                                            onClick={() => handleShare('facebook')}
+                                            title="Share on Facebook"
+                                        >
+                                            <img src="/facebook.webp" className="w-9 h-9" alt="Facebook" />
                                         </Button>
-                                        <Button variant="outline" size="icon" className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 hover:bg-black hover:text-white hover:border-black transition-all">
-                                            <Twitter className="w-5 h-5" />
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:text-white hover:border-black transition-all hover:bg-accent-foreground"
+                                            onClick={() => handleShare('twitter')}
+                                            title="Share on X (Twitter)"
+                                        >
+                                            <img src='/twitter-x.webp' className="w-6 h-6" alt="Twitter" />
                                         </Button>
-                                        {/* <Button variant="outline" size="icon" className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 hover:bg-green-50 hover:text-green-600 hover:border-green-200 transition-all">
-                                            <img src="/whatsapp.png" alt="WhatsApp" className="w-5 h-5" />
+                                        {/* <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:bg-green-50 hover:text-green-600 hover:border-green-200 transition-all"
+                                            onClick={() => handleShare('whatsapp')}
+                                            title="Share on WhatsApp"
+                                        >
+                                            <img src="/whatsapp.png" alt="WhatsApp" className="w-7 h-7" />
                                         </Button> */}
-                                        <Button variant="outline" size="icon" className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all">
-                                            <Linkedin className="w-5 h-5" />
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full w-10 h-10 cursor-pointer border-zinc-200 text-zinc-600 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all "
+                                            onClick={() => handleShare('linkedin')}
+                                            title="Share on LinkedIn"
+                                        >
+                                            <img src="/linkedin.webp" className="w-10 h-10" alt="LinkedIn" />
                                         </Button>
-                                        <Button variant="outline" size="icon" className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 hover:bg-zinc-100 hover:text-foreground hover:border-zinc-300 transition-all">
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full w-10 h-10 border-zinc-200 cursor-pointer text-zinc-600 hover:bg-zinc-100 hover:text-foreground hover:border-zinc-300 transition-all"
+                                            onClick={() => handleShare('email')}
+                                            title="Share via Email"
+                                        >
                                             <Mail className="w-5 h-5" />
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full w-10 h-10 border-zinc-200 cursor-pointer text-zinc-600 hover:bg-zinc-100 hover:text-foreground hover:border-zinc-300 transition-all"
+                                            onClick={() => handleShare('copy')}
+                                            title="Copy link"
+                                        >
+                                            <img src='/download.webp' className="w-9 h-9" />
                                         </Button>
                                     </div>
 
                                     <div className="flex items-center gap-3">
                                         <span className="font-bold text-zinc-900">Join our community</span>
-                                        <a href="#" className="w-13 h-13 flex items-center justify-center bg-green-600 text-white rounded-full transition-colors shadow-sm hover:shadow-md">
+                                        <a
+                                            href="https://whatsapp.com/channel/your-channel-id"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-13 h-13 flex items-center justify-center bg-green-600 text-white cursor-pointer rounded-full transition-colors shadow-sm hover:shadow-md"
+                                            title="Join our WhatsApp Channel"
+                                        >
                                             <img src="/whatsapp1.png" alt="WhatsApp" className="w-15 h-15" />
                                         </a>
                                     </div>

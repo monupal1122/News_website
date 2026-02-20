@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Menu, X, ChevronDown, Rocket, Newspaper, Facebook, Twitter, Instagram, Globe, ArrowRight, Youtube, Mail, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Search, Menu, X, ChevronDown, Rocket, ArrowRight } from 'lucide-react';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useApp } from '@/context/AppContext';
 
@@ -11,46 +9,13 @@ export function Navbar() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [currentTime, setCurrentTime] = useState(new Date());
     const [isTickerPaused, setIsTickerPaused] = useState(false);
-    const [currentAdIndex, setCurrentAdIndex] = useState(0);
     const navigate = useNavigate();
 
     const {
         categories, isCategoriesLoading,
         headlines: latestArticles,
-        ads, isAdsLoading
     } = useApp();
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
-
-    useEffect(() => {
-        if (ads && ads.length > 1) {
-            const adInterval = setInterval(() => {
-                setCurrentAdIndex((prev) => (prev + 1) % ads.length);
-            }, 6000);
-            return () => clearInterval(adInterval);
-        }
-    }, [ads]);
-
-    const formattedDate = currentTime.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-
-    const formattedTime = currentTime.toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true
-    });
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -70,36 +35,12 @@ export function Navbar() {
     };
 
     return (
-        <header className="z-50 bg-white group/header">
-
-            {/* Top Utility Bar */}
-            {/* <div className="bg-[#2a2e35] text-white py-1.5 px-4 border-b border-zinc-800">
-                <div className="container mx-auto flex justify-between items-center text-[11px] font-bold tracking-tight">
-                    <div className="flex items-center gap-6">
-                        <div className="flex items-center gap-4 py-1 border-r border-white/10 pr-6">
-                            <Facebook className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Instagram className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Youtube className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
-                            <Twitter className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
-                        </div>
-                        <div className="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer">
-                            <Mail className="w-4 h-4 hover:text-red-600 cursor-pointer transition-colors" />
-                            <span className="text-[13px] lowercase">admin@gmail.com</span>
-                        </div>
-                    </div>
-                    <div className="hidden md:flex items-center gap-4">
-                        <span className="text-white/90 text-[13px]">{formattedDate}</span>
-                        <div className="bg-red-600 px-3 py-1 font-mono text-[13px] font-black shadow-lg">
-                            {formattedTime}
-                        </div>
-                    </div>
-                </div>
-            </div> */}
+        <header className="z-50 bg-white sticky top-0 border-b-4 border-zinc-950 shadow-xl">
 
             {/* Breaking News Ticker */}
             <div className="bg-zinc-900 text-white border-y border-zinc-800 p-1.5 overflow-hidden hidden md:block">
-                <div className="px-4 flex items-center gap-8 ml-16">
-                    <div className="flex-shrink-0 flex items-center gap-2 px-4 py-1 bg-red-600 text-[10px] font-black uppercase tracking-[0.3em] italic animate-pulse">
+                <div className="px-4 flex items-center gap-8">
+                    <div className="flex-shrink-0 flex items-center gap-2 px-4 cursor-pointer py-1 bg-red-600 text-[10px] font-black uppercase tracking-[0.3em] italic animate-pulse">
                         <Rocket className="w-3.5 h-3.5 fill-current" />
                         Breaking News
                     </div>
@@ -131,92 +72,103 @@ export function Navbar() {
             </div>
 
             {/* ── Main Nav Bar ── */}
-            <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-zinc-950 shadow-xl">
-                <div className="max-w-3xl p-4 h-22 flex items-center gap-4 ml-3 lg:ml-17">
+            <div className="bg-white/95 backdrop-blur-md">
+                <div className="flex items-center h-27 px-4 lg:px-8">
 
-                    {/* LEFT: Hamburger (mobile only) + Logo */}
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                        {/* Hamburger — visible only on mobile */}
+                    {/* LEFT: Hamburger (mobile) + BIG Logo */}
+                    <div className="flex items-center gap-3 flex-shrink-0 ">
+                        {/* Hamburger — mobile only */}
                         <button
                             onClick={() => setIsMobileMenuOpen(true)}
-                            className="lg:hidden p-2 -ml-2"
+                            className="lg:hidden p-2 -ml-2 cursor-pointer"
                             aria-label="Open menu"
                         >
                             <Menu className="w-6 h-6" />
                         </button>
 
-                        {/* Logo — always on the left */}
+                        {/* Big Logo */}
                         <Link to="/" className="flex items-center">
                             <img
                                 src="/logo1.webp"
                                 alt="logo"
-                                className="h-10 lg:h-14 w-auto object-contain"
+                                className="h-16 lg:h-20 w-auto object-contain ml-12"
                             />
                         </Link>
                     </div>
 
-                    {/* CENTER / FILL: Desktop Nav links */}
-                    <nav className="hidden lg:flex items-center h-16 flex-1 ml-6">
-                        <Link
-                            to="/"
-                            className="px-5 h-full flex items-center gap-1 text-[19px] font-semibold font-Georgia text-[#1f2937] tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
-                            HOME
-                        </Link>
+                    {/* RIGHT: Nav links + Search — pushed to far right with ml-auto */}
+                    <div className="ml-auto flex items-center h-full">
 
-                        {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
-                            <DropdownMenu key={cat._id}>
-                                <DropdownMenuTrigger asChild>
-                                    <button className="px-5 h-full flex items-center gap-1 text-[19px] font-semibold font-Georgia text-[#1f2937] tracking-widest border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
-                                        {cat.name}
-                                        <ChevronDown className="w-3 h-3" />
-                                    </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="rounded-none border-4 border-zinc-950 p-4 w-64 shadow-2xl">
-                                    <DropdownMenuItem asChild>
-                                        <Link
-                                            to={`/category/${cat.slug}`}
-                                            className="font-black text-red-600 mb-2 block p-2"
-                                        >
-                                            SEE ALL {cat.name}
-                                        </Link>
-                                    </DropdownMenuItem>
-                                    {cat.subcategories?.map(sub => (
-                                        <DropdownMenuItem key={sub._id} asChild>
+                        {/* Desktop Nav links */}
+                        <nav className="hidden lg:flex items-center h-full">
+                            <Link
+                                to="/"
+                                className="px-4 h-full flex items-center text-[19px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all whitespace-nowrap"
+                            >
+                                Home
+                            </Link>
+
+                            <Link
+                                to="/about"
+                                className="px-4 h-full flex items-center text-[19px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all whitespace-nowrap"
+                            >
+                                About
+                            </Link>
+                            {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
+                                <DropdownMenu key={cat._id}>
+                                    <DropdownMenuTrigger asChild>
+                                        <button className="px-4 h-full flex items-center cursor-pointer gap-1 text-[20px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
+                                            {cat.name}
+                                            <ChevronDown className="w-3 h-3" />
+                                        </button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="rounded-none border-4 border-zinc-950 p-4 w-64 shadow-2xl">
+                                        <DropdownMenuItem asChild>
                                             <Link
-                                                to={`/subcategory/${cat.slug}/${sub.slug}`}
-                                                className="p-2 font-bold hover:text-red-600 text-[14px] font-Georgia"
+                                                to={`/category/${cat.slug}`}
+                                                className="font-black text-red-600 mb-2 block p-2 cursor-pointer"
                                             >
-                                                {sub.name}
+                                                SEE ALL {cat.name}
                                             </Link>
                                         </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        ))}
-                    </nav>
+                                        {cat.subcategories?.map(sub => (
+                                            <DropdownMenuItem key={sub._id} asChild>
+                                                <Link
+                                                    to={`/subcategory/${cat.slug}/${sub.slug}`}
+                                                    className="p-2 font-bold hover:text-red-600 text-[16px] cursor-pointer"
+                                                >
+                                                    {sub.name}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            ))}
+                        </nav>
 
-                    {/* RIGHT: Search */}
-                    <div className="flex items-center gap-3 ml-auto">
-                        {/* Desktop search */}
-                        <form onSubmit={handleSearch} className="hidden sm:flex items-center relative group">
-                            <Search className="absolute left-3 w-4 h-4 text-zinc-400 group-focus-within:text-red-600 transition-colors" />
-                            <input
-                                type="text"
-                                placeholder="Quick Search..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-9 pr-3 py-2 bg-transparent text-xs font-bold uppercase tracking-widest border-b border-transparent focus:border-red-600 focus:outline-none w-40 focus:w-64 transition-all duration-300"
-                            />
-                        </form>
+                        {/* Search — always on the far right */}
+                        <div className="flex items-center pl-4 border-l border-zinc-100 h-full ml-2">
+                            {/* Desktop search */}
+                            <form onSubmit={handleSearch} className="hidden sm:flex items-center relative group">
+                                <Search className="absolute left-3 w-4 h-4 text-zinc-400 group-focus-within:text-red-600 transition-colors" />
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="pl-9 pr-3 py-2 bg-transparent text-xs font-bold uppercase tracking-widest border-b border-transparent focus:border-red-600 focus:outline-none w-32 focus:w-52 transition-all duration-300"
+                                />
+                            </form>
 
-                        {/* Mobile search icon */}
-                        <button
-                            className="lg:hidden p-2 hover:text-red-600 transition-colors"
-                            onClick={() => setIsSearchOpen(!isSearchOpen)}
-                            aria-label="Search"
-                        >
-                            <Search className="w-5 h-5" />
-                        </button>
+                            {/* Mobile search icon */}
+                            <button
+                                className="lg:hidden p-2 hover:text-red-600 transition-colors"
+                                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                                aria-label="Search"
+                            >
+                                <Search className="w-5 h-5" />
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -231,7 +183,7 @@ export function Navbar() {
                                 placeholder="Search headlines..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="flex-1 text-lg font-bold uppercase tracking-tight outline-none placeholder:text-zinc-300"
+                                className="flex-1 cursor-pointer text-lg font-bold uppercase tracking-tight outline-none placeholder:text-zinc-300"
                             />
                             <button type="button" onClick={() => setIsSearchOpen(false)} aria-label="Close search">
                                 <X className="w-6 h-6 text-zinc-900" />
@@ -244,23 +196,35 @@ export function Navbar() {
             {/* Mobile Drawer */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetContent side="left" className="w-[85%] p-0 border-r-8 border-red-600">
-                    <div className="bg-zinc-950 p-10 text-white">
-                        <h1 className="text-4xl font-black font-serif italic mb-2 tracking-tighter">CHRONICLE</h1>
-                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-red-600">Daily Intelligence</p>
+                    <div className="bg-zinc-200 p-8 text-white">
+                        <Link to="/" className="flex items-center cursor-pointer">
+                            <img
+                                src="/logo1.webp"
+                                alt="logo"
+                                className="h-14 w-auto object-contain"
+                            />
+                        </Link>
                     </div>
                     <nav className="p-6 flex flex-col gap-2">
                         <Link
                             to="/"
-                            className="text-2xl font-black p-4 border-b border-zinc-100 italic"
+                            className="text-xl p-4 border-b border-zinc-100 font-serif text-[#1f2937]"
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
                             Home
+                        </Link>
+                        <Link
+                            to="/about"
+                            className="text-xl p-4 border-b border-zinc-100 font-serif text-[#1f2937]"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            About
                         </Link>
                         {!isCategoriesLoading && categories?.map(cat => (
                             <div key={cat._id} className="flex flex-col">
                                 <Link
                                     to={`/category/${cat.slug}`}
-                                    className="text-[19px] font-semibold font-serif text-[#1f2937] p-4 tracking-tight flex items-center justify-between"
+                                    className="text-[19px] font-semibold font-serif text-[#1f2937] p-4 tracking-tight cursor-pointer flex items-center justify-between"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     {cat.name}

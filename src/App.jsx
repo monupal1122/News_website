@@ -12,6 +12,7 @@ import SubcategoryPage from "./pages/SubcategoryPage";
 import SearchPage from "./pages/SearchPage";
 import AuthorProfile from "./pages/AuthorProfile";
 import TagPage from "./pages/TagPage";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/utils/ScrollToTop";
 
@@ -26,6 +27,7 @@ const App = () => (
                 <ScrollToTop />
                 <Routes>
                     <Route path="/" element={<Index />} />
+                    <Route path="/about" element={<About />} />
                     <Route path="/:category/:subcategory/:slugId" element={<ArticleDetail />} />
                     <Route path="/category/:category" element={<CategoryPage />} />
                     <Route path="/subcategory/:category/:subcategory" element={<SubcategoryPage />} />

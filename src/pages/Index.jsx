@@ -60,6 +60,11 @@ const Index = () => {
                                 </div>
                             </div>
 
+                            {/* Square Ad Demonstration */}
+                            <div className="flex justify-center mt-8">
+                                <DummyAd variant="square" label="Special Offer" />
+                            </div>
+
                             <div className="bg-zinc-900 p-8 text-white">
                                 <h3 className="text-xs font-black uppercase tracking-[0.3em] mb-4 text-red-600">Newsletter</h3>
                                 <p className="text-zinc-500 text-sm font-medium">Daily Intelligence. Straight to your inbox.</p>

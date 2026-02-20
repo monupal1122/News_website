@@ -70,7 +70,7 @@ export function HeroSection() {
     const sideArticles = articles.slice(5, 8);
 
     return (
-        <section className="container mx-auto px-4 py-8">
+        <section className="container mx-auto px-4 py-8 mb-5">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Main Slider Area */}
                 <div className="lg:col-span-8 relative group">
@@ -117,7 +117,7 @@ export function HeroSection() {
                 </div>
 
                 {/* Side Articles */}
-                <div className="lg:col-span-4 flex flex-col divide-y divide-zinc-100 bg-white border border-zinc-100 shadow-sm rounded-xl overflow-hidden">
+                <div className="lg:col-span-4 flex flex-col divide-y divide-zinc-100  bg-white border border-zinc-100 shadow-sm rounded-xl overflow-hidden">
                     <div className="bg-black p-4 border-b border-zinc-100">
                         <h3 className="font-white text-lg uppercase tracking-widest text-white">Latest Headlines</h3>
                     </div>
