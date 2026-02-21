@@ -19,7 +19,7 @@ export default function ArticleDetail() {
     const seoPath = `${encodeURIComponent(category || '')}/${encodeURIComponent(subcategory || '')}/${encodeURIComponent(slugId || '')}`;
     const { data: article, isLoading, error } = useArticle(seoPath);
     const { data: relatedArticles, isLoading: relatedLoading } = useRelatedArticles(article);
-
+console.log("Article Detail - SEO Path:", article);
     if (error) {
         console.error("Article Fetch Error:", error);
     }
@@ -171,10 +171,10 @@ export default function ArticleDetail() {
                                 {article?.title || 'Loading...'}
                             </h1>
 
-                            <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+                            <p className="text-2xl text-muted-foreground mb-6 leading-relaxed">
                                 {article.summary || article.description}
                             </p>
-
+                                
                             {/* <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
                                 <div className="flex items-center gap-3">
                                    
@@ -282,7 +282,7 @@ export default function ArticleDetail() {
                             </div>
 
                             <div
-                                className="prose prose-lg max-w-none mb-12"
+                                className="prose prose-lg max-w-none mb-12 text-2xl"
                                 dangerouslySetInnerHTML={{ __html: article?.content || '' }}
                             />
 
