@@ -72,11 +72,11 @@ export function Navbar() {
             </div>
 
             {/* ── Main Nav Bar ── */}
-            <div className="bg-white/95 backdrop-blur-md sticky">
-                <div className="flex items-center h-27 px-4 lg:px-8 ">
+            <div className="bg-white/95 backdrop-blur-md relative">
+                <div className="flex items-center h-20 lg:h-24 pt-3 lg:pt-0 px-4 lg:px-8">
 
                     {/* LEFT: Hamburger (mobile) + BIG Logo */}
-                    <div className="flex items-center gap-3 flex-shrink-0 ">
+                    <div className="flex items-center gap-3">
                         {/* Hamburger — mobile only */}
                         <button
                             onClick={() => setIsMobileMenuOpen(true)}
@@ -91,7 +91,7 @@ export function Navbar() {
                             <img
                                 src="/logo1.webp"
                                 alt="logo"
-                                className="h-16 lg:h-20 w-auto object-contain lg:ml-12"
+                                className="h-12 lg:h-20 w-auto max-w-[150px] lg:max-w-none object-contain lg:ml-12"
                             />
                         </Link>
                     </div>
