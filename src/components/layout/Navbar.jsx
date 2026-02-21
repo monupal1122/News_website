@@ -205,7 +205,7 @@ export function Navbar() {
                             />
                         </Link>
                     </div>
-                    <nav className="p-6 flex flex-col gap-2">
+                    <nav className="p-6 flex flex-col gap-2 sticky">
                         <Link
                             to="/"
                             className="text-xl p-4 border-b border-zinc-100 font-serif text-[#1f2937]"
