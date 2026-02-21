@@ -186,7 +186,7 @@ export function Navbar() {
                                 className="flex-1 cursor-pointer text-lg font-bold uppercase tracking-tight outline-none placeholder:text-zinc-300"
                             />
                             <button type="button" onClick={() => setIsSearchOpen(false)} aria-label="Close search">
-                                <X className="w-6 h-6 text-zinc-900" />
+                                <X className="w-6 h-6 text-zinc-900 " />
                             </button>
                         </form>
                     </div>
