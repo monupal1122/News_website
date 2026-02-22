@@ -17,10 +17,10 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
-                <div className="flex flex-col lg:flex-row">
+            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
+                <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
-                    <div className="lg:w-7/12 relative aspect-[16/9] lg:aspect-[4/3] overflow-hidden bg-zinc-200">
+                    <div className="lg:w-7/12 relative aspect-[16/9] lg:aspect-auto overflow-hidden bg-zinc-200">
                         <img
                             src={imageSrc}
                             alt={article.title}

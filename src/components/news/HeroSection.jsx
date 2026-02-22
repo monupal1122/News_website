@@ -72,14 +72,14 @@ export function HeroSection() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
 
                 {/* Main Slider Area */}
-                <div className="lg:col-span-8 relative group">
+                <div className="lg:col-span-8 relative group lg:h-[560px]">
                     <div
-                        className="overflow-hidden rounded-xl border border-zinc-100 shadow-sm bg-white"
+                        className="overflow-hidden rounded-xl border border-zinc-100 shadow-sm bg-white h-full"
                         ref={emblaRef}
                     >
-                        <div className="flex touch-pan-y">
+                        <div className="flex touch-pan-y h-full">
                             {sliderArticles.map((article) => (
-                                <div className="flex-[0_0_100%] min-w-0" key={article._id}>
+                                <div className="flex-[0_0_100%] min-w-0 h-full" key={article._id}>
                                     <NewsCard article={article} variant="featured" />
                                 </div>
                             ))}
@@ -109,8 +109,8 @@ export function HeroSection() {
                                 key={index}
                                 onClick={() => emblaApi && emblaApi.scrollTo(index)}
                                 className={`h-2 rounded-full transition-all ${index === selectedIndex
-                                        ? 'bg-red-600 w-6'
-                                        : 'bg-white/70 w-2 hover:bg-white'
+                                    ? 'bg-red-600 w-6'
+                                    : 'bg-white/70 w-2 hover:bg-white'
                                     }`}
                             />
                         ))}
@@ -118,7 +118,7 @@ export function HeroSection() {
                 </div>
 
                 {/* Side Articles */}
-                <div className="lg:col-span-4 flex flex-col bg-white border border-zinc-100 shadow-sm rounded-xl overflow-hidden max-h-[420px] lg:max-h-none">
+                <div className="lg:col-span-4 flex flex-col bg-white border border-zinc-100 shadow-sm rounded-xl overflow-hidden max-h-[420px] lg:max-h-none lg:h-[560px]">
                     <div className="bg-black p-3 md:p-4 flex-shrink-0">
                         <h3 className="text-sm md:text-base font-black uppercase tracking-widest text-white">
                             Latest Headlines
