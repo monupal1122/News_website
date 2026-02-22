@@ -9,6 +9,7 @@ export function Navbar() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [openCategoryId, setOpenCategoryId] = useState(null);
     const [isTickerPaused, setIsTickerPaused] = useState(false);
     const navigate = useNavigate();
 
@@ -220,18 +221,71 @@ export function Navbar() {
                         >
                             About
                         </Link>
-                        {!isCategoriesLoading && categories?.map(cat => (
-                            <div key={cat._id} className="flex flex-col">
-                                <Link
-                                    to={`/category/${cat.slug}`}
-                                    className="text-[19px] font-semibold font-serif text-[#1f2937] p-4 tracking-tight cursor-pointer flex items-center justify-between"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    {cat.name}
-                                    <ArrowRight className="w-4 h-4" />
-                                </Link>
-                            </div>
-                        ))}
+                        {!isCategoriesLoading && categories?.map(cat => {
+                            const isOpen = openCategoryId === cat._id;
+                            const hasSubcategories = cat.subcategories && cat.subcategories.length > 0;
+                            return (
+                                <div key={cat._id} className="flex flex-col border-b border-zinc-200">
+                                    {/* Category Row */}
+                                    <div className="flex items-center justify-between">
+                                        <Link
+                                            to={`/category/${cat.slug}`}
+                                            className="flex-1 text-[19px] font-semibold font-serif text-[#1f2937] px-4 py-3 tracking-tight hover:text-red-600 transition-colors"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            {cat.name}
+                                        </Link>
+                                        {hasSubcategories && (
+                                            <button
+                                                onClick={() => setOpenCategoryId(isOpen ? null : cat._id)}
+                                                className="p-3 pr-4 text-zinc-500 hover:text-red-600 transition-colors cursor-pointer"
+                                                aria-label={isOpen ? 'Collapse' : 'Expand'}
+                                            >
+                                                <ChevronDown
+                                                    className={`w-5 h-5 transition-transform duration-300 ${
+                                                        isOpen ? 'rotate-180 text-red-600' : ''
+                                                    }`}
+                                                />
+                                            </button>
+                                        )}
+                                        {!hasSubcategories && (
+                                            <span className="p-3 pr-4 text-zinc-400">
+                                                <ArrowRight className="w-4 h-4" />
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Subcategory Dropdown */}
+                                    <div
+                                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                                            isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                                        }`}
+                                    >
+                                        <div className="bg-zinc-50 border-l-4 border-red-600 ml-4 mb-2">
+                                            <Link
+                                                to={`/category/${cat.slug}`}
+                                                className="flex items-center gap-2 px-4 py-2 text-[13px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50 transition-colors"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                <ArrowRight className="w-3 h-3" />
+                                                See All {cat.name}
+                                            </Link>
+                                            {cat.subcategories.map(sub => (
+                                                <Link
+                                                    key={sub._id}
+                                                    to={`/subcategory/${cat.slug}/${sub.slug}`}
+                                                    className="flex items-center gap-2 px-4 py-2.5 text-[15px] font-medium text-zinc-700 hover:text-red-600 hover:bg-red-50 transition-colors border-t border-zinc-200"
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                >
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
+                                                    {sub.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </nav>
                 </SheetContent>
             </Sheet>

@@ -17,10 +17,10 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
-                <div className="flex flex-col lg:flex-row h-full">
+            <Link to={articleLink} className="group block bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
+                <div className="flex flex-col lg:flex-row">
                     {/* Image Side */}
-                    <div className="lg:w-7/12 relative aspect-[4/3] lg:aspect-auto overflow-hidden bg-zinc-200">
+                    <div className="lg:w-7/12 relative aspect-[16/9] lg:aspect-[4/3] overflow-hidden bg-zinc-200">
                         <img
                             src={imageSrc}
                             alt={article.title}
@@ -29,22 +29,22 @@ export function NewsCard({ article, variant = 'default' }) {
                     </div>
 
                     {/* Content Side */}
-                    <div className="lg:w-5/12 p-8 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-100">
-                        <div className="flex items-center gap-3 mb-4">
+                    <div className="lg:w-5/12 p-4 sm:p-6 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-100">
+                        <div className="flex items-center gap-3 mb-2 md:mb-4">
                             <CategoryBadge category={article.category} />
                             <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
                                 {formatDate(article.publishedAt || article.createdAt)}
                             </span>
                         </div>
 
-                        <h2 className="text-3xl lg:text-4xl font-serif font-bold text-zinc-900 leading-[1.2] mb-6 group-hover:text-red-700 transition-colors">
+                        <h2 className="text-xl sm:text-2xl lg:text-4xl font-serif font-bold text-zinc-900 leading-[1.2] mb-3 md:mb-6 group-hover:text-red-700 transition-colors line-clamp-3">
                             {article.title}
                         </h2>
 
-                        <p className="text-zinc-600 text-lg leading-relaxed line-clamp-4 lg:line-clamp-6 font-sans mb-8">
+                        <p className="text-zinc-600 text-sm sm:text-base lg:text-lg leading-relaxed line-clamp-2 lg:line-clamp-5 font-sans mb-3 md:mb-6">
                             {excerpt}
                         </p>
-                        <p className="text-zinc-500 text-md mb-6 font-medium">
+                        <p className="hidden lg:block text-zinc-500 text-md mb-6 font-medium">
                             Published on: {new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}
                         </p>
                         <div className="mt-auto flex items-center gap-3 text-sm font-bold text-zinc-900 uppercase tracking-widest group-hover:gap-4 transition-all">
