@@ -19,7 +19,7 @@ export default function ArticleDetail() {
     const seoPath = `${encodeURIComponent(category || '')}/${encodeURIComponent(subcategory || '')}/${encodeURIComponent(slugId || '')}`;
     const { data: article, isLoading, error } = useArticle(seoPath);
     const { data: relatedArticles, isLoading: relatedLoading } = useRelatedArticles(article);
-console.log("Article Detail - SEO Path:", article);
+    console.log("Article Detail - SEO Path:", article);
     if (error) {
         console.error("Article Fetch Error:", error);
     }
@@ -174,7 +174,7 @@ console.log("Article Detail - SEO Path:", article);
                             <p className="text-2xl text-muted-foreground mb-6 leading-relaxed">
                                 {article.summary || article.description}
                             </p>
-                                
+
                             {/* <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
                                 <div className="flex items-center gap-3">
                                    
@@ -189,11 +189,11 @@ console.log("Article Detail - SEO Path:", article);
                                 </div>
                             </div> */}
 
-                            <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5">
+                            <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5 bg-white">
                                 <img
                                     src={article?.featuredImage || article?.imageUrl}
                                     alt={article?.title}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                 />
                             </div>
 
@@ -282,7 +282,7 @@ console.log("Article Detail - SEO Path:", article);
                             </div>
 
                             <div
-                                className="prose prose-lg max-w-none mb-12 text-2xl"
+                                className="prose prose-lg max-w-none mb-12 text-xl"
                                 dangerouslySetInnerHTML={{ __html: article?.content || '' }}
                             />
 

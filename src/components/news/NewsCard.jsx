@@ -17,14 +17,14 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-transparent hover:border-zinc-300 rounded-2xl overflow-hidden">
+            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-transparent rounded-2xl overflow-hidden">
                 <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
-                    <div className="lg:w-7/12 relative aspect-[16/9] lg:aspect-auto overflow-hidden bg-zinc-200">
+                    <div className="lg:w-7/12 lg:h-full relative aspect-[16/9] lg:aspect-auto overflow-hidden ">
                         <img
                             src={imageSrc}
                             alt={article.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-115"
                         />
                     </div>
 
@@ -59,13 +59,13 @@ export function NewsCard({ article, variant = 'default' }) {
     if (variant === 'horizontal') {
         return (
             <Link to={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-100 hover:shadow-md transition-all duration-300 border-b border-zinc-100 last:border-0 relative bg-white">
-                <div className="flex-shrink-0 w-32 h-24 md:w-52 md:h-32 overflow-hidden relative">
+                <div className="flex-shrink-0 w-24 h-24 md:w-52 md:h-32 overflow-hidden relative bg-white shadow-sm border border-zinc-50 rounded-lg">
                     <img
                         src={imageSrc}
                         alt={article.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 border-[8px] border-white/0 group-hover:border-white/20 transition-all" />
+
                 </div>
                 <div className="flex flex-col justify-center min-w-0 flex-1">
                     <div className="flex items-center gap-3 mb-2">
@@ -86,8 +86,8 @@ export function NewsCard({ article, variant = 'default' }) {
     }
 
     return (
-        <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent hover:border-zinc-300 rounded-2xl">
-            <Link to={articleLink} className="relative aspect-[16/9] overflow-hidden bg-zinc-200 block mb-4">
+        <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent rounded-2xl">
+            <Link to={articleLink} className="relative aspect-[16/9] overflow-hidden block mb-4 bg-white shadow-sm border border-zinc-50 rounded-xl">
                 <img
                     src={imageSrc}
                     alt={article.title}
