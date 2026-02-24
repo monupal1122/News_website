@@ -17,11 +17,11 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-zinc-100 rounded-3xl overflow-hidden">
+            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-zinc-100 rounded-xl overflow-hidden">
                
                 <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
-                    <div className="lg:w-7/12 lg:h-full relative aspect-[16/9] lg:aspect-auto overflow-hidden rounded-2xl m-2 lg:m-3">
+                    <div className="lg:w-7/12 lg:h-auto relative aspect-[16/9] lg:aspect-auto overflow-hidden rounded-xl m-2 lg:m-3">
                         <img
                             src={imageSrc}
                             alt={article.title}
@@ -71,16 +71,16 @@ export function NewsCard({ article, variant = 'default' }) {
                 <div className="flex flex-col justify-center min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-1.5">
                         <span className="w-1 h-3 bg-red-600 rounded-full" />
-                        <span className="text-[7px] font-black uppercase text-zinc-400 tracking-[0.15em]">
+                        <span className="text-[13px] font-black uppercase text-zinc-400 tracking-[0.15em]">
                             {typeof article.category === 'object' ? article.category.name : categorySlug}
                         </span>
                     </div>
                     <h4 className="font-black text-base md:text-lg text-zinc-900 leading-snug line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight">
                         {article.title}
                     </h4>
-                    <div className="flex items-center gap-4 mt-2 text-[7px] font-black text-zinc-400 uppercase tracking-widest">
+                    <div className="flex items-center gap-4 mt-2 text-[12px] font-black text-zinc-400 uppercase tracking-widest">
                         <span className="flex items-center gap-1.5">
-                            <Clock className="w-3 h-3 text-red-600" />
+                            <Clock className="w-5 h-5 text-red-600" />
                             {formatDate(article.publishedAt || article.createdAt)}
                         </span>
                     </div>

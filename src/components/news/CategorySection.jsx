@@ -18,7 +18,7 @@ export function CategorySection({ category, title }) {
                     to={`/category/${category}`}
                     className="flex items-center gap-2 text-white bg-red-600 rounded-2xl hover:bg-zinc-900 transition-all text-[11px] font-black uppercase tracking-widest px-6 py-3 shadow-xl"
                 >
-                    View Section <ArrowRight className="w-4 h-4" />
+                    View All <ArrowRight className="w-4 h-4" />
                 </Link>
                 <div className="absolute bottom-[-4px] left-0 w-48 h-1 bg-red-600" />
             </div>

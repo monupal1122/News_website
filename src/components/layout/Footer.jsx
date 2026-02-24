@@ -7,7 +7,7 @@ export function Footer() {
     const { data: categories } = useCategories();
 
     return (
-        <footer className="bg-background border-t border-border/50 transition-colors duration-300">
+        <footer className="bg-black  border-t border-border/50 transition-colors duration-300">
             <div className="container mx-auto px-4 py-8">
                 {/* Footer Ad Banner */}
                 {/* <div className="flex justify-center mb-16 pb-16 border-b border-border/50">
@@ -24,13 +24,13 @@ export function Footer() {
                                 className="h-12 lg:h-16 w-auto object-contain"
                             />
                         </Link>
-                        <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
+                        <p className="text-white text-sm leading-relaxed max-w-xs">
                             Your trusted hub for real-time headlines, community news, and deep investigative reporting focused on the stories that matter to you.
                         </p>
                         {/* Social Links */}
                         <div className="flex items-center gap-4">
                             {[
-                                { Icon: Facebook, href: "https://facebook.com", color: "hover:bg-blue-600" },
+                                { Icon: Facebook, href: "https://facebook.com", color: "  hover:bg-blue-600" },
                                 { Icon: Twitter, href: "https://twitter.com", color: "hover:bg-sky-500" },
                                 { Icon: Instagram, href: "https://instagram.com", color: "hover:bg-pink-600" },
                                 { Icon: Youtube, href: "https://youtube.com", color: "hover:bg-red-600" },
@@ -41,7 +41,7 @@ export function Footer() {
                                     href={href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`w-9 h-9 flex items-center justify-center rounded-xl bg-muted/50 text-muted-foreground ${color} hover:text-white transition-all duration-300`}
+                                    className={`w-9 h-9 flex items-center justify-center rounded-xl bg-white text-muted-foreground ${color} hover:text-white transition-all duration-300`}
                                 >
                                     <Icon className="w-4 h-4" />
                                 </a>
@@ -51,14 +51,14 @@ export function Footer() {
 
                     {/* Categories */}
                     <div>
-                        <h3 className="font-bold text-sm uppercase tracking-[0.2em] text-muted-foreground mb-6">Trending News</h3>
+                        <h3 className="font-bold text-lg hover:text-red-400 uppercase tracking-[0.2em] text-white mb-6">Trending News</h3>
                         <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
                             {categories && categories.length > 0 ? (
                                 categories.slice(0, 10).map((cat) => (
                                     <li key={cat._id}>
                                         <Link
                                             to={`/category/${cat.slug}`}
-                                            className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
+                                            className="text-white hover:text-red-600 transition-colors text-lg font-medium"
                                         >
                                             {cat.name}
                                         </Link>
@@ -67,7 +67,7 @@ export function Footer() {
                             ) : (
                                 ['National', 'State', 'Local', 'Crime', 'Business', 'Sports'].map((name) => (
                                     <li key={name}>
-                                        <span className="text-muted-foreground/50 text-sm font-medium">{name}</span>
+                                        <span className="text-white text-sm font-medium">{name}</span>
                                     </li>
                                 ))
                             )}
@@ -76,7 +76,7 @@ export function Footer() {
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="font-bold text-sm uppercase tracking-[0.2em] text-muted-foreground mb-6">Information</h3>
+                        <h3 className="font-bold text-lg uppercase tracking-[0.2em] text-white hover:text-red-600 mb-6">Information</h3>
                         <ul className="space-y-3">
                             {[
                                 { label: 'Home', path: '/' },
@@ -90,7 +90,7 @@ export function Footer() {
                                 <li key={link.label}>
                                     <Link
                                         to={link.path}
-                                        className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
+                                        className="text-white hover:text-red-600 transition-colors text-lg font-medium"
                                     >
                                         {link.label}
                                     </Link>
@@ -101,8 +101,8 @@ export function Footer() {
 
                     {/* Newsletter */}
                     <div className="space-y-6">
-                        <h3 className="font-bold text-sm uppercase tracking-[0.2em] text-muted-foreground mb-6">Stay Updated</h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
+                        <h3 className="font-bold text-sm uppercase tracking-[0.2em] text-white mb-6">Stay Updated</h3>
+                        <p className="text-white text-sm leading-relaxed">
                             Subscribe to Daily News Views for the latest breaking news delivered to your inbox.
                         </p>
                         <form className="flex flex-col gap-3">
@@ -110,7 +110,7 @@ export function Footer() {
                                 <input
                                     type="email"
                                     placeholder="Enter your email"
-                                    className="w-full px-4 py-3 rounded-2xl bg-muted/50 border-none text-sm placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary/20 transition-all shadow-inner"
+                                    className="w-full px-4 py-3 rounded-2xl bg-white text-lg border-none text-md placeholder:text-black focus:ring-2 focus:ring-primary/20 transition-all shadow-inner"
                                 />
                             </div>
                             <button
@@ -126,16 +126,16 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div className="mt-20 pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex flex-col items-center md:items-start gap-1">
-                        <p className="text-muted-foreground/60 text-xs font-medium">
+                        <p className="text-white text-[23px]">
                             © {new Date().getFullYear()} Daily News Views. All rights reserved.
                         </p>
-                        <p className="text-muted-foreground/40 text-[10px] uppercase tracking-widest font-bold">
-                            Powered by Advanced Intelligence
+                        <p className="text-white text-[15px] uppercase tracking-widest font-bold">
+                            Powered by Next Growth Digital
                         </p>
                     </div>
                     <div className="flex items-center gap-8">
-                        <p className="text-muted-foreground/60 text-xs font-medium flex items-center gap-2">
-                            <span className="w-1 h-1 bg-green-500 rounded-full animate-pulse" />
+                        <p className="text-white text-md font-medium flex items-center gap-2">
+                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse text-3xl" />
                             System Status: Operational
                         </p>
                     </div>

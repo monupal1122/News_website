@@ -169,7 +169,7 @@ export default function ArticleDetail() {
                                 {article?.title || 'Loading...'}
                             </h1>
 
-                            <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+                            <p className="text-2xl text-muted-foreground mb-6 leading-relaxed">
                                 {article.summary || article.description}
                             </p>
 
@@ -179,7 +179,7 @@ export default function ArticleDetail() {
                                 <img
                                     src={article?.featuredImage || article?.imageUrl}
                                     alt={article?.title}
-                                    className="w-full h-full object-contain"
+                                    className="w-full h-full object-cover"
                                 />
                             </div>
 
@@ -325,7 +325,7 @@ export default function ArticleDetail() {
                     <aside className="lg:col-span-4">
                         <div className="sticky top-34 space-y-8">
                             <TrendingSidebar />
-                            
+                            <DummyAd variant="rectangle" label="Sponsored Content" sublabel="Ad space available" />
                         </div>
                     </aside>
                 </div>

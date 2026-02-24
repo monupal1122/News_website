@@ -118,7 +118,7 @@ export function Navbar() {
                             {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
                                 <DropdownMenu key={cat._id}>
                                     <DropdownMenuTrigger asChild>
-                                        <button className="px-4 h-full flex items-center cursor-pointer gap-1 text-[20px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
+                                        <button className="px-4 h-full flex items-center cursor-pointer gap-1 text-[20px] font-semibold text-[#1f2937] tracking-wide  border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all outline-none whitespace-nowrap">
                                             {cat.name}
                                             <ChevronDown className="w-3 h-3" />
                                         </button>
