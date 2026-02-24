@@ -256,7 +256,7 @@ export function Navbar() {
 
                                     {/* Subcategory Dropdown */}
                                     <div
-                                        className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+                                        className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-auto opacity-100' : 'max-h-0 opacity-0'
                                             }`}
                                     >
                                         <div className="bg-zinc-50 border-l-4 border-red-600 ml-4 mb-2">
@@ -276,7 +276,7 @@ export function Navbar() {
                                                     onClick={() => setIsMobileMenuOpen(false)}
                                                 >
                                                     <span className="w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
-                                                    {sub.name}
+                                                    <span className="break-words line-clamp-2">{sub.name}</span>
                                                 </Link>
                                             ))}
                                         </div>
