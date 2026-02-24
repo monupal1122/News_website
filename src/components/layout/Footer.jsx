@@ -8,7 +8,7 @@ export function Footer() {
 
     return (
         <footer className="bg-background border-t border-border/50 transition-colors duration-300">
-            <div className="container mx-auto px-4 py-16">
+            <div className="container mx-auto px-4 py-8">
                 {/* Footer Ad Banner */}
                 {/* <div className="flex justify-center mb-16 pb-16 border-b border-border/50">
                     <DummyAd variant="leaderboard" label="Discover Global Insights" />

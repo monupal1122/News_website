@@ -169,7 +169,7 @@ export default function ArticleDetail() {
                                 {article?.title || 'Loading...'}
                             </h1>
 
-                            <p className="text-2xl text-muted-foreground mb-6 leading-relaxed">
+                            <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
                                 {article.summary || article.description}
                             </p>
 

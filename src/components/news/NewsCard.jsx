@@ -71,14 +71,14 @@ export function NewsCard({ article, variant = 'default' }) {
                 <div className="flex flex-col justify-center min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-1.5">
                         <span className="w-1 h-3 bg-red-600 rounded-full" />
-                        <span className="text-[10px] font-black uppercase text-zinc-400 tracking-[0.15em]">
+                        <span className="text-[7px] font-black uppercase text-zinc-400 tracking-[0.15em]">
                             {typeof article.category === 'object' ? article.category.name : categorySlug}
                         </span>
                     </div>
                     <h4 className="font-black text-base md:text-lg text-zinc-900 leading-snug line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight">
                         {article.title}
                     </h4>
-                    <div className="flex items-center gap-4 mt-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">
+                    <div className="flex items-center gap-4 mt-2 text-[7px] font-black text-zinc-400 uppercase tracking-widest">
                         <span className="flex items-center gap-1.5">
                             <Clock className="w-3 h-3 text-red-600" />
                             {formatDate(article.publishedAt || article.createdAt)}
@@ -101,7 +101,7 @@ export function NewsCard({ article, variant = 'default' }) {
             </Link>
             <div className="flex flex-col flex-1 p-4 pt-3">
                 <Link to={articleLink} className="block">
-                    <h3 className="font-serif font-bold text-xl md:text-2xl leading-tight text-zinc-900 group-hover:text-red-700 transition-colors mb-3">
+                    <h3 className="font-serif font-bold text-[6px] md:text-xl leading-tight text-zinc-900 group-hover:text-red-700 transition-colors mb-3">
                         {article.title}
                     </h3>
                 </Link>
