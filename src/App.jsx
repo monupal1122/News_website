@@ -13,6 +13,8 @@ import SearchPage from "./pages/SearchPage";
 import AuthorProfile from "./pages/AuthorProfile";
 import TagPage from "./pages/TagPage";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/utils/ScrollToTop";
 
@@ -28,6 +30,8 @@ const App = () => (
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
                     <Route path="/:category/:subcategory/:slugId" element={<ArticleDetail />} />
                     <Route path="/category/:category" element={<CategoryPage />} />
                     <Route path="/subcategory/:category/:subcategory" element={<SubcategoryPage />} />

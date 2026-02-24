@@ -17,19 +17,20 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'featured') {
         return (
-            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-transparent rounded-2xl overflow-hidden">
+            <Link to={articleLink} className="group block h-full bg-white hover:bg-zinc-100 hover:shadow-lg transition-all cursor-pointer duration-300 border border-zinc-100 rounded-3xl overflow-hidden">
+               
                 <div className="flex flex-col lg:flex-row h-full">
                     {/* Image Side */}
-                    <div className="lg:w-7/12 lg:h-full relative aspect-[16/9] lg:aspect-auto overflow-hidden ">
+                    <div className="lg:w-7/12 lg:h-full relative aspect-[16/9] lg:aspect-auto overflow-hidden rounded-2xl m-2 lg:m-3">
                         <img
                             src={imageSrc}
                             alt={article.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-115"
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                     </div>
 
                     {/* Content Side */}
-                    <div className="lg:w-5/12 p-4 sm:p-6 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-zinc-100">
+                    <div className="lg:w-5/12 p-4 sm:p-6 lg:p-10 flex flex-col justify-center">
                         <div className="flex items-center gap-3 mb-2 md:mb-4">
                             <CategoryBadge category={article.category} />
                             <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
@@ -37,7 +38,7 @@ export function NewsCard({ article, variant = 'default' }) {
                             </span>
                         </div>
 
-                        <h2 className="text-xl sm:text-2xl lg:text-4xl font-serif font-bold text-zinc-900 leading-[1.2] mb-3 md:mb-6 group-hover:text-red-700 transition-colors line-clamp-3">
+                        <h2 className="text-xl sm:text-2xl lg:text-4xl font-serif font-bold text-zinc-900 leading-[1.2] mb-3 md:mb-6 group-hover:text-primary transition-colors line-clamp-3">
                             {article.title}
                         </h2>
 
@@ -51,6 +52,7 @@ export function NewsCard({ article, variant = 'default' }) {
                             Read Full Story <ArrowRight className="w-4 h-4 text-red-600" />
                         </div>
                     </div>
+                    
                 </div>
             </Link>
         );
@@ -58,43 +60,46 @@ export function NewsCard({ article, variant = 'default' }) {
 
     if (variant === 'horizontal') {
         return (
-            <Link to={articleLink} className="group flex gap-6 p-5 hover:bg-zinc-100 hover:shadow-md transition-all duration-300 border-b border-zinc-100 last:border-0 relative bg-white">
-                <div className="flex-shrink-0 w-24 h-24 md:w-52 md:h-32 overflow-hidden relative bg-white shadow-sm border border-zinc-50 rounded-lg">
+            <Link to={articleLink} className="group flex gap-4 p-3 hover:bg-zinc-50 hover:shadow-sm transition-all duration-300 last:border-0 relative bg-white rounded-2xl">
+                <div className="flex-shrink-0 w-24 h-24 md:w-44 md:h-28 overflow-hidden relative bg-zinc-100 rounded-xl shadow-sm">
                     <img
                         src={imageSrc}
                         alt={article.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 rounded-xl"
                     />
-
                 </div>
                 <div className="flex flex-col justify-center min-w-0 flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-2 mb-1.5">
                         <span className="w-1 h-3 bg-red-600 rounded-full" />
                         <span className="text-[10px] font-black uppercase text-zinc-400 tracking-[0.15em]">
                             {typeof article.category === 'object' ? article.category.name : categorySlug}
                         </span>
                     </div>
-                    <h4 className="font-black text-base md:text-xl text-zinc-900 leading-[1.5] line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight py-1 p-1">
+                    <h4 className="font-black text-base md:text-lg text-zinc-900 leading-snug line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight">
                         {article.title}
                     </h4>
-                    <div className="flex items-center gap-4 mt-3 text-[10px] font-black text-zinc-400 uppercase tracking-widest">
-                        <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-red-600" /> {formatDate(article.publishedAt || article.createdAt)}</span>
+                    <div className="flex items-center gap-4 mt-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">
+                        <span className="flex items-center gap-1.5">
+                            <Clock className="w-3 h-3 text-red-600" />
+                            {formatDate(article.publishedAt || article.createdAt)}
+                        </span>
                     </div>
                 </div>
             </Link>
         );
     }
 
+    // Default variant
     return (
-        <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-100 hover:shadow-lg transition-all duration-300 border border-transparent rounded-2xl">
-            <Link to={articleLink} className="relative aspect-[16/9] overflow-hidden block mb-4 bg-white shadow-sm border border-zinc-50 rounded-xl">
+        <div className="group relative bg-white overflow-hidden flex flex-col h-full hover:bg-zinc-50 hover:shadow-lg transition-all duration-300 border border-zinc-100 rounded-3xl">
+            <Link to={articleLink} className="relative aspect-[16/9] overflow-hidden block rounded-2xl m-2 mb-0">
                 <img
                     src={imageSrc}
                     alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl"
                 />
             </Link>
-            <div className="flex flex-col flex-1 p-4">
+            <div className="flex flex-col flex-1 p-4 pt-3">
                 <Link to={articleLink} className="block">
                     <h3 className="font-serif font-bold text-xl md:text-2xl leading-tight text-zinc-900 group-hover:text-red-700 transition-colors mb-3">
                         {article.title}
@@ -106,7 +111,7 @@ export function NewsCard({ article, variant = 'default' }) {
                 <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium">
                     <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                     <span className="mx-2">•</span>
-                    <span className="flex items-center gap-1 text-muted-foreground text-sm">
+                    <span className="flex items-center gap-1 text-sm">
                         <Eye className="w-4 h-4" />
                         {article.viewCount.toLocaleString()} views
                     </span>

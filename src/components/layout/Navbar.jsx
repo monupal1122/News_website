@@ -39,9 +39,9 @@ export function Navbar() {
         <header className="z-50 bg-white sticky top-0 border-b-4 border-zinc-950 shadow-xl">
 
             {/* Breaking News Ticker */}
-            <div className="bg-zinc-900 text-white border-y border-zinc-800 p-1.5 overflow-hidden hidden md:block">
+            <div className="bg-primary text-primary-foreground border-y border-primary/20 p-1.5 overflow-hidden hidden md:block">
                 <div className="px-4 flex items-center gap-8">
-                    <div className="flex-shrink-0 flex items-center gap-2 px-4 cursor-pointer py-1 bg-red-600 text-[10px] font-black uppercase tracking-[0.3em] italic animate-pulse">
+                    <div className="flex-shrink-0 flex items-center gap-2 px-4 cursor-pointer py-1 bg-red-600 text-white text-[10px] font-black uppercase tracking-[0.3em] italic animate-pulse rounded">
                         <Rocket className="w-3.5 h-3.5 fill-current" />
                         Breaking News
                     </div>
@@ -58,7 +58,7 @@ export function Navbar() {
                                     onMouseEnter={() => setIsTickerPaused(true)}
                                     onMouseLeave={() => setIsTickerPaused(false)}
                                 >
-                                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full group-hover:scale-150 transition-transform" />
+                                    <span className="w-1.5 h-1.5 bg-red-500 rounded-full group-hover:scale-150 transition-transform" />
                                     {article.title}
                                 </Link>
                             ))}
@@ -104,14 +104,14 @@ export function Navbar() {
                         <nav className="hidden lg:flex items-center h-full">
                             <Link
                                 to="/"
-                                className="px-4 h-full flex items-center text-[19px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all whitespace-nowrap"
+                                className="px-4 h-full flex items-center text-[19px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-primary hover:bg-zinc-50 transition-all whitespace-nowrap"
                             >
                                 Home
                             </Link>
 
                             <Link
                                 to="/about"
-                                className="px-4 h-full flex items-center text-[19px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-red-600 hover:bg-zinc-50 transition-all whitespace-nowrap"
+                                className="px-4 h-full flex items-center text-[19px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-primary hover:bg-zinc-50 transition-all whitespace-nowrap"
                             >
                                 About
                             </Link>
@@ -196,7 +196,7 @@ export function Navbar() {
 
             {/* Mobile Drawer */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetContent side="left" className="w-[85%] p-0 border-r-8 border-red-600">
+                <SheetContent side="left" className="w-[85%] p-0 border-r-8 border-red-600 overflow-y-auto no-scrollbar">
                     <div className="bg-zinc-200 p-8 text-white">
                         <Link to="/" className="flex items-center cursor-pointer">
                             <img
@@ -206,7 +206,7 @@ export function Navbar() {
                             />
                         </Link>
                     </div>
-                    <nav className="p-6 flex flex-col gap-2 sticky">
+                    <nav className="p-6 flex flex-col gap-2">
                         <Link
                             to="/"
                             className="text-xl p-4 border-b border-zinc-100 font-serif text-[#1f2937]"
@@ -242,9 +242,8 @@ export function Navbar() {
                                                 aria-label={isOpen ? 'Collapse' : 'Expand'}
                                             >
                                                 <ChevronDown
-                                                    className={`w-5 h-5 transition-transform duration-300 ${
-                                                        isOpen ? 'rotate-180 text-red-600' : ''
-                                                    }`}
+                                                    className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-red-600' : ''
+                                                        }`}
                                                 />
                                             </button>
                                         )}
@@ -257,9 +256,8 @@ export function Navbar() {
 
                                     {/* Subcategory Dropdown */}
                                     <div
-                                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                                            isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                                        }`}
+                                        className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+                                            }`}
                                     >
                                         <div className="bg-zinc-50 border-l-4 border-red-600 ml-4 mb-2">
                                             <Link

@@ -150,9 +150,7 @@ export default function ArticleDetail() {
                             Back to Home
                         </Link>
 
-                        {/* <div className="flex justify-center mb-8">
-                            <DummyAd variant="leaderboard" label="Discover World-Class Journalism" sublabel="Subscribe to our Premium Edition" />
-                        </div> */}
+                     
 
                         <article>
                             <div className="flex items-center gap-4 mb-4">
@@ -175,19 +173,7 @@ export default function ArticleDetail() {
                                 {article.summary || article.description}
                             </p>
 
-                            {/* <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
-                                <div className="flex items-center gap-3">
-                                   
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="icon">
-                                        <Share2 className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon">
-                                        <Bookmark className="w-4 h-4" />
-                                    </Button>
-                                </div>
-                            </div> */}
+                            
 
                             <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5 bg-white">
                                 <img
@@ -286,9 +272,7 @@ export default function ArticleDetail() {
                                 dangerouslySetInnerHTML={{ __html: article?.content || '' }}
                             />
 
-                            {/* <div className="flex justify-center my-12 border-y border-zinc-100 py-10">
-                                <DummyAd variant="rectangle" label="The Future of Finance" sublabel="Get the Chronicle Business Report" />
-                            </div> */}
+                            
 
                             {article.tags && article.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-8 mb-12">
@@ -341,7 +325,7 @@ export default function ArticleDetail() {
                     <aside className="lg:col-span-4">
                         <div className="sticky top-34 space-y-8">
                             <TrendingSidebar />
-                            <DummyAd variant="rectangle" label="Sponsored Content" sublabel="Ad space available" />
+                            
                         </div>
                     </aside>
                 </div>

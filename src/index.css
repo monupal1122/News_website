@@ -18,19 +18,19 @@
   --color-popover: hsl(0 0% 100%);
   --color-popover-foreground: hsl(222 47% 11%);
 
-  /* Crimson Red - Industry Standard */
-  --color-primary: hsl(354 70% 45%);
+  /* Premium Navy Primary */
+  --color-primary: hsl(222 47% 11%);
   --color-primary-foreground: hsl(0 0% 100%);
 
-  /* Deep Navy secondary */
-  --color-secondary: hsl(222 47% 11%);
-  --color-secondary-foreground: hsl(0 0% 100%);
+  /* Gold Accent */
+  --color-secondary: hsl(45 86% 83%);
+  --color-secondary-foreground: hsl(222 47% 11%);
 
   --color-muted: hsl(210 40% 96.1%);
   --color-muted-foreground: hsl(215.4 16.3% 46.9%);
 
-  --color-accent: hsl(354 70% 45%);
-  --color-accent-foreground: hsl(0 0% 100%);
+  --color-accent: hsl(45 86% 83%);
+  --color-accent-foreground: hsl(222 47% 11%);
 
   --color-destructive: hsl(0 84.2% 60.2%);
   --color-destructive-foreground: hsl(210 40% 98%);
@@ -274,4 +274,14 @@ h6 {
       black 10%,
       black 90%,
       transparent);
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

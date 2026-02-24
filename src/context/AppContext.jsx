@@ -11,13 +11,18 @@ export const AppProvider = ({ children }) => {
     // State for Advertisements
     const [ads, setAds] = useState([]);
     const [isAdsLoading, setIsAdsLoading] = useState(false);
+console.log("ads",ads);
 
     // State for Navigation / Categories
     const [categories, setCategories] = useState([]);
+    console.log("categories",categories);
+    
     const [isCategoriesLoading, setIsCategoriesLoading] = useState(false);
 
     // State for Global Headlines / Featured
     const [headlines, setHeadlines] = useState([]);
+    console.log("headlined",headlines);
+    
     const [isHeadlinesLoading, setIsHeadlinesLoading] = useState(false);
 
     // Fetch Ads

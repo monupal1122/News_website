@@ -118,13 +118,13 @@ export function HeroSection() {
                 </div>
 
                 {/* Side Articles */}
-                <div className="lg:col-span-4 flex flex-col bg-white border border-zinc-100 shadow-sm rounded-xl overflow-hidden max-h-[420px] lg:max-h-none lg:h-[560px]">
+                <div className="lg:col-span-4 flex flex-col bg-white border border-zinc-100 shadow-sm rounded-xl overflow-y-hidden max-h-[420px] lg:max-h-none lg:h-[560px]">
                     <div className="bg-black p-3 md:p-4 flex-shrink-0">
                         <h3 className="text-sm md:text-base font-black uppercase tracking-widest text-white">
                             Latest Headlines
                         </h3>
                     </div>
-                    <div className="flex-1 overflow-y-auto divide-y divide-zinc-100">
+                    <div className="flex-1 overflow-y-auto no-scrollbar divide-y divide-zinc-100">
                         {sideArticles.map((article) => (
                             <NewsCard
                                 key={article._id}
