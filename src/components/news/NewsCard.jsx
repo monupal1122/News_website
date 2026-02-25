@@ -14,6 +14,24 @@ export function NewsCard({ article, variant = 'default' }) {
     const articleLink = (article.slug && article.publicId)
         ? `/${categorySlug}/${subcategorySlug}/${article.slug}-${article.publicId}`
         : `/articles/${article._id}`;
+   function TruncatedSummary({ text, articleLink }) {
+    if (!text) return null;
+    
+    const words = text.trim().split(/\s+/);
+    const isLong = words.length > 12;
+    const displayText = isLong ? words.slice(0, 12).join(' ') + '...' : text;
+
+    return (
+        <p className="text-zinc-600 text-[15px] leading-relaxed font-sans">
+            {displayText}
+            {isLong && (
+                <Link to={articleLink} className="ml-1 text-red-600 font-semibold hover:underline">
+                    read more
+                </Link>
+            )}
+        </p>
+    );
+}     
 
     if (variant === 'featured') {
         return (
@@ -105,9 +123,7 @@ export function NewsCard({ article, variant = 'default' }) {
                         {article.title}
                     </h3>
                 </Link>
-                <p className="text-zinc-600 text-[15px] leading-relaxed line-clamp-2 mb-4 font-sans">
-                    {excerpt}
-                </p>
+                <TruncatedSummary text={excerpt} articleLink={articleLink} />
                 <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium">
                     <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                     <span className="mx-2">•</span>

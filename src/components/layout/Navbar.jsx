@@ -109,12 +109,7 @@ export function Navbar() {
                                 Home
                             </Link>
 
-                            <Link
-                                to="/about"
-                                className="px-4 h-full flex items-center text-[19px] font-semibold text-[#1f2937] tracking-wide border-r border-zinc-100 hover:text-primary hover:bg-zinc-50 transition-all whitespace-nowrap"
-                            >
-                                About
-                            </Link>
+                           
                             {!isCategoriesLoading && categories?.slice(0, 8).map((cat) => (
                                 <DropdownMenu key={cat._id}>
                                     <DropdownMenuTrigger asChild>
