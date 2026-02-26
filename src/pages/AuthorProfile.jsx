@@ -45,7 +45,7 @@ export default function AuthorProfile() {
     return (
         <Layout>
             <Helmet>
-                <title>{author.name} | Daily Chronicle Author</title>
+                <title>{author.name} | Daily News Views Author</title>
                 <meta name="description" content={author.bio} />
             </Helmet>
 

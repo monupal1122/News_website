@@ -119,7 +119,7 @@ export function NewsCard({ article, variant = 'default' }) {
             </Link>
             <div className="flex flex-col flex-1 p-4 pt-3">
                 <Link to={articleLink} className="block">
-                    <h3 className="font-serif font-bold text-[6px] md:text-xl leading-tight text-zinc-900 group-hover:text-red-700 transition-colors mb-3">
+                    <h3 className="font-Geneva font-bold text-[6px] md:text-xl leading-tight text-zinc-800 group-hover:text-red-700 transition-colors mb-3 ">
                         {article.title}
                     </h3>
                 </Link>
