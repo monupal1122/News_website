@@ -2,8 +2,18 @@ import { Link } from 'react-router-dom';
 import { Clock, Eye, User, ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/types';
 import { CategoryBadge } from './CategoryBadge';
+export function calculateReadingTime(content) {
+  const wordsPerMinute = 200;
 
+  if (!content) return 0;
+
+  const text = content.replace(/<[^>]*>/g, "");
+  const wordCount = text.trim().split(/\s+/).length;
+
+  return Math.ceil(wordCount / wordsPerMinute);
+}
 export function NewsCard({ article, variant = 'default' }) {
+     const readingTime = calculateReadingTime(article.content);
     const categorySlug = typeof article.category === 'object' ? article.category.slug : 'uncategorized';
     const subcategorySlug = article.subcategories && article.subcategories.length > 0 && typeof article.subcategories[0] === 'object' ? article.subcategories[0].slug : 'general';
 
@@ -124,12 +134,16 @@ export function NewsCard({ article, variant = 'default' }) {
                     </h3>
                 </Link>
                 <TruncatedSummary text={excerpt} articleLink={articleLink} />
-                <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium">
+                <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium gap-2">
                     <span>{formatDate(article.publishedAt || article.createdAt)}</span>
-                    <span className="mx-2">•</span>
-                    <span className="flex items-center gap-1 text-sm">
+                    
+                    <span className="flex items-center  text-sm">
                         <Eye className="w-4 h-4" />
                        {article?.viewCount?.toLocaleString() || 0} views
+                    </span>
+                    <span className="flex items-center  text-sm mr-1">
+                        <Clock className="w-4 h-4" />
+                        {readingTime} min read
                     </span>
                 </div>
             </div>

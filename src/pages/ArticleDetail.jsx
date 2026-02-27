@@ -367,14 +367,7 @@ export default function ArticleDetail() {
                     to={`/author/${author._id}`}
                     className="flex items-center gap-3 group"
                   >
-                    <img
-                      src={
-                        author.profileImage ||
-                        `https://ui-avatars.com/api/?name=${encodeURIComponent(author.name)}&background=random`
-                      }
-                      className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm group-hover:border-primary/20 transition-colors"
-                      alt={author.name}
-                    />
+                   
                     <span className="font-bold text-lg text-zinc-900 group-hover:text-primary transition-colors">
                       {author.name}
                     </span>
