@@ -129,7 +129,7 @@ export function NewsCard({ article, variant = 'default' }) {
                     <span className="mx-2">•</span>
                     <span className="flex items-center gap-1 text-sm">
                         <Eye className="w-4 h-4" />
-                        {article.viewCount.toLocaleString()} views
+                       {article?.viewCount?.toLocaleString() || 0} views
                     </span>
                 </div>
             </div>

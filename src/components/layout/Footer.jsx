@@ -58,7 +58,6 @@ export function Footer() {
                   href: "https://youtube.com",
                   color: "hover:bg-red-600",
                 },
-                
               ].map(({ Icon, href, color }, i) => (
                 <a
                   key={i}
@@ -163,9 +162,16 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-20 pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-center w-full">
-          <p className="text-white text-[15px]">
-            © {new Date().getFullYear()} All rights reserved by Next Growth
-            Digital
+          <p className="text-white text-[20px]">
+            © {new Date().getFullYear()} All rights reserved by{" "}
+            <a
+              href="https://nextgrowthdigital.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-blue-300 transition"
+            >
+              Next Growth Digital
+            </a>
           </p>
         </div>
       </div>
