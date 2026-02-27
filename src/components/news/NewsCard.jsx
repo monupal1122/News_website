@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Clock, Eye, User, ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/types';
 import { CategoryBadge } from './CategoryBadge';
+import { useArticle } from "@/hooks/useArticles";
 export function calculateReadingTime(content) {
   const wordsPerMinute = 200;
 
@@ -20,7 +21,7 @@ export function NewsCard({ article, variant = 'default' }) {
     const authorName = typeof article.author === 'object' ? article.author.name : (article.author || 'Editorial Team');
     const imageSrc = article.featuredImage || article.imageUrl || 'https://images.unsplash.com/photo-1504711432869-efd597cdd04b?q=80&w=1000&auto=format&fit=crop';
     const excerpt = article.summary || article.description;
-
+     const { data: article,  } = useArticle(seoPath);
     const articleLink = (article.slug && article.publicId)
         ? `/${categorySlug}/${subcategorySlug}/${article.slug}-${article.publicId}`
         : `/articles/${article._id}`;

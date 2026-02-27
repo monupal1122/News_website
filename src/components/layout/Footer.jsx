@@ -168,7 +168,7 @@ export function Footer() {
               href="https://nextgrowthdigital.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-blue-300 transition"
+              className="underline hover:text-blue-600 transition"
             >
               Next Growth Digital
             </a>
