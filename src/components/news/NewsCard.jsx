@@ -141,8 +141,8 @@ export function NewsCard({ article, variant = 'default' }) {
                         <Eye className="w-4 h-4" />
                        {article?.viewCount?.toLocaleString() || 0} views
                     </span>
-                    <span className="flex items-center  text-sm mr-1">
-                        <Clock className="w-4 h-4" />
+                    <span className="flex items-center  text-sm  gap-0.5">
+                        <Clock className="w-4 h-4 " />
                         {readingTime} min read
                     </span>
                 </div>
