@@ -26,3 +26,6 @@
 - [x] Test responsiveness
 - [x] Verify premium authoritative feel
 - [x] Browser test for visual appeal
+
+## Phase 7: Bug Fixes
+- [ ] Fix view count not updating immediately in NewsCard after viewing article

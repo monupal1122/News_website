@@ -259,7 +259,15 @@ export default function ArticleDetail() {
                         alt="Twitter"
                       />
                     </Button>
-                    
+                    {/* <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:bg-green-50 hover:text-green-600 hover:border-green-200 transition-all"
+                                            onClick={() => handleShare('whatsapp')}
+                                            title="Share on WhatsApp"
+                                        >
+                                            <img src="/whatsapp.png" alt="WhatsApp" className="w-7 h-7" />
+                                        </Button> */}
                     <Button
                       variant="outline"
                       size="icon"

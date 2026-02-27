@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Clock, Eye, User, ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/types';
 import { CategoryBadge } from './CategoryBadge';
-import { useArticle } from "@/hooks/useArticles";
+
 export function calculateReadingTime(content) {
   const wordsPerMinute = 200;
 
@@ -21,7 +21,7 @@ export function NewsCard({ article, variant = 'default' }) {
     const authorName = typeof article.author === 'object' ? article.author.name : (article.author || 'Editorial Team');
     const imageSrc = article.featuredImage || article.imageUrl || 'https://images.unsplash.com/photo-1504711432869-efd597cdd04b?q=80&w=1000&auto=format&fit=crop';
     const excerpt = article.summary || article.description;
-     const { data: article,  } = useArticle(seoPath);
+     var totalview = article.viewCount
     const articleLink = (article.slug && article.publicId)
         ? `/${categorySlug}/${subcategorySlug}/${article.slug}-${article.publicId}`
         : `/articles/${article._id}`;
@@ -125,22 +125,22 @@ export function NewsCard({ article, variant = 'default' }) {
                 <img
                     src={imageSrc}
                     alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-2xl"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-xl"
                 />
             </Link>
-            <div className="flex flex-col flex-1 p-4 pt-3">
+            <div className="flex flex-col flex-1 p-4 pt-3 gap-3">
                 <Link to={articleLink} className="block">
                     <h3 className="font-Geneva font-bold text-[6px] md:text-xl leading-tight text-zinc-800 group-hover:text-red-700 transition-colors mb-3 ">
                         {article.title}
                     </h3>
                 </Link>
                 <TruncatedSummary text={excerpt} articleLink={articleLink} />
-                <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium gap-2">
+                <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium gap-8">
                     <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                     
                     <span className="flex items-center  text-sm">
                         <Eye className="w-4 h-4" />
-                       {article?.viewCount?.toLocaleString() || 0} views
+                        {totalview} views
                     </span>
                     <span className="flex items-center  text-sm  gap-0.5">
                         <Clock className="w-4 h-4 " />
