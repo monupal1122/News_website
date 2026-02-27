@@ -128,7 +128,7 @@ export function NewsCard({ article, variant = 'default' }) {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-xl"
                 />
             </Link>
-            <div className="flex flex-col flex-1 p-4 pt-3 gap-3">
+            <div className="flex flex-col flex-1 p-4 pt-3 gap-5">
                 <Link to={articleLink} className="block">
                     <h3 className="font-Geneva font-bold text-[6px] md:text-xl leading-tight text-zinc-800 group-hover:text-red-700 transition-colors mb-3 ">
                         {article.title}
