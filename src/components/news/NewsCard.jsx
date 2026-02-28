@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Clock, Eye, User, ArrowRight } from 'lucide-react';
+import { Clock, Eye, User, ArrowRight, Calendar } from 'lucide-react';
 import { formatDate } from '@/lib/types';
 import { CategoryBadge } from './CategoryBadge';
 
@@ -109,7 +109,7 @@ export function NewsCard({ article, variant = 'default' }) {
                     </h4>
                     <div className="flex items-center gap-4 mt-2 text-[12px] font-black text-zinc-400 uppercase tracking-widest">
                         <span className="flex items-center gap-1.5">
-                            <Clock className="w-5 h-5 text-red-600" />
+                            <Calendar className="w-5 h-5 text-red-600" />
                             {formatDate(article.publishedAt || article.createdAt)}
                         </span>
                     </div>
@@ -135,14 +135,14 @@ export function NewsCard({ article, variant = 'default' }) {
                     </h3>
                 </Link>
                 <TruncatedSummary text={excerpt} articleLink={articleLink} />
-                <div className="mt-auto flex items-center text-xs text-zinc-500 font-medium gap-8">
-                    <span>{formatDate(article.publishedAt || article.createdAt)}</span>
+                <div className="mt-auto flex items-center  text-zinc-500 font-medium gap-4">
+                    <span className='font-[5px]'>{formatDate(article.publishedAt || article.createdAt)}</span>
                     
-                    <span className="flex items-center  text-sm">
+                    <span className="flex items-center  text-sm gap-1">
                         <Eye className="w-4 h-4" />
                         {totalview} views
                     </span>
-                    <span className="flex items-center  text-sm  gap-0.5">
+                    <span className="flex items-center  text-sm  gap-2">
                         <Clock className="w-4 h-4 " />
                         {readingTime} min read
                     </span>
