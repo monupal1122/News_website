@@ -90,7 +90,7 @@ export function NewsCard({ article, variant = 'default' }) {
     if (variant === 'horizontal') {
         return (
             <Link to={articleLink} className="group flex gap-4 p-3 hover:bg-zinc-50 hover:shadow-sm transition-all duration-300 last:border-0 relative bg-white rounded-2xl">
-                <div className="flex-shrink-0 w-24 h-24 md:w-44 md:h-28 overflow-hidden relative bg-zinc-100 rounded-xl shadow-sm">
+                <div className="flex-shrink-0 w-24 h-24 md:w-44 md:h-28 overflow-hidden relative bg-zinc-100 rounded-xl shadow-sm font-2xl">
                     <img
                         src={imageSrc}
                         alt={article.title}
@@ -104,7 +104,7 @@ export function NewsCard({ article, variant = 'default' }) {
                             {typeof article.category === 'object' ? article.category.name : categorySlug}
                         </span>
                     </div>
-                    <h4 className="font-black text-base md:text-lg text-zinc-900 leading-snug line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight">
+                    <h4 className="font-black text-lg md:text-lg text-zinc-900 leading-snug line-clamp-2 group-hover:text-red-600 transition-colors tracking-tight">
                         {article.title}
                     </h4>
                     <div className="flex items-center gap-4 mt-2 text-[12px] font-black text-zinc-400 uppercase tracking-widest">
@@ -130,7 +130,7 @@ export function NewsCard({ article, variant = 'default' }) {
             </Link>
             <div className="flex flex-col flex-1 p-4 pt-3 gap-5">
                 <Link to={articleLink} className="block">
-                    <h3 className="font-Geneva font-bold text-[6px] md:text-xl leading-tight text-zinc-800 group-hover:text-red-700 transition-colors mb-3 ">
+                    <h3 className="font-Geneva font-bold text-xl md:text-xl leading-tight text-zinc-800 group-hover:text-red-700 transition-colors mb-3 ">
                         {article.title}
                     </h3>
                 </Link>
