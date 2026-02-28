@@ -161,14 +161,14 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-20 pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-center w-full">
-          <p className="text-white text-[20px]">
+        <div className="mt-20 pt-8 border-t border-border/50 flex items-center justify-center w-full px-4">
+          <p className="text-white text-lg sm:text-base md:text-[20px] text-center break-words max-w-full">
             © {new Date().getFullYear()} All rights reserved by{" "}
             <a
               href="https://nextgrowthdigital.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-blue-600 transition"
+              className="underline hover:text-blue-600 transition whitespace-nowrap"
             >
               Next Growth Digital
             </a>

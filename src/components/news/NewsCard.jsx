@@ -30,7 +30,7 @@ export function NewsCard({ article, variant = 'default' }) {
     
     const words = text.trim().split(/\s+/);
     const isLong = words.length > 12;
-    const displayText = isLong ? words.slice(0, 12).join(' ') + '...' : text;
+    const displayText = isLong ? words.slice(0, 18).join(' ') + '...' : text;
 
     return (
         <p className="text-zinc-600 text-[15px] leading-relaxed font-sans">
@@ -59,7 +59,7 @@ export function NewsCard({ article, variant = 'default' }) {
                     </div>
 
                     {/* Content Side */}
-                    <div className="lg:w-5/12 p-4 sm:p-6 lg:p-10 flex flex-col justify-center">
+                    <div className="lg:w-5/12 p-8 sm:p-2 lg:p-10 flex flex-col justify-center">
                         <div className="flex items-center gap-3 mb-2 md:mb-4">
                             <CategoryBadge category={article.category} />
                             <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
@@ -128,7 +128,7 @@ export function NewsCard({ article, variant = 'default' }) {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 rounded-xl"
                 />
             </Link>
-            <div className="flex flex-col flex-1 p-4 pt-3 gap-5">
+            <div className="flex flex-col flex-1 p-4 gap-3 ">
                 <Link to={articleLink} className="block">
                     <h3 className="font-Geneva font-bold text-xl md:text-xl leading-tight text-zinc-800 group-hover:text-red-700 transition-colors mb-3 ">
                         {article.title}
