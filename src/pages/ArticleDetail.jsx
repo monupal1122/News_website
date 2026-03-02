@@ -154,14 +154,35 @@ export default function ArticleDetail() {
     <Layout>
       <Helmet>
         <title>{article.title}</title>
-        <meta name="description" content={article.description} />
+        <meta
+          name="description"
+          content={article.summary || article.description}
+        />
         <meta property="og:title" content={article.title} />
-        <meta property="og:description" content={article.description} />
-        <meta property="og:image" content={article.imageUrl} />
+        <meta
+          property="og:description"
+          content={article.summary || article.description}
+        />
+        <meta
+          property="og:image"
+          content={article.featuredImage || article.imageUrl}
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:type" content="article" />
-        <link
-          rel="canonical"
-          href={`https://korsimnaturals.com/${article.category?.slug || ""}/${article.subcategories?.[0]?.slug || "general"}/${article.slug}-${article.publicId}`}
+        <meta
+          property="og:url"
+          content={`https://korsimnaturals.com/${article.category?.slug}/${article.subcategories?.[0]?.slug || "general"}/${article.slug}-${article.publicId}`}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={article.title} />
+        <meta
+          name="twitter:description"
+          content={article.summary || article.description}
+        />
+        <meta
+          name="twitter:image"
+          content={article.featuredImage || article.imageUrl}
         />
       </Helmet>
 
@@ -191,11 +212,11 @@ export default function ArticleDetail() {
                 </span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 cursor-pointer">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 cursor-pointer">
                 {article?.title || "Loading..."}
               </h1>
 
-              <p className="text-2xl text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
                 {article.summary || article.description}
               </p>
 
@@ -207,7 +228,7 @@ export default function ArticleDetail() {
                 />
               </div>
 
-              <div className="mb-10">
+              <div className="mb-10 ">
                 {article?.imageCaption && (
                   <p className="text-sm text-zinc-500 italic mb-4">
                     {article.imageCaption}
@@ -230,92 +251,87 @@ export default function ArticleDetail() {
                   </p>
                 )}
 
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-6 border-y border-zinc-100">
-                  <div className="flex items-center gap-2">
+                <div className="flex flex-row items-center justify-between py-4 border-y border-zinc-100">
+                  {/* Share buttons */}
+                  <div className="flex items-center gap-1 md:gap-2">
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all"
+                      className="rounded-full w-8 h-8 md:w-10 md:h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all"
                       onClick={() => handleShare("facebook")}
                       title="Share on Facebook"
                     >
                       <img
                         src="/facebook.webp"
-                        className="w-9 h-9"
+                        className="w-7 h-7 md:w-9 md:h-9"
                         alt="Facebook"
                       />
                     </Button>
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:text-white hover:border-gray-200 transition-all hover:bg-gray-300
-                      "
+                      className="rounded-full w-8 h-8 md:w-10 md:h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:text-white hover:border-gray-200 transition-all hover:bg-gray-300"
                       onClick={() => handleShare("twitter")}
                       title="Share on X (Twitter)"
                     >
                       <img
                         src="/twitter-x.webp"
-                        className="w-6 h-6"
+                        className="w-5 h-5 md:w-6 md:h-6"
                         alt="Twitter"
                       />
                     </Button>
-                    {/* <Button
-                                            variant="outline"
-                                            size="icon"
-                                            className="rounded-full w-10 h-10 border-zinc-200 text-zinc-600 cursor-pointer hover:bg-green-50 hover:text-green-600 hover:border-green-200 transition-all"
-                                            onClick={() => handleShare('whatsapp')}
-                                            title="Share on WhatsApp"
-                                        >
-                                            <img src="/whatsapp.png" alt="WhatsApp" className="w-7 h-7" />
-                                        </Button> */}
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full w-10 h-10 cursor-pointer border-zinc-200 text-zinc-600 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all "
+                      className="rounded-full w-8 h-8 md:w-10 md:h-10 cursor-pointer border-zinc-200 text-zinc-600 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all"
                       onClick={() => handleShare("linkedin")}
                       title="Share on LinkedIn"
                     >
                       <img
                         src="/linkedin.webp"
-                        className="w-10 h-10"
+                        className="w-8 h-8 md:w-10 md:h-10"
                         alt="LinkedIn"
                       />
                     </Button>
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full w-10 h-10 border-zinc-200 cursor-pointer text-zinc-600 hover:bg-zinc-100 hover:text-foreground hover:border-zinc-300 transition-all"
+                      className="rounded-full w-8 h-8 md:w-10 md:h-10 border-zinc-200 cursor-pointer text-zinc-600 hover:bg-zinc-100 hover:text-foreground hover:border-zinc-300 transition-all"
                       onClick={() => handleShare("email")}
                       title="Share via Email"
                     >
-                      <Mail className="w-5 h-5" />
+                      <Mail className="w-4 h-4 md:w-5 md:h-5" />
                     </Button>
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full w-10 h-10 border-zinc-200 cursor-pointer text-zinc-600 hover:bg-zinc-100 hover:text-foreground hover:border-zinc-300 transition-all"
+                      className="rounded-full w-8 h-8 md:w-10 md:h-10 border-zinc-200 cursor-pointer text-zinc-600 hover:bg-zinc-100 hover:text-foreground hover:border-zinc-300 transition-all"
                       onClick={() => handleShare("copy")}
                       title="Copy link"
                     >
-                      <img src="/download.webp" className="w-9 h-9" />
+                      <img
+                        src="/download.webp"
+                        className="w-7 h-7 md:w-9 md:h-9"
+                      />
                     </Button>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <span className="font-bold text-zinc-900">
+                  {/* Join community */}
+                  <div className="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
+                    <span className="font-bold text-zinc-900 text-xs md:text-sm whitespace-nowrap">
                       Join our community
                     </span>
                     <a
                       href="https://whatsapp.com/channel/your-channel-id"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-13 h-13 flex items-center justify-center bg-green-600 text-white cursor-pointer rounded-full transition-colors shadow-sm hover:shadow-md"
+                      className="w-8 h-8 md:w-13 md:h-13 flex items-center justify-center bg-green-600 text-white cursor-pointer rounded-full transition-colors shadow-sm hover:shadow-md flex-shrink-0"
                       title="Join our WhatsApp Channel"
                     >
                       <img
                         src="/whatsapp1.png"
                         alt="WhatsApp"
-                        className="w-15 h-15"
+                        className="w-8 h-8 md:w-15 md:h-15"
                       />
                     </a>
                   </div>
@@ -367,7 +383,6 @@ export default function ArticleDetail() {
                     to={`/author/${author._id}`}
                     className="flex items-center gap-3 group"
                   >
-                   
                     <span className="font-bold text-lg text-zinc-900 group-hover:text-primary transition-colors">
                       {author.name}
                     </span>
@@ -397,7 +412,7 @@ export default function ArticleDetail() {
                   Releated Article
                 </h2>
               </div>
-           
+
               <div className="absolute bottom-[-4px] left-0 w-48 h-1 bg-red-600" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

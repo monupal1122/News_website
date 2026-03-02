@@ -15,14 +15,14 @@ const Index = () => {
 
       {/* Main Content Area */}
      
-        <div className="container mx-auto px-4 py-20">
+        <div className="container mx-auto px-4 py-5">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Main Content (Left) */}
             <div className="lg:col-span-8 space-y-24">
               <CategorySection category="national" title="National Headlines" />
 
               {/* Middle Ad Break */}
-              <div className="py-12 flex justify-center">
+              <div className="py-5 flex justify-center">
                 <DummyAd
                   variant="leaderboard"
                   label="Discover Premium Lifestyle"
@@ -34,7 +34,7 @@ const Index = () => {
 
               <CategorySection category="sports" title="Sports" />
 
-              <div className="py-12 flex justify-center">
+              <div className="py-5 flex justify-center">
                 <DummyAd
                   variant="leaderboard"
                   label="Global Business Summit 2026"
@@ -46,10 +46,10 @@ const Index = () => {
             </div>
 
             {/* Sidebar (Right) */}
-            <div className="lg:col-span-4 space-y-12">
+            <div className="lg:col-span-4 space-y-6">
               <TrendingSidebar />
 
-              <div className="sticky top-40 space-y-12">
+              <div className="sticky top-40 space-y-6">
                 <DummyAd
                   variant="rectangle"
                   label="Boost Your Portfolio"
@@ -57,7 +57,7 @@ const Index = () => {
                 />
 
                 {/* Square Ad Demonstration */}
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center mt-4">
                   <DummyAd variant="square" label="Special Offer" />
                 </div>
 
@@ -74,7 +74,7 @@ const Index = () => {
           </div>
 
           {/* Bottom Section */}
-          <div className="mt-24 pt-24 border-t-8 border-primary space-y-24">
+          <div className="mt-24 pt-12 border-t-8 border-primary space-y-12">
             <CategorySection
               category="entertainment"
               title="Culture & Entertainment"

@@ -89,14 +89,14 @@ export function HeroSection() {
                     {/* Slider Controls — always visible on mobile, hover-only on desktop */}
                     <button
                         onClick={scrollPrev}
-                        className="absolute left-3 md:left-4 top-1/3 -translate-y-1/2 bg-white/90 hover:bg-white text-zinc-900 p-2 md:p-3 rounded-full shadow-lg opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity z-30"
+                        className="absolute left-3 md:left-4 md:top-1/2 top-1/5 -translate-y-1/2 bg-white/90 hover:bg-white text-zinc-900 p-2 md:p-3 rounded-full shadow-lg opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity z-30"
                         aria-label="Previous slide"
                     >
                         <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
                     </button>
                     <button
                         onClick={scrollNext}
-                        className="absolute right-3 md:right-4 top-1/3 -translate-y-1/2 bg-white/90 hover:bg-white text-zinc-900 p-2 md:p-3 rounded-full shadow-lg opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity z-10"
+                        className="absolute right-3 md:right-4 md:top-1/2 top-1/5 -translate-y-1/2 bg-white/90 hover:bg-white text-zinc-900 p-2 md:p-3 rounded-full shadow-lg opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity z-10"
                         aria-label="Next slide"
                     >
                         <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
