@@ -15,15 +15,27 @@ prerender.set('prerenderToken', process.env.PRERENDER_TOKEN || 'MKc29XdWcppSm65H
 prerender.set('host', 'korsimnaturals.com');
 prerender.set('debug', true);
 
-// Explicitly add common crawlers just in case
+// Explicitly add common crawlers
 prerender.crawlerUserAgents.push('LinkedInBot');
 prerender.crawlerUserAgents.push('LinkedIn');
 prerender.crawlerUserAgents.push('facebookexternalhit');
+prerender.crawlerUserAgents.push('Facebot');
+
+// Middleware to log User-Agents and force Prerender for known bots if needed
+app.use((req, res, next) => {
+    const userAgent = req.headers['user-agent'] || '';
+    if (userAgent.includes('LinkedInBot') || userAgent.includes('facebookexternalhit')) {
+        console.log(`[BOT DETECTED]: ${userAgent} - Requesting: ${req.url}`);
+        // Force shouldShowPrerender for these bots
+        req.shouldShowPrerender = true;
+    }
+    next();
+});
 
 app.use(prerender);
 
 console.log('--- FRONTEND SERVER BOOTING ---');
-console.log(`Prerender Token: ${process.env.PRERENDER_TOKEN ? 'Configured from Env' : 'Using Hardcoded Fallback'}`);
+console.log(`Prerender Token: ${process.env.PRERENDER_TOKEN ? 'Loaded from Env' : 'Using Hardcoded Fallback'}`);
 console.log('--------------------------------');
 
 
