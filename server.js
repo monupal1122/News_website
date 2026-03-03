@@ -13,7 +13,12 @@ const PORT = process.env.PORT || 3000;
 // PRERENDER.IO - Must be FIRST to intercept bots
 prerender.set('prerenderToken', process.env.PRERENDER_TOKEN || 'MKc29XdWcppSm65HX6n4');
 prerender.set('host', 'korsimnaturals.com');
-// prerender.set('debug', true); // Set to true to see bot requests in logs
+prerender.set('debug', true); // Now enabled: Look for "Prerender" in your logs!
+
+// Ensure LinkedIn is explicitly covered
+prerender.crawlerUserAgents.push('LinkedInBot');
+prerender.crawlerUserAgents.push('Facebot');
+
 app.use(prerender);
 
 console.log('--- FRONTEND SERVER ---');

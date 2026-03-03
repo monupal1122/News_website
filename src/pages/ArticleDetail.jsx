@@ -43,7 +43,7 @@ function getCurrentUrl(seoPath) {
   if (typeof window !== "undefined") {
     return window.location.href;
   }
-  return `${SITE_DOMAIN}/news/${seoPath}`;
+  return `${SITE_DOMAIN}/${seoPath}`;
 }
 
 export default function ArticleDetail() {
@@ -507,11 +507,11 @@ export default function ArticleDetail() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedLoading
                 ? Array.from({ length: 4 }).map((_, i) => (
-                    <NewsCardSkeleton key={i} />
-                  ))
+                  <NewsCardSkeleton key={i} />
+                ))
                 : relatedArticles.map((related) => (
-                    <NewsCard key={related._id} article={related} />
-                  ))}
+                  <NewsCard key={related._id} article={related} />
+                ))}
             </div>
           </section>
         )}
