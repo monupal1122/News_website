@@ -38,8 +38,7 @@ export function HeroSection() {
 
         startAutoplay();
 
-        // Pause on interaction (simple approach: clear interval on unmount/re-mount or just keep running)
-        // For a more robust pause-on-hover, we'd need event listeners, but this is a simple auto-play.
+        
 
         return () => {
             clearInterval(intervalId);
