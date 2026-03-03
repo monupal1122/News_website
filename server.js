@@ -10,27 +10,26 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// PRERENDER.IO - Must be FIRST to intercept bots
+// PRERENDER.IO CONFIGURATION
 prerender.set('prerenderToken', process.env.PRERENDER_TOKEN || 'MKc29XdWcppSm65HX6n4');
 prerender.set('host', 'korsimnaturals.com');
 prerender.set('debug', true);
 
-// Explicitly add common crawlers
-prerender.crawlerUserAgents.push('LinkedInBot');
-prerender.crawlerUserAgents.push('LinkedIn');
-prerender.crawlerUserAgents.push('facebookexternalhit');
-prerender.crawlerUserAgents.push('Facebot');
-
-// Middleware to log User-Agents and force Prerender for known bots if needed
-app.use((req, res, next) => {
+// Custom bot detection function
+prerender.shouldShowPrerender = function (req) {
     const userAgent = req.headers['user-agent'] || '';
-    if (userAgent.includes('LinkedInBot') || userAgent.includes('facebookexternalhit')) {
-        console.log(`[BOT DETECTED]: ${userAgent} - Requesting: ${req.url}`);
-        // Force shouldShowPrerender for these bots
-        req.shouldShowPrerender = true;
+    const isBot =
+        userAgent.includes('LinkedInBot') ||
+        userAgent.includes('facebookexternalhit') ||
+        userAgent.includes('Facebot') ||
+        userAgent.includes('Twitterbot') ||
+        userAgent.includes('WhatsApp');
+
+    if (isBot) {
+        console.log(`[PRERENDER BOT DETECTED]: ${userAgent} on ${req.url}`);
     }
-    next();
-});
+    return isBot;
+};
 
 app.use(prerender);
 
