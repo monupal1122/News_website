@@ -15,18 +15,23 @@ prerender.set('prerenderToken', process.env.PRERENDER_TOKEN || 'MKc29XdWcppSm65H
 prerender.set('host', 'korsimnaturals.com');
 prerender.set('debug', true);
 
-// Custom bot detection function
+// Explicitly add common crawlers
+const socialBots = [
+    'LinkedInBot',
+    'facebookexternalhit',
+    'Facebot',
+    'Twitterbot',
+    'WhatsApp',
+    'TelegramBot',
+    'Slackbot'
+];
+
 prerender.shouldShowPrerender = function (req) {
     const userAgent = req.headers['user-agent'] || '';
-    const isBot =
-        userAgent.includes('LinkedInBot') ||
-        userAgent.includes('facebookexternalhit') ||
-        userAgent.includes('Facebot') ||
-        userAgent.includes('Twitterbot') ||
-        userAgent.includes('WhatsApp');
+    const isBot = socialBots.some(bot => userAgent.toLowerCase().includes(bot.toLowerCase()));
 
     if (isBot) {
-        console.log(`[PRERENDER BOT DETECTED]: ${userAgent} on ${req.url}`);
+        console.log(`[SOCIAL BOT DETECTED]: ${userAgent} requesting ${req.url}`);
     }
     return isBot;
 };
