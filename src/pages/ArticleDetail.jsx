@@ -31,7 +31,7 @@ const TWITTER_HANDLE = "@DailyNewsViews";
  */
 function toAbsoluteUrl(url) {
   if (!url) return DEFAULT_OG_IMAGE;
-  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  if (url.startsWith("http://") || url.startsWith("https://") || url.toLowerCase().includes("cloudinary.com")) return url;
 
   // Clean path by removing 'public/' or 'public\' prefix and ensuring forward slashes
   const cleanPath = url.replace(/^public[\\/]/, "").replace(/\\/g, "/");
@@ -188,7 +188,7 @@ export default function ArticleDetail() {
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <Layout>
-      
+
       <Helmet>
         <title>{ogTitle} | Daily News Views</title>
         <meta name="description" content={ogDescription} />
