@@ -22,13 +22,11 @@ const esc = (s) => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 
 // Helper to convert image URL to absolute
 const toAbsoluteUrl = (img) => {
-    if (img && !img.startsWith('http')) {
-        const clean = img.replace(/^public[\\/]/, "").replace(/\\/g, "/");
-        return `${IMAGE_BASE_URL}${clean.startsWith('/') ? clean : '/' + clean}`;
-    } else if (!img || img === "") {
-        return `${SITE_URL}/logo1.webp`;
-    }
-    return img;
+    if (!img || img === "") return `${SITE_URL}/logo1.webp`;
+    if (img.startsWith('http') || img.toLowerCase().includes('cloudinary.com')) return img;
+
+    const clean = img.replace(/^public[\\/]/, "").replace(/\\/g, "/");
+    return `${IMAGE_BASE_URL}${clean.startsWith('/') ? clean : '/' + clean}`;
 };
 
 // Custom bot detection
