@@ -32,7 +32,7 @@ prerender.shouldShowPrerender = (req) => isSocialBot(req.headers['user-agent'] |
 app.use(prerender);
 
 // Helper to escape HTML and prevent injection
-const esc = (s) => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;');
+const esc = (s) => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
 // --- MANUAL META TAG INJECTION (The "Safety Net") ---
 // This ensures that even if Prerender fails, we serve correct tags to bots
