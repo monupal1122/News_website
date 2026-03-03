@@ -13,17 +13,18 @@ const PORT = process.env.PORT || 3000;
 // PRERENDER.IO - Must be FIRST to intercept bots
 prerender.set('prerenderToken', process.env.PRERENDER_TOKEN || 'MKc29XdWcppSm65HX6n4');
 prerender.set('host', 'korsimnaturals.com');
-prerender.set('debug', true); // Now enabled: Look for "Prerender" in your logs!
+prerender.set('debug', true);
 
-// Ensure LinkedIn is explicitly covered
+// Explicitly add common crawlers just in case
 prerender.crawlerUserAgents.push('LinkedInBot');
-prerender.crawlerUserAgents.push('Facebot');
+prerender.crawlerUserAgents.push('LinkedIn');
+prerender.crawlerUserAgents.push('facebookexternalhit');
 
 app.use(prerender);
 
-console.log('--- FRONTEND SERVER ---');
-console.log(`Prerender Token: ${process.env.PRERENDER_TOKEN ? 'Configured' : 'Using default'}`);
-console.log('------------------------');
+console.log('--- FRONTEND SERVER BOOTING ---');
+console.log(`Prerender Token: ${process.env.PRERENDER_TOKEN ? 'Configured from Env' : 'Using Hardcoded Fallback'}`);
+console.log('--------------------------------');
 
 
 // Serve static files from the dist directory

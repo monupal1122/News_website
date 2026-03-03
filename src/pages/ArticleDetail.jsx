@@ -20,19 +20,24 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import { DummyAd } from "@/components/ads/DummyAd";
 
-// ✅ FIX 1: Set your actual production domain here
+// ✅ FIX 1: Set your actual production domains
 const SITE_DOMAIN = "https://korsimnaturals.com";
-const DEFAULT_OG_IMAGE = `${SITE_DOMAIN}/default-og.jpg`;
-const TWITTER_HANDLE = "@DailyNewsViews"; // ✅ Add your Twitter handle
+const IMAGE_BASE_URL = "https://admin.korsimnaturals.com";
+const DEFAULT_OG_IMAGE = `${SITE_DOMAIN}/logo1.webp`; // Ensure this exists in your public folder
+const TWITTER_HANDLE = "@DailyNewsViews";
 
 /**
- * ✅ FIX 2: Ensures image URL is always absolute.
- * Social media crawlers reject relative URLs like "/image.jpg".
+ * ✅ FIX 2: Ensures image URL is always absolute and points to the admin backend.
  */
 function toAbsoluteUrl(url) {
   if (!url) return DEFAULT_OG_IMAGE;
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  return `${SITE_DOMAIN}${url.startsWith("/") ? "" : "/"}${url}`;
+
+  // Clean path by removing 'public/' or 'public\' prefix and ensuring forward slashes
+  const cleanPath = url.replace(/^public[\\/]/, "").replace(/\\/g, "/");
+  const finalPath = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`;
+
+  return `${IMAGE_BASE_URL}${finalPath}`;
 }
 
 /**
