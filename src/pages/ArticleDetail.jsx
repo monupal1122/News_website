@@ -188,29 +188,7 @@ export default function ArticleDetail() {
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <Layout>
-      {/*
-        ✅ FIX 7: All OG/Twitter meta tags now use:
-          - Absolute image URLs  → images show in share previews
-          - Absolute page URLs   → correct link shared
-          - twitter:site tag     → required for Twitter card validator
-          - og:image:secure_url  → required by some platforms (LinkedIn)
-
-        ⚠️  IMPORTANT NOTE FOR TEAM:
-        React Helmet sets meta tags CLIENT-SIDE only.
-        Social media bots (Facebook, Twitter, LinkedIn, WhatsApp) are SERVER-SIDE
-        crawlers — they do NOT run JavaScript and will NOT see these tags.
-
-        To fix this properly at the infrastructure level, choose ONE of:
-          1. Next.js / Remix  → built-in SSR meta tag support
-          2. prerender.io     → pre-renders pages for bots transparently
-          3. Express prerender middleware on your Node server
-          4. Cloudflare Worker that injects OG tags for bot user-agents
-
-        Until then, the tags below will work for:
-          ✅ Copy/paste URL into WhatsApp (WhatsApp re-fetches the page)
-          ✅ Twitter (uses its own fetcher that sometimes runs JS)
-          ❌ Facebook / LinkedIn opengraph debugger (pure SSR crawlers)
-      */}
+      
       <Helmet>
         <title>{ogTitle} | Daily News Views</title>
         <meta name="description" content={ogDescription} />
