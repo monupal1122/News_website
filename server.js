@@ -46,12 +46,17 @@ app.get('/:category/:subcategory/:slugId', async (req, res, next) => {
         return next();
     }
 
-    console.log(`[SEO-INJECT]: Bot detected ${ua}. Injecting for: ${req.url}`);
+    console.log(`[SEO-INJECT]: Attempting injection for: ${slugId}`);
 
     try {
-        // Fetch article data
         const apiUri = `${API_BASE_URL}/articles/${category}/${subcategory}/${slugId}`;
-        https.get(apiUri, (apiRes) => {
+
+        // This is crucial for Hostinger: ignore SSL errors on internal API requests
+        const options = {
+            agent: new https.Agent({ rejectUnauthorized: false })
+        };
+
+        https.get(apiUri, options, (apiRes) => {
             let body = '';
             apiRes.on('data', chunk => body += chunk);
             apiRes.on('end', () => {
@@ -59,18 +64,22 @@ app.get('/:category/:subcategory/:slugId', async (req, res, next) => {
 
                 if (apiRes.statusCode === 200) {
                     try {
-                        const article = JSON.parse(body);
-                        const title = esc(`${article.title} | Daily News Views`);
-                        const desc = esc((article.summary || article.description || "").substring(0, 160));
+                        const rawData = JSON.parse(body);
+                        const article = rawData.data || rawData.article || rawData;
+
+                        const title = esc(`${article.title || "News"} | Daily News Views`);
+                        const desc = esc((article.summary || article.description || "Read more...").substring(0, 160));
                         const canonical = `${SITE_URL}${req.url}`;
 
                         let img = article.featuredImage || article.imageUrl;
                         if (img && !img.startsWith('http')) {
                             const clean = img.replace(/^public[\\/]/, "").replace(/\\/g, "/");
                             img = `${IMAGE_BASE_URL}${clean.startsWith('/') ? clean : '/' + clean}`;
-                        } else if (!img) {
+                        } else if (!img || img === "") {
                             img = `${SITE_URL}/logo1.webp`;
                         }
+
+                        console.log(`[SEO-SUCCESS]: Injected ${title} with image ${img}`);
 
                         const tags = `
     <!-- Dynamic SEO Injection -->
@@ -90,14 +99,16 @@ app.get('/:category/:subcategory/:slugId', async (req, res, next) => {
 `;
                         html = html.replace('<head>', `<head>${tags}`);
                     } catch (e) {
-                        console.error("JSON Parsing Error during injection");
+                        console.error("[SEO-ERROR]: JSON Parsing Error", e.message);
                     }
+                } else {
+                    console.error(`[SEO-ERROR]: API Status ${apiRes.statusCode} for ${apiUri}`);
                 }
                 res.send(html);
             });
         }).on('error', (e) => {
-            console.error("API error during injection:", e.message);
-            res.sendFile(indexPath);
+            console.error("[SEO-ERROR]: API Connection failed:", e.message);
+            res.send(fs.readFileSync(indexPath, 'utf8'));
         });
     } catch (err) {
         res.sendFile(indexPath);
