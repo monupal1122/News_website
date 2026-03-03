@@ -1,8 +1,25 @@
-const express = require('express');
-const path = require('path');
+import 'dotenv/config';
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import prerender from 'prerender-node';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// PRERENDER.IO - Must be FIRST to intercept bots
+prerender.set('prerenderToken', process.env.PRERENDER_TOKEN || 'MKc29XdWcppSm65HX6n4');
+prerender.set('host', 'korsimnaturals.com');
+// prerender.set('debug', true); // Set to true to see bot requests in logs
+app.use(prerender);
+
+console.log('--- FRONTEND SERVER ---');
+console.log(`Prerender Token: ${process.env.PRERENDER_TOKEN ? 'Configured' : 'Using default'}`);
+console.log('------------------------');
+
 
 // Serve static files from the dist directory
 app.use(express.static(path.join(__dirname, 'dist')));

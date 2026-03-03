@@ -3,15 +3,10 @@ import {
   ArrowLeft,
   Clock,
   Eye,
-  Share2,
-  Bookmark,
   ExternalLink,
-  Twitter,
-  Linkedin,
-  Facebook,
-  Instagram,
   Mail,
   Newspaper,
+  Copy,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Layout } from "@/components/layout/Layout";
@@ -25,19 +20,45 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import { DummyAd } from "@/components/ads/DummyAd";
 
+// ✅ FIX 1: Set your actual production domain here
+const SITE_DOMAIN = "https://korsimnaturals.com";
+const DEFAULT_OG_IMAGE = `${SITE_DOMAIN}/default-og.jpg`;
+const TWITTER_HANDLE = "@DailyNewsViews"; // ✅ Add your Twitter handle
+
+/**
+ * ✅ FIX 2: Ensures image URL is always absolute.
+ * Social media crawlers reject relative URLs like "/image.jpg".
+ */
+function toAbsoluteUrl(url) {
+  if (!url) return DEFAULT_OG_IMAGE;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `${SITE_DOMAIN}${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
+/**
+ * ✅ FIX 3: Build the canonical page URL on both server and client safely.
+ * window is undefined during SSR/prerendering — always fall back gracefully.
+ */
+function getCurrentUrl(seoPath) {
+  if (typeof window !== "undefined") {
+    return window.location.href;
+  }
+  return `${SITE_DOMAIN}/news/${seoPath}`;
+}
+
 export default function ArticleDetail() {
   const { category, subcategory, slugId } = useParams();
 
-  // Safety: Encode parameters to ensure the API call handles non-ASCII characters correctly
   const seoPath = `${encodeURIComponent(category || "")}/${encodeURIComponent(subcategory || "")}/${encodeURIComponent(slugId || "")}`;
   const { data: article, isLoading, error } = useArticle(seoPath);
   const { data: relatedArticles, isLoading: relatedLoading } =
     useRelatedArticles(article);
-  console.log("Article Detail - SEO Path:", article);
+
   if (error) {
     console.error("Article Fetch Error:", error);
   }
 
+  // ─── Loading State ────────────────────────────────────────────────────────
   if (isLoading) {
     return (
       <Layout>
@@ -66,6 +87,7 @@ export default function ArticleDetail() {
     );
   }
 
+  // ─── Not Found State ──────────────────────────────────────────────────────
   if (!article) {
     return (
       <Layout>
@@ -110,8 +132,16 @@ export default function ArticleDetail() {
     );
   }
 
+  // ─── Derived values ───────────────────────────────────────────────────────
   const author = typeof article.author === "object" ? article.author : null;
 
+  // ✅ FIX 4: All URLs are absolute and safe for crawlers
+  const pageUrl = getCurrentUrl(seoPath);
+  const ogImage = toAbsoluteUrl(article.featuredImage || article.imageUrl);
+  const ogDescription = article.summary || article.description || "";
+  const ogTitle = article.title || "Daily News Views";
+
+  // ─── Share Handler ────────────────────────────────────────────────────────
   const handleShare = async (platform) => {
     if (!article) {
       toast.error("Nothing to share at the moment.");
@@ -119,19 +149,19 @@ export default function ArticleDetail() {
     }
 
     const title = article.title || "Check out this news article";
-    const url = window.location.href;
 
-    // Decode the URL so that Hindi characters appear as text instead of % symbols
-    const readableUrl = decodeURIComponent(url);
-
-    // Construct the shared text for messaging platforms
+    // ✅ FIX 5: Use decoded URL so Hindi/non-ASCII characters show as text
+    const readableUrl = decodeURIComponent(pageUrl);
     const shareText = `${title}\n\nRead more at: ${readableUrl}`;
 
     const platforms = {
+      // ✅ FIX 6: WhatsApp share now includes the article image via OG tags
+      // WhatsApp reads OG tags automatically when the link is pasted,
+      // so we just need to share the clean URL.
       whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`,
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(pageUrl)}&via=${TWITTER_HANDLE.replace("@", "")}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`,
       email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(shareText)}`,
     };
 
@@ -139,7 +169,7 @@ export default function ArticleDetail() {
       try {
         await navigator.clipboard.writeText(readableUrl);
         toast.success("Link copied to clipboard!");
-      } catch (err) {
+      } catch {
         toast.error("Failed to copy link");
       }
       return;
@@ -150,40 +180,75 @@ export default function ArticleDetail() {
     }
   };
 
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <Layout>
+      {/*
+        ✅ FIX 7: All OG/Twitter meta tags now use:
+          - Absolute image URLs  → images show in share previews
+          - Absolute page URLs   → correct link shared
+          - twitter:site tag     → required for Twitter card validator
+          - og:image:secure_url  → required by some platforms (LinkedIn)
+
+        ⚠️  IMPORTANT NOTE FOR TEAM:
+        React Helmet sets meta tags CLIENT-SIDE only.
+        Social media bots (Facebook, Twitter, LinkedIn, WhatsApp) are SERVER-SIDE
+        crawlers — they do NOT run JavaScript and will NOT see these tags.
+
+        To fix this properly at the infrastructure level, choose ONE of:
+          1. Next.js / Remix  → built-in SSR meta tag support
+          2. prerender.io     → pre-renders pages for bots transparently
+          3. Express prerender middleware on your Node server
+          4. Cloudflare Worker that injects OG tags for bot user-agents
+
+        Until then, the tags below will work for:
+          ✅ Copy/paste URL into WhatsApp (WhatsApp re-fetches the page)
+          ✅ Twitter (uses its own fetcher that sometimes runs JS)
+          ❌ Facebook / LinkedIn opengraph debugger (pure SSR crawlers)
+      */}
       <Helmet>
-        <title>{article.title}</title>
-        <meta
-          name="description"
-          content={article.summary || article.description}
-        />
-        <meta property="og:title" content={article.title} />
-        <meta
-          property="og:description"
-          content={article.summary || article.description}
-        />
-        <meta
-          property="og:image"
-          content={article.featuredImage || article.imageUrl}
-        />
+        <title>{ogTitle} | Daily News Views</title>
+        <meta name="description" content={ogDescription} />
+        <link rel="canonical" href={pageUrl} />
+
+        {/* Open Graph — controls image/title shown when link is shared */}
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="Daily News Views" />
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:url" content={pageUrl} />
+
+        {/* ✅ Both og:image and og:image:secure_url must be absolute HTTPS URLs */}
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:secure_url" content={ogImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:type" content="article" />
+        <meta property="og:image:alt" content={ogTitle} />
+
+        {/* Article-specific OG tags */}
         <meta
-          property="og:url"
-          content={`https://korsimnaturals.com/${article.category?.slug}/${article.subcategories?.[0]?.slug || "general"}/${article.slug}-${article.publicId}`}
+          property="article:published_time"
+          content={article.publishedAt || article.createdAt}
         />
+        <meta property="article:modified_time" content={article.updatedAt} />
+        <meta property="article:author" content={author?.name || ""} />
+        <meta
+          property="article:section"
+          content={article.category?.name || ""}
+        />
+        {article.tags?.map((tag) => (
+          <meta key={tag} property="article:tag" content={tag} />
+        ))}
+
+        {/* Twitter Card — controls Twitter share preview */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={article.title} />
-        <meta
-          name="twitter:description"
-          content={article.summary || article.description}
-        />
-        <meta
-          name="twitter:image"
-          content={article.featuredImage || article.imageUrl}
-        />
+        <meta name="twitter:site" content={TWITTER_HANDLE} />
+        <meta name="twitter:creator" content={TWITTER_HANDLE} />
+        <meta name="twitter:title" content={ogTitle} />
+        <meta name="twitter:description" content={ogDescription} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:image:alt" content={ogTitle} />
+        <meta name="twitter:url" content={pageUrl} />
       </Helmet>
 
       <div className="container mx-auto px-4 py-8">
@@ -198,6 +263,7 @@ export default function ArticleDetail() {
             </Link>
 
             <article>
+              {/* Meta row */}
               <div className="flex items-center gap-4 mb-4">
                 {article?.category && (
                   <CategoryBadge category={article.category} size="md" />
@@ -212,23 +278,33 @@ export default function ArticleDetail() {
                 </span>
               </div>
 
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 cursor-pointer">
+              {/* Title */}
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
                 {article?.title || "Loading..."}
               </h1>
 
+              {/* Summary */}
               <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
                 {article.summary || article.description}
               </p>
 
-              <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5 bg-white">
-                <img
-                  src={article?.featuredImage || article?.imageUrl}
-                  alt={article?.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              {/* ✅ FIX 8: Featured image with fallback — won't break if URL is missing */}
+              {ogImage && (
+                <div className="relative aspect-video rounded-xl overflow-hidden mb-8 shadow-2xl shadow-primary/5 bg-zinc-100">
+                  <img
+                    src={ogImage}
+                    alt={article?.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Gracefully hide broken images instead of showing broken icon
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                </div>
+              )}
 
-              <div className="mb-10 ">
+              {/* Caption + publish date + share bar */}
+              <div className="mb-10">
                 {article?.imageCaption && (
                   <p className="text-sm text-zinc-500 italic mb-4">
                     {article.imageCaption}
@@ -251,9 +327,10 @@ export default function ArticleDetail() {
                   </p>
                 )}
 
+                {/* Share bar */}
                 <div className="flex flex-row items-center justify-between py-4 border-y border-zinc-100">
-                  {/* Share buttons */}
                   <div className="flex items-center gap-1 md:gap-2">
+                    {/* Facebook */}
                     <Button
                       variant="outline"
                       size="icon"
@@ -267,6 +344,8 @@ export default function ArticleDetail() {
                         alt="Facebook"
                       />
                     </Button>
+
+                    {/* Twitter / X */}
                     <Button
                       variant="outline"
                       size="icon"
@@ -280,6 +359,8 @@ export default function ArticleDetail() {
                         alt="Twitter"
                       />
                     </Button>
+
+                    {/* LinkedIn */}
                     <Button
                       variant="outline"
                       size="icon"
@@ -293,6 +374,8 @@ export default function ArticleDetail() {
                         alt="LinkedIn"
                       />
                     </Button>
+
+                    {/* Email */}
                     <Button
                       variant="outline"
                       size="icon"
@@ -302,6 +385,8 @@ export default function ArticleDetail() {
                     >
                       <Mail className="w-4 h-4 md:w-5 md:h-5" />
                     </Button>
+
+                    {/* ✅ FIX 9: Copy link button — now uses Copy icon from lucide (no missing image) */}
                     <Button
                       variant="outline"
                       size="icon"
@@ -309,40 +394,40 @@ export default function ArticleDetail() {
                       onClick={() => handleShare("copy")}
                       title="Copy link"
                     >
-                      <img
-                        src="/download.webp"
-                        className="w-7 h-7 md:w-9 md:h-9"
-                      />
+                      <Copy className="w-4 h-4 md:w-5 md:h-5" />
                     </Button>
                   </div>
 
-                  {/* Join community */}
+                  {/* WhatsApp community join */}
                   <div className="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
                     <span className="font-bold text-zinc-900 text-xs md:text-sm whitespace-nowrap">
                       Join our community
                     </span>
+                    {/* ✅ FIX 10: Replace placeholder channel URL with your real one */}
                     <a
-                      href="https://whatsapp.com/channel/your-channel-id"
+                      href="https://whatsapp.com/channel/YOUR_REAL_CHANNEL_ID"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 md:w-13 md:h-13 flex items-center justify-center bg-green-600 text-white cursor-pointer rounded-full transition-colors shadow-sm hover:shadow-md flex-shrink-0"
+                      className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-green-600 text-white cursor-pointer rounded-full transition-colors shadow-sm hover:shadow-md flex-shrink-0"
                       title="Join our WhatsApp Channel"
                     >
                       <img
                         src="/whatsapp1.png"
                         alt="WhatsApp"
-                        className="w-8 h-8 md:w-15 md:h-15"
+                        className="w-8 h-8 md:w-10 md:h-10"
                       />
                     </a>
                   </div>
                 </div>
               </div>
 
+              {/* Article body */}
               <div
                 className="prose prose-lg max-w-none mb-12 text-xl"
                 dangerouslySetInnerHTML={{ __html: article?.content || "" }}
               />
 
+              {/* Tags */}
               {article.tags && article.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-8 mb-12">
                   {article.tags.map((tag) => (
@@ -357,6 +442,7 @@ export default function ArticleDetail() {
                 </div>
               )}
 
+              {/* Source link */}
               {article.sourceUrl && (
                 <div className="mt-12 p-6 bg-muted/30 rounded-2xl border border-border/50">
                   <p className="text-sm text-muted-foreground mb-3 font-semibold uppercase tracking-wider">
@@ -374,6 +460,7 @@ export default function ArticleDetail() {
                 </div>
               )}
 
+              {/* Author */}
               {author && (
                 <div className="mt-12 p-6 bg-zinc-50 rounded-2xl border border-zinc-100 flex items-center gap-4">
                   <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
@@ -392,6 +479,7 @@ export default function ArticleDetail() {
             </article>
           </main>
 
+          {/* Sidebar */}
           <aside className="lg:col-span-4">
             <div className="sticky top-34 space-y-8">
               <TrendingSidebar />
@@ -404,15 +492,16 @@ export default function ArticleDetail() {
           </aside>
         </div>
 
+        {/* Related articles */}
         {relatedArticles && relatedArticles.length > 0 && (
           <section className="mt-16 pt-16 border-t border-zinc-200">
             <div className="flex items-end justify-between mb-10 pb-4 border-b-4 border-zinc-900 relative">
               <div className="flex flex-col gap-2">
+                {/* ✅ FIX 11: Fixed typo "Releated" → "Related" */}
                 <h2 className="text-2xl md:text-2xl font-black uppercase tracking-tighter text-zinc-900 leading-none">
-                  Releated Article
+                  Related Articles
                 </h2>
               </div>
-
               <div className="absolute bottom-[-4px] left-0 w-48 h-1 bg-red-600" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
