@@ -2,12 +2,66 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 import axios from "axios";
+import mongoose from "mongoose";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-const SITE_URL = "https://korsimnaturals.com";
-const API_URL = "https://admin.korsimnaturals.com/api";
+const SITE_URL = process.env.SITE_URL || "https://korsimnaturals.com";
+const SITE_NAME = "Daily News Views";
+
+// MongoDB connection for direct database access
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://Monu:Monu123@cluster0.kp6ma.mongodb.net/newswebsite?retryWrites=true&w=majority&serverSelectionTimeoutMS=30000";
+let isDbConnected = false;
+
+// Try to connect to MongoDB
+const connectDB = async () => {
+    try {
+        if (mongoose.connection.readyState === 0) {
+            await mongoose.connect(MONGODB_URI);
+            console.log("MongoDB connected for SEO server");
+            isDbConnected = true;
+        }
+    } catch (err) {
+        console.error("MongoDB connection error:", err.message);
+        isDbConnected = false;
+    }
+};
+
+// Article Schema (minimal for SEO)
+const articleSchema = new mongoose.Schema({
+    title: String,
+    slug: String,
+    publicId: Number,
+    summary: String,
+    content: String,
+    featuredImage: String,
+    featuredImageWidth: Number,
+    featuredImageHeight: Number,
+    tags: [String],
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    },
+    subcategories: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Subcategory'
+    }],
+    publishedAt: Date,
+    createdAt: Date,
+    updatedAt: Date,
+    seoMetadata: {
+        title: String,
+        description: String,
+        keywords: [String]
+    }
+}, { timestamps: true });
+
+const Article = mongoose.models.Article || mongoose.model('Article', articleSchema);
 
 // Comprehensive bot detection - covers all major social media and search bots
 const isBot = (ua) => {
@@ -46,7 +100,7 @@ const isBot = (ua) => {
     // Apple
     "applebot",
     "apple news",
-    "applewebkit", // Safari/AppleNews
+    "applewebkit",
     
     // Google
     "googlebot",
@@ -59,8 +113,8 @@ const isBot = (ua) => {
     "bingbot",
     "bingpreview",
     
-    // Yahooahoo!
-    "y",
+    // Yahoo
+    "yahoo",
     "yandexbot",
     
     // DuckDuckGo
@@ -120,9 +174,9 @@ const isValidCategory = (category) => {
 
 // Helper function to extract author name from populated author object
 const getAuthorName = (author) => {
-  if (!author) return "Daily Chronicle";
+  if (!author) return SITE_NAME;
   if (typeof author === 'string') return author;
-  return author.name || author.username || "Daily Chronicle";
+  return author.name || author.username || SITE_NAME;
 };
 
 // Cache for article data (in-memory, 5 minutes TTL)
@@ -145,6 +199,39 @@ const setCachedArticle = (key, data) => {
   if (articleCache.size > 100) {
     const firstKey = articleCache.keys().next().value;
     articleCache.delete(firstKey);
+  }
+};
+
+// Fetch article from database (direct MongoDB)
+const fetchArticleFromDB = async (articleId) => {
+  try {
+    const article = await Article.findOne({ publicId: articleId })
+      .populate('category subcategories author')
+      .lean();
+    return article;
+  } catch (err) {
+    console.error("Database fetch error:", err.message);
+    return null;
+  }
+};
+
+// Fetch article from API (fallback)
+const fetchArticleFromAPI = async (category, subcategory, slugId, ua) => {
+  try {
+    const apiUrl = `${process.env.API_URL || "https://admin.korsimnaturals.com/api"}/articles/${category}/${subcategory}/${slugId}`;
+    
+    const response = await axios.get(apiUrl, {
+      timeout: 5000, // 5 second timeout
+      headers: {
+        'User-Agent': ua
+      }
+    });
+    
+    // Handle both wrapped and unwrapped responses
+    return response.data.data || response.data;
+  } catch (err) {
+    console.error("API fetch error:", err.message);
+    return null;
   }
 };
 
@@ -172,18 +259,22 @@ app.get("/:category/:subcategory/:slugId", async (req, res, next) => {
     let article = await getCachedArticle(cacheKey);
     
     if (!article) {
-      // Fetch from API
-      const apiUrl = `${API_URL}/articles/${category}/${subcategory}/${slugId}`;
-      
-      const response = await axios.get(apiUrl, {
-        timeout: 5000, // 5 second timeout
-        headers: {
-          'User-Agent': ua
+      // Try database first (more reliable)
+      if (isDbConnected) {
+        // Parse article ID from slugId
+        const lastDashIndex = slugId.lastIndexOf('-');
+        if (lastDashIndex !== -1) {
+          const articleId = parseInt(slugId.substring(lastDashIndex + 1), 10);
+          if (!isNaN(articleId)) {
+            article = await fetchArticleFromDB(articleId);
+          }
         }
-      });
+      }
       
-      // Handle both wrapped and unwrapped responses
-      article = response.data.data || response.data;
+      // Fallback to API if DB not available or failed
+      if (!article) {
+        article = await fetchArticleFromAPI(category, subcategory, slugId, ua);
+      }
       
       if (!article) {
         return res.status(404).send("Article not found");
@@ -201,10 +292,14 @@ app.get("/:category/:subcategory/:slugId", async (req, res, next) => {
     // Extract article data
     const title = article.seoMetadata?.title || article.title;
     const description = article.seoMetadata?.description || article.summary || article.description || "";
-    const image = article.featuredImage || article.featuredImage || "";
+    const image = article.featuredImage || "";
     const authorName = getAuthorName(article.author);
     const publishedAt = article.publishedAt || article.createdAt;
     const updatedAt = article.updatedAt;
+    const tags = article.tags || [];
+    
+    // Get category name for OG tags
+    const categoryName = article.category?.name || category;
     
     // Generate the canonical URL
     const currentUrl = `${SITE_URL}${req.path}`;
@@ -243,19 +338,19 @@ app.get("/:category/:subcategory/:slugId", async (req, res, next) => {
       <meta property="og:url" content="${canonicalUrl}" />
       <meta property="og:type" content="article" />
       <meta property="og:locale" content="en_US" />
-      <meta property="og:site_name" content="Daily Chronicle" />
+      <meta property="og:site_name" content="${SITE_NAME}" />
       
       <!-- Article specific Open Graph -->
       <meta property="article:published_time" content="${formatDate(publishedAt)}" />
       <meta property="article:modified_time" content="${formatDate(updatedAt)}" />
       <meta property="article:author" content="${authorName}" />
-      <meta property="article:section" content="${category}" />
-      ${article.tags ? article.tags.map(tag => `<meta property="article:tag" content="${tag}" />`).join('\n      ') : ''}
+      <meta property="article:section" content="${categoryName}" />
+      ${tags.map(tag => `<meta property="article:tag" content="${tag}" />`).join('\n      ')}
       
       <!-- Twitter Card -->
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@dailychronicle" />
-      <meta name="twitter:creator" content="@dailychronicle" />
+      <meta name="twitter:site" content="@dailyviews" />
+      <meta name="twitter:creator" content="@dailyviews" />
       <meta name="twitter:title" content="${title}" />
       <meta name="twitter:description" content="${truncatedDescription}" />
       <meta name="twitter:image" content="${image}" />
@@ -263,7 +358,7 @@ app.get("/:category/:subcategory/:slugId", async (req, res, next) => {
       <meta name="twitter:url" content="${canonicalUrl}" />
       
       <!-- LinkedIn specific -->
-      <meta property="linkedin:owner" content="dailychronicle" />
+      <meta property="linkedin:owner" content="${SITE_NAME}" />
       
       <!-- WhatsApp / Telegram (uses Open Graph) -->
       <meta property="og:see_also" content="${SITE_URL}" />
@@ -334,11 +429,11 @@ app.get("*", (req, res) => {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Daily Chronicle</title>
+        <title>${SITE_NAME}</title>
       </head>
       <body>
         <div id="root">
-          <h1>Daily Chronicle</h1>
+          <h1>${SITE_NAME}</h1>
           <p>Loading...</p>
         </div>
       </body>
@@ -353,13 +448,20 @@ app.use((err, req, res, next) => {
   res.status(500).send("Internal Server Error");
 });
 
-app.listen(PORT, () => {
-  console.log("SEO Server running on port", PORT);
-  console.log("Bot detection enabled for:", [
-    "Facebook", "Twitter", "LinkedIn", "WhatsApp", 
-    "Telegram", "Pinterest", "Discord", "Slack",
-    "Google", "Bing", "Yahoo", "DuckDuckGo"
-  ].join(", "));
-});
+// Connect to MongoDB and start server
+const startServer = async () => {
+  await connectDB();
+  
+  app.listen(PORT, () => {
+    console.log("SEO Server running on port", PORT);
+    console.log("Bot detection enabled for:", [
+      "Facebook", "Twitter", "LinkedIn", "WhatsApp", 
+      "Telegram", "Pinterest", "Discord", "Slack",
+      "Google", "Bing", "Yahoo", "DuckDuckGo"
+    ].join(", "));
+  });
+};
+
+startServer();
 
 export default app;
