@@ -1,4 +1,10 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+// Determine if we're in development mode (localhost)
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+// Use local server in development, external API in production
+const API_BASE_URL = isLocalhost 
+    ? 'http://localhost:5000/api' 
+    : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api');
 
 async function fetchJson(endpoint, options = {}) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
