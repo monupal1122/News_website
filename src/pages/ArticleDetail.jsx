@@ -202,8 +202,8 @@ export default function ArticleDetail() {
         <meta property="og:url" content={pageUrl} />
 
         {/* ✅ Both og:image and og:image:secure_url must be absolute HTTPS URLs */}
-        <meta property="og:image" content={article.featuredImage} />
-        <meta property="og:image:secure_url" content={article.featuredImagee} />
+        <meta property="og:image" content={ogImage} />
+<meta property="og:image:secure_url" content={ogImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={ogTitle} />
